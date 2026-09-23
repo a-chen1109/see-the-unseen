@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>看见看不见 —— 平面镜成像 × 镜面对称（课堂课件）</title>
+<style>
+:root{
+  --bg:#0f1420; --panel:#171e2e; --panel2:#1e2739; --line:#2c3750;
+  --tx:#e8edf7; --tx2:#9fb0cc; --acc:#4ea1ff; --acc2:#7ee0c0;
+  --warn:#ffb84e; --bad:#ff6b6b; --ok:#4ade80; --purple:#b69cff;
+  --fs:19px; --barT:58px; --barB:56px;
+}
+html.light{ --bg:#f4f6fa; --panel:#ffffff; --panel2:#f0f3f9; --line:#d3dbe8; --tx:#1a2233; --tx2:#5a6780; --acc:#1766d1; --acc2:#0f9b7a; --warn:#c17d00; --bad:#d33; --ok:#0f9b4a; --purple:#6f4bd8;}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;height:100%;overflow:hidden}
+body{background:var(--bg);color:var(--tx);font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;font-size:var(--fs);line-height:1.7;}
+#bgCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+/* ---------- 顶栏 ---------- */
+#bar{position:fixed;top:0;left:0;right:0;height:var(--barT);z-index:50;background:var(--panel);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px;padding:0 16px;overflow-x:auto;scrollbar-width:none}
+#bar::-webkit-scrollbar{display:none}
+@media(max-width:900px){#bar .title{display:none}}
+#bar .title{font-weight:700;font-size:1rem;margin-right:4px;white-space:nowrap}
+.navb{background:transparent;border:1px solid var(--line);color:var(--tx2);border-radius:20px;padding:4px 12px;cursor:pointer;font-size:.8rem;font-family:inherit;white-space:nowrap}
+.navb:hover{border-color:var(--acc);color:var(--tx)}
+.navb.on{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:700}
+.tools{margin-left:auto;display:flex;align-items:center;gap:6px}
+.tbtn{background:var(--panel2);border:1px solid var(--line);color:var(--tx);border-radius:8px;padding:4px 9px;cursor:pointer;font-size:.78rem;font-family:inherit;white-space:nowrap}
+.tbtn:hover{border-color:var(--acc)}
+#clock{font-variant-numeric:tabular-nums;font-weight:700;color:var(--acc);font-size:.95rem;min-width:66px;text-align:center}
+#barProg{position:absolute;left:0;bottom:0;height:3px;background:var(--acc);width:0;transition:width .25s}
+/* ---------- 页容器 ---------- */
+#deck{position:fixed;top:var(--barT);left:0;right:0;bottom:var(--barB);z-index:10;overflow:hidden}
+.slide{display:none;height:100%;overflow-y:auto;overflow-x:hidden;padding:14px 26px 24px}
+.slide.on{display:block}
+.slide.on.fwd{animation:slideInR .3s ease}
+.slide.on.back{animation:slideInL .3s ease}
+@keyframes slideInR{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:none}}
+@keyframes slideInL{from{opacity:0;transform:translateX(-40px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.slide.on.fwd,.slide.on.back{animation:none}}
+.wrap{max-width:1000px;margin:0 auto}
+/* 左右大翻页按钮 */
+.arrow{position:fixed;top:50%;transform:translateY(-50%);z-index:40;width:46px;height:78px;border-radius:14px;background:var(--panel);border:1px solid var(--line);color:var(--tx);font-size:1.5rem;cursor:pointer;opacity:.75;display:flex;align-items:center;justify-content:center}
+.arrow:hover{opacity:1;border-color:var(--acc);color:var(--acc)}
+#aL{left:8px}#aR{right:8px}
+@media(max-width:1180px){.arrow{display:none}}
+/* ---------- 底栏 ---------- */
+#foot{position:fixed;bottom:0;left:0;right:0;height:var(--barB);z-index:50;background:var(--panel);border-top:1px solid var(--line);display:flex;align-items:center;gap:10px;padding:0 16px}
+#foot .secname{font-weight:700;font-size:.95rem;min-width:190px}
+#pageNo{font-variant-numeric:tabular-nums;color:var(--tx2);font-size:.9rem}
+.dotsbar{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;flex:1;max-height:44px;overflow:hidden}
+.pdot{width:9px;height:9px;border-radius:50%;background:var(--line);cursor:pointer;border:none;padding:0}
+.pdot.on{background:var(--acc);transform:scale(1.35)}
+.pdot.done{background:var(--tx2)}
+/* ---------- 内容样式 ---------- */
+h1{font-size:2.1rem;margin:4px 0 4px;letter-spacing:1px}
+h2{font-size:1.4rem;margin:0 0 6px;padding-left:12px;border-left:5px solid var(--acc)}
+h3{font-size:1.08rem;margin:10px 0 4px;color:var(--acc2)}
+.sub{color:var(--tx2);font-size:.92rem;margin-bottom:8px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:10px 0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:900px){.grid2,.grid3{grid-template-columns:1fr}}
+.say{background:var(--panel2);border-left:4px solid var(--acc);border-radius:0 10px 10px 0;padding:11px 15px;margin:9px 0;font-size:1rem}
+.say b{color:var(--acc)}
+.ask{background:linear-gradient(90deg,rgba(78,161,255,.14),transparent);border:1px solid var(--acc);border-radius:12px;padding:11px 15px;margin:10px 0;font-size:1.12rem;font-weight:700}
+.do{border:1px dashed var(--acc2);border-radius:12px;padding:9px 15px;margin:9px 0;color:var(--acc2);font-size:.96rem}
+.key{background:var(--acc);color:#fff;border-radius:8px;padding:2px 8px;font-weight:700}
+.formula{font-family:"Cambria Math",Georgia,serif;font-size:1.2rem;background:var(--panel2);border-radius:10px;padding:9px 14px;margin:7px 0;text-align:center;letter-spacing:.5px}
+.tch{display:none;background:rgba(255,184,78,.1);border:1px dashed var(--warn);border-radius:10px;padding:9px 13px;margin:9px 0;font-size:.86rem;color:var(--warn)}
+body.teacher .tch{display:block}
+.placeholder{background:repeating-linear-gradient(45deg,rgba(255,184,78,.12),rgba(255,184,78,.12) 10px,transparent 10px,transparent 20px);border:2px dashed var(--warn);border-radius:12px;padding:12px;text-align:center;color:var(--warn)}
+button.act{background:var(--acc);color:#fff;border:none;border-radius:10px;padding:8px 16px;font-size:.95rem;cursor:pointer;font-family:inherit}
+button.act:hover{filter:brightness(1.1)}
+button.act.ghost{background:transparent;border:1px solid var(--acc);color:var(--acc)}
+input,select,textarea{background:var(--panel2);border:1px solid var(--line);color:var(--tx);border-radius:8px;padding:6px 9px;font-family:inherit;font-size:.92rem;width:100%}
+textarea{min-height:62px;resize:vertical}
+table{width:100%;border-collapse:collapse;font-size:.9rem;margin:6px 0}
+th,td{border:1px solid var(--line);padding:5px 7px;text-align:center}
+th{background:var(--panel2)}
+td.l{text-align:left}
+.note{font-size:.84rem;color:var(--tx2)}
+.pill{display:inline-block;background:var(--panel2);border:1px solid var(--line);border-radius:20px;padding:3px 12px;margin:3px 4px 3px 0;font-size:.86rem}
+.pill.big{font-size:.98rem;padding:5px 13px}
+/* ---------- 分步播放器 ---------- */
+.player{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:10px;margin:9px 0}
+.player .stage{background:var(--panel2);border-radius:10px;padding:6px;display:flex;align-items:center;justify-content:center;max-height:44vh;overflow:hidden}
+.player .ctrl{display:flex;align-items:center;gap:7px;margin-top:8px;flex-wrap:wrap}
+.player .dots{display:flex;gap:6px;margin-left:auto}
+.player .dot{width:11px;height:11px;border-radius:50%;background:var(--line);cursor:pointer}
+.player .dot.on{background:var(--acc);transform:scale(1.25)}
+.player .cap{font-size:.98rem;margin-top:7px;min-height:2.6em;color:var(--tx)}
+.player .stepno{color:var(--tx2);font-size:.82rem}
+/* ---------- 模拟器 ---------- */
+#simWrap{display:grid;grid-template-columns:1fr 236px;gap:12px}
+@media(max-width:900px){#simWrap{grid-template-columns:1fr}}
+#simBox{background:var(--panel2);border-radius:12px;padding:4px;touch-action:none}
+#simSvg{width:100%;height:auto;display:block;max-height:42vh}
+.sliders label{display:block;font-size:.82rem;color:var(--tx2);margin:8px 0 2px}
+.hintbox{font-size:.82rem;color:var(--tx2);background:var(--panel2);border-radius:10px;padding:8px;margin-top:8px}
+/* ---------- 轴对称建模页 ---------- */
+.foldWrap{display:grid;grid-template-columns:1fr 236px;gap:12px}
+@media(max-width:900px){.foldWrap{grid-template-columns:1fr}}
+#foldBox{background:var(--panel2);border-radius:12px;padding:4px}
+#foldSvg{width:100%;height:auto;display:block;max-height:44vh;touch-action:none;cursor:crosshair}
+.chkrow{display:flex;align-items:flex-start;gap:8px;font-size:.85rem;color:var(--tx2);margin:8px 0 2px}
+.chkrow input{width:auto;margin-top:3px;flex:none}
+.chkrow label{margin:0;line-height:1.5}
+/* ---------- 练习 ---------- */
+.opt{display:block;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:8px 13px;margin:5px 0;cursor:pointer;font-size:.95rem}
+.opt:hover{border-color:var(--acc)}
+.opt.sel{border-color:var(--acc);background:rgba(78,161,255,.14)}
+.fb{margin-top:6px;font-size:.92rem;min-height:1.5em}
+.fb.ok{color:var(--ok)} .fb.no{color:var(--bad)}
+#wall{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;min-height:30px}
+.dotp{width:15px;height:15px;border-radius:50%;background:var(--line);border:1px solid var(--tx2)}
+.dotp.r{background:var(--ok)} .dotp.w{background:var(--bad)}
+.task{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:10px 13px;margin:7px 0}
+.task h4{margin:0 0 3px;font-size:1rem;color:var(--acc)}
+.star{color:var(--warn);font-weight:700}
+#timerBig{font-size:3rem;font-weight:800;font-variant-numeric:tabular-nums;color:var(--acc);text-align:center;line-height:1.1}
+img.maxw{width:100%;max-width:640px;border-radius:10px;background:#fff;max-height:40vh;object-fit:contain}
+@media print{
+  html,body{overflow:visible;height:auto}
+  #bar,#foot,.arrow,#bgCanvas{display:none}
+  #deck{position:static;overflow:visible}
+  .slide{display:block!important;height:auto;overflow:visible;page-break-after:always;animation:none!important}
+}
+</style>
+</head>
+<body>
+<canvas id="bgCanvas"></canvas>
+
+<div id="bar">
+  <span class="title">看见看不见</span>
+  <button class="navb on" data-sec="p0">首页</button>
+  <button class="navb" data-sec="p1">一 入项</button>
+  <button class="navb" data-sec="p2">二 探究</button>
+  <button class="navb" data-sec="p3">三 建模</button>
+  <button class="navb" data-sec="p4">四 反馈</button>
+  <button class="navb" data-sec="p5">五 结项</button>
+  <div class="tools">
+    <span id="clock">45:00</span>
+    <button class="tbtn" id="ckStart">开始</button>
+    <button class="tbtn" id="ckReset">归零</button>
+    <button class="tbtn" id="fsUp">A+</button>
+    <button class="tbtn" id="fsDn">A-</button>
+    <button class="tbtn" id="theme">投屏浅色</button>
+    <button class="tbtn" id="tchMode">教师提示：关</button>
+  </div>
+  <div id="barProg"></div>
+</div>
+
+<button class="arrow" id="aL">‹</button>
+<button class="arrow" id="aR">›</button>
+
+<div id="deck">
+
+<!-- ============ P1 首页 ============ -->
+<section class="slide" data-sec="p0" data-name="首页 · 驱动性问题">
+<div class="wrap">
+  <div class="card" style="text-align:center;padding:6vh 18px">
+    <h1 style="font-size:2.6rem">看见看不见</h1>
+    <div class="sub" style="margin-bottom:18px">平面镜成像 × 镜面对称 · 跨学科数学建模 · 八年级 · 1 课时</div>
+    <div style="font-size:1.45rem;font-weight:700;line-height:1.75">
+      魔盒骗过了所有人的眼睛——<br>
+      <span style="color:var(--warn)">它能骗人，我们能不能用同一条规律，让看不见的被看见？</span>
+    </div>
+    <div class="note" style="margin-top:14px">这句话是今天全课的主线，每个环节都会回到它。</div>
+  </div>
+  <div class="grid3">
+    <div class="card"><h3>今天要学什么</h3>
+      <p style="margin:0">用一次实验拿到证据，用一个数学模型说清"像在哪"，再用这个模型设计一件能骗过眼睛的装置。</p></div>
+    <div class="card"><h3>两门课怎么合作</h3>
+      <p style="margin:0"><b>物理</b>负责给证据（实验测出像的位置），<b>数学</b>负责给语言（用对称和坐标说清规律）。</p></div>
+    <div class="card"><h3>下课时要交什么</h3>
+      <p style="margin:0">一件可演示的镜像装置 + <b>双标注设计图</b> + <b>一句建模说明</b>。</p></div>
+  </div>
+</div>
+</section>
+
+<!-- ============ P2 路线图 ============ -->
+<section class="slide" data-sec="p0" data-name="首页 · 课堂路线图">
+<div class="wrap">
+  <h2>课堂路线图</h2>
+  <div class="sub">五个环节，一步一步把"骗术"变成模型</div>
+  <table>
+    <tr><th>环节</th><th>做什么</th><th>建议用时</th></tr>
+    <tr><td>一 入项·魔盒挑战</td><td class="l">看视频，写下猜想</td><td>5 分钟</td></tr>
+    <tr><td>二 探究·成像规律与虚像</td><td class="l">三步实验，归纳等大、等距、连线垂直，搞懂虚像</td><td>12 分钟</td></tr>
+    <tr><td>三 建模·把对称交给数学</td><td class="l">点化 → 建系 → 归纳 → 一般化 → 拆穿魔盒</td><td>13 分钟</td></tr>
+    <tr><td>四 反馈·三关检验</td><td class="l">会画、懂原理、会迁移</td><td>8 分钟</td></tr>
+    <tr><td>五 结项启动·任务发布</td><td class="l">领约束卡，认领备选题</td><td>7 分钟</td></tr>
+  </table>
+  <div class="say">左右方向键或屏幕两侧的箭头可以翻页；每一环节的内容都压缩在一屏里。</div>
+  <div class="tch"><b>教师提示：</b>教学设计未给出各环节分钟数，上表为建议分配，合计 45 分钟。试讲后请按实际调整并填回。</div>
+</div>
+</section>
+
+<!-- ============ P3 环节一 视频 ============ -->
+<section class="slide" data-sec="p1" data-name="环节一 · 入项：魔盒挑战">
+<div class="wrap">
+  <h2>环节一 · 入项：魔盒挑战</h2>
+  <div class="sub">目标：制造一个"说不通"的现象，让你自己提出问题。</div>
+
+  <div class="placeholder">
+    <div style="font-size:1.1rem;font-weight:700">此处播放：数字人魔盒挑战视频（≤ 60 秒）</div>
+    <div class="note" style="margin-top:6px;color:inherit">
+      视频资源未到位。请将文件放入 <b>课件/assets/</b> 命名为 <b>magic-box.mp4</b>，刷新页面即可播放。<br>
+      拍摄要点见《资源包/02_魔盒视频分镜脚本.md》。<b>全程不得揭示原理。</b>
+    </div>
+    <div id="videoSlot" style="margin-top:8px"></div>
+  </div>
+
+  <div class="say">
+    先别急着解释。我只是想问一句：<b>你刚才看见的那个东西，真的在那里吗？</b><br>
+    看得见，摸不着——这说明"看见"这件事本身，是可以被安排的。
+  </div>
+  <div class="ask">它能骗人，我们能不能用同一条规律，让看不见的被看见？</div>
+  <div class="tch"><b>教师提示：</b>驱动性问题抛出后要贯穿全课，环节三拆穿魔盒、环节五发布任务都会回到这句话。</div>
+</div>
+</section>
+
+<!-- ============ P4 环节一 猜想贴 ============ -->
+<section class="slide" data-sec="p1" data-name="环节一 · 写下你的猜想">
+<div class="wrap">
+  <h2>写下你的猜想</h2>
+  <div class="do">
+    <b>你的任务</b>：在猜想贴上写一句话——你猜盒子里发生了什么？<br>
+    不用写"正确"，写你<b>此刻真实的想法</b>。写完贴在桌面右上角。
+  </div>
+  <div class="card">
+    <h3>猜想贴（在本页输入，投屏给全班看）</h3>
+    <input id="guessIn" placeholder="我猜：盒子里……" style="margin-bottom:8px">
+    <button class="act" id="guessAdd">贴上墙</button>
+    <button class="act ghost" id="guessClr">清空</button>
+    <div id="guessWall" style="margin-top:10px"></div>
+    <div class="tch"><b>教师提示：</b>这一栏要<b>留到环节三第 5 步回收</b>。纸质便利贴请统一贴后墙并指定专人保管；本页输入则已存本地，刷新不丢。</div>
+  </div>
+  <div class="say">大家的猜想都不一样。谁对？<b>靠争没用，靠证据。</b>所以下一环节我们进实验室。</div>
+</div>
+</section>
+
+<!-- ============ P5 环节二 三步实验 ============ -->
+<section class="slide" data-sec="p2" data-name="环节二 · 三步实验">
+<div class="wrap">
+  <h2>环节二 · 探究：成像规律与虚像</h2>
+  <div class="sub">目标：拿到三条能写进坐标系的证据。</div>
+  <div class="say">
+    要拆穿魔盒，我得先知道一条最朴素的规律：<b>镜子里的像，到底在哪？</b><br>
+    猜没用，测出来才算。接下来三步，每一步都在回答一个具体的问题。
+  </div>
+  <div class="player" id="expPlayer">
+    <div class="stage"><div id="expStage" style="width:100%;max-width:700px"></div></div>
+    <div class="ctrl">
+      <button class="act" data-p="play">播放</button>
+      <button class="act ghost" data-p="prev">上一步</button>
+      <button class="act ghost" data-p="next">下一步</button>
+      <button class="act ghost" data-p="reset">重置</button>
+      <div class="dots" id="expDots"></div>
+    </div>
+    <div class="stepno" id="expNo"></div>
+    <div class="cap" id="expCap"></div>
+  </div>
+  <div class="tch"><b>教师提示（实验组织）：</b>4 人一组：1 人扶玻璃板、1 人移动蜡烛找重合、1 人读尺、1 人记录。玻璃板必须<b>薄</b>（厚了重影，数据会崩）；禁明火则换 LED 小蜡烛。<b>本环节限时 12 分钟</b>。</div>
+</div>
+</section>
+
+<!-- ============ P6 环节二 数据表 ============ -->
+<section class="slide" data-sec="p2" data-name="环节二 · 记录测量结果">
+<div class="wrap">
+  <h2>把数据填进来</h2>
+  <div class="sub">请一组报数，全班共用；用《资源包》里的纸质记录单也可以。</div>
+  <table>
+    <tr><th>次数</th><th>物到镜面 d₁/cm</th><th>像到镜面 d₂/cm</th><th>连线与镜面垂直？</th><th>像与物等大？</th><th>光屏能接到像？</th></tr>
+    <tr><td>1</td><td><input id="r1d1" class="cell"></td><td><input id="r1d2" class="cell"></td><td><input id="r1v" class="cell"></td><td><input id="r1s" class="cell"></td><td><input id="r1p" class="cell"></td></tr>
+    <tr><td>2</td><td><input id="r2d1" class="cell"></td><td><input id="r2d2" class="cell"></td><td><input id="r2v" class="cell"></td><td><input id="r2s" class="cell"></td><td><input id="r2p" class="cell"></td></tr>
+    <tr><td>3</td><td><input id="r3d1" class="cell"></td><td><input id="r3d2" class="cell"></td><td><input id="r3v" class="cell"></td><td><input id="r3s" class="cell"></td><td><input id="r3p" class="cell"></td></tr>
+  </table>
+  <button class="act" id="demoData">填入演示数据（试讲用）</button>
+  <button class="act ghost" id="clrData">清空</button>
+  <div class="tch"><b>教师提示：</b>"连线与镜面刻线是否垂直"这一栏是物理实验通向数学建模的唯一桥——它空了，环节三建系归纳会直接断粮。务必确认每组都填。</div>
+  <div class="note">课堂请使用学生实测数据；"演示数据"仅供试讲预演。</div>
+</div>
+</section>
+
+<!-- ============ P7 环节二 三条规律 ============ -->
+<section class="slide" data-sec="p2" data-name="环节二 · 三条规律">
+<div class="wrap">
+  <h2>三条规律，自己浮出来了</h2>
+  <div class="say">
+    三组数据摆在一起，规律自己会说话——<br>
+    <b>像与物大小相等</b>、<b>像到镜面的距离等于物到镜面的距离</b>、<b>它们的连线垂直于镜面</b>。
+  </div>
+  <div class="formula" style="font-size:1.4rem">等大　·　等距　·　连线垂直</div>
+  <h3>那"虚像"又是什么意思？</h3>
+  <div class="say">
+    我把光屏放到像的位置上，屏上<b>什么也没有</b>。可我的眼睛明明看见了它。<br>
+    这说明：那里<b>并没有真的光</b>。我们看见的，是眼睛把反射光线<b>往回沿直线延长</b>后，以为它们从那儿来。
+  </div>
+  <div class="ask">等大、等距、连线垂直——三条规律指向同一个什么词？</div>
+</div>
+</section>
+
+<!-- ============ P8 环节二 虚像动画 ============ -->
+<section class="slide" data-sec="p2" data-name="环节二 · 虚像成因动画">
+<div class="wrap">
+  <h2>虚像：看清它"虚"在哪</h2>
+  <div class="sub">五步动画，看光怎么走、眼睛怎么被骗。</div>
+  <div class="player" id="virPlayer">
+    <div class="stage"><div id="virStage" style="width:100%;max-width:700px"></div></div>
+    <div class="ctrl">
+      <button class="act" data-p="play">播放</button>
+      <button class="act ghost" data-p="prev">上一步</button>
+      <button class="act ghost" data-p="next">下一步</button>
+      <button class="act ghost" data-p="reset">重置</button>
+      <div class="dots" id="virDots"></div>
+    </div>
+    <div class="stepno" id="virNo"></div>
+    <div class="cap" id="virCap"></div>
+  </div>
+  <div class="tch"><b>教师提示：</b>此处不要把反射定律展开推导，一句话点破即可——教学设计的意图是"物理压缩为证据采集，把课堂重心让位给数学建模"。</div>
+</div>
+</section>
+
+<!-- ============ P9 环节二→三 衔接 ============ -->
+<section class="slide" data-sec="p2" data-name="环节二 · 交接给数学">
+<div class="wrap">
+  <div class="formula" style="font-size:1.25rem">虚像 = 反射光线的<b>反向延长线</b>相交而成 · <b>不能</b>用光屏承接 · 但眼睛看得见</div>
+  <div class="card">
+    <div class="ask" style="margin:0">等大、等距、连线垂直——三条规律指向同一个什么词？</div>
+    <div class="say" style="font-size:1.25rem;margin-top:12px"><b>对称。</b>而这，是数学的主场。接下来的时间，交给数学。</div>
+  </div>
+  <div class="say">
+    物理已经把证据交给我们了。<br>
+    但"等距"是个<b>测量结论</b>，我想把它变成一句能<b>算出来</b>的话——这就是建模。
+  </div>
+  <div class="tch"><b>教师提示：</b>这句衔接语务必原样说出，它是"物理 → 数学"的主场交接动作，教学设计里是点名要的。</div>
+</div>
+</section>
+
+<!-- ============ P10 环节三 ①点化 ============ -->
+<section class="slide" data-sec="p3" data-name="环节三 · ① 点化">
+<div class="wrap">
+  <h2>环节三 · 建模：把对称交给数学</h2>
+  <div class="sub">目标：把实验结论翻译成一句数学语言，再拿它拆穿课首那个魔盒。</div>
+  <div class="ask">① 决定像位置的，到底是什么？</div>
+  <div class="do">蜡烛有大小、有颜色、有味道——这些会影响"像在哪"吗？</div>
+  <div class="say">
+    实验已经证明像与物<b>等大</b>，那大小就不是我们要操心的变量。<br>
+    真正决定像在哪的，只有一件事：<b>位置</b>。<br>
+    所以——把蜡烛抽象成一个<b>点 A</b>。它叫什么、多大、什么颜色，从此与我们无关。
+  </div>
+  <div class="tch"><b>教师提示：</b>这一步叫"点化"，是全课第一个抽象动作，务必让学生自己说出"只要位置"，不要替他们说。</div>
+</div>
+</section>
+
+<!-- ============ P11 环节三 ②建系 ============ -->
+<section class="slide" data-sec="p3" data-name="环节三 · ② 建系">
+<div class="wrap">
+  <h2>② 用什么工具研究"位置"？</h2>
+  <div class="say">位置要用数来刻画——那就<b>建坐标系</b>。以玻璃板刻线为 y 轴，过物点作 x 轴，白纸就是坐标纸。</div>
+  <div class="do">读出物点 A 的坐标 (a, b)，像点 A′ 的坐标 (a′, b′)，填进下表。</div>
+  <table>
+    <tr><th>次数</th><th>物点 A (a, b)</th><th>像点 A′ (a′, b′)</th><th>a 与 a′</th><th>b 与 b′</th></tr>
+    <tr><td>1</td><td>(<input id="ta1" class="cell" style="width:58px;display:inline-block">,<input id="tb1" class="cell" style="width:58px;display:inline-block">)</td><td id="o1">—</td><td id="c1">—</td><td id="d1">—</td></tr>
+    <tr><td>2</td><td>(<input id="ta2" class="cell" style="width:58px;display:inline-block">,<input id="tb2" class="cell" style="width:58px;display:inline-block">)</td><td id="o2">—</td><td id="c2">—</td><td id="d2">—</td></tr>
+    <tr><td>3</td><td>(<input id="ta3" class="cell" style="width:58px;display:inline-block">,<input id="tb3" class="cell" style="width:58px;display:inline-block">)</td><td id="o3">—</td><td id="c3">—</td><td id="d3">—</td></tr>
+  </table>
+  <button class="act" id="calcTbl">计算像点坐标</button>
+  <button class="act ghost" id="demoTbl">填入演示数据</button>
+  <div class="fb" id="tblFb"></div>
+  <div class="tch"><b>教师提示：</b>表格按"镜面为 y 轴"计算，即 a′ = −a、b′ = b。先让学生填自己的实测值再点"计算"，规律由他们发现，不要先给公式。</div>
+</div>
+</section>
+
+<!-- ============ P12 环节三 ③归纳 ============ -->
+<section class="slide" data-sec="p3" data-name="环节三 · ③ 归纳">
+<div class="wrap">
+  <h2>③ 规律藏在数据里——谁去发现它？</h2>
+  <div class="say">
+    三组以上数据进表，规律自己会说话：<br>
+    <b>纵坐标相同</b>、<b>横坐标互为相反数</b>、<b>连线垂直于 y 轴且被它平分</b>。
+  </div>
+  <div class="formula" style="font-size:1.3rem">a′ = − a　　b′ = b　　连线 AA′ ⊥ y 轴，且被 y 轴平分</div>
+  <div class="say">把这三句合成一句：<span class="key">像与物关于镜面所在直线（对称轴）对称</span>。</div>
+  <div class="ask">④ 镜子是斜的呢？这套坐标写法还管用吗？</div>
+  <div class="say">魔盒里的镜子是 <b>45°</b> 斜的，它不沿任何坐标轴。这时 a′ = −a 这种漂亮式子……<b>失灵了</b>。</div>
+</div>
+</section>
+
+<!-- ============ P12.5 环节三 · 轴对称建模（补：模型本身的建立） ============ -->
+<section class="slide" data-sec="p3" data-name="环节三 · 轴对称建模">
+<div class="wrap">
+  <h2>给这个规律一个名字：<span class="key">轴对称</span></h2>
+  <div class="sub">数学课本第十五章 15.1 · 今天要搬来的那件工具，就是它</div>
+  <div class="say">
+    上一页从数据里读出的三句话——<b>到镜面距离相等、连线垂直于镜面、纵坐标相同</b>——
+    其实都在描述同一件事。数学课早就给它取好了名字。
+  </div>
+  <div class="ask">把一个图形沿着一条直线<b>折过去</b>，如果它能和另一个图形<b>完全重合</b>——这叫什么？</div>
+  <div class="do">拖动下面的滑块，把左边的三角形沿着对称轴折到右边去。看它最后落在哪儿。</div>
+
+  <div class="foldWrap">
+    <div id="foldBox"><svg id="foldSvg" viewBox="0 0 720 300"></svg></div>
+    <div class="sliders">
+      <label>翻折角度：<span id="foldVal">0°</span></label>
+      <input type="range" id="foldRange" min="0" max="180" value="0" step="1">
+      <button class="act" id="foldPlay" style="width:100%;padding:6px">自动翻折一遍</button>
+      <button class="act ghost" id="foldReset" style="width:100%;margin-top:5px;padding:6px">回到 0°</button>
+      <div class="chkrow">
+        <input type="checkbox" id="foldSeg">
+        <label for="foldSeg">标出对应点连线与对称轴的关系</label>
+      </div>
+      <button class="act ghost" id="foldClear" style="width:100%;padding:6px">清除我点的点</button>
+      <div class="hintbox" id="foldInfo">在图上任意位置<b>点一下</b>，可以自己放一个点，看它的对称点在哪。</div>
+    </div>
+  </div>
+
+  <table style="margin-top:8px">
+    <tr><th style="width:38%">刚才实验测出来的（物理语言）</th><th>轴对称的性质（数学语言）</th></tr>
+    <tr><td class="l">像与物<b>等大</b></td><td class="l">翻折后完全重合 → 两个图形<b>全等</b></td></tr>
+    <tr><td class="l">像到镜面的距离 <b>=</b> 物到镜面的距离</td><td class="l">对称轴<b>平分</b>两个对应点的连线</td></tr>
+    <tr><td class="l">像与物的连线<b>垂直</b>于镜面</td><td class="l">对称轴<b>垂直</b>于两个对应点的连线</td></tr>
+  </table>
+
+  <div class="say">
+    三句并成一句：<span class="key">对称轴，垂直平分两个对应点的连线。</span><br>
+    更关键的是它<b>反过来也成立</b>——如果两个图形的对应点连线被同一条直线垂直平分，
+    那么这两个图形就关于这条直线对称。<b>这句是判定，等一下"镜子该放哪儿"全靠它。</b>
+  </div>
+  <div class="tch"><b>教师提示：</b>本页为本次修订新增：原先环节三从实验直接跳到坐标式 a′ = −a，缺了"轴对称"这个模型本身的建立环节，学生拿到的是代数结论而不是几何模型。用时约 2 分钟，不必深抠定义，重点做两件事——①让学生亲眼看到"折过去 → 重合"这个动作；②把"垂直平分"这句话连同它的<b>逆</b>一起钉住。放在坐标归纳之后、斜镜挑战之前。</div>
+</div>
+</section>
+
+<!-- ============ P13 环节三 ④模拟器 ============ -->
+<section class="slide" data-sec="p3" data-name="环节三 · ④ 斜镜与一般化">
+<div class="wrap">
+  <h2>④ 拖动看看：镜子怎么转，像就怎么走</h2>
+  <div class="do">拖动物点、转动镜面。重点试：把镜面从竖直慢慢转到 45°，像点走了什么路线？</div>
+  <div id="simWrap">
+    <div id="simBox"><svg id="simSvg" viewBox="0 0 720 400"></svg></div>
+    <div class="sliders">
+      <button class="act" id="modeF" style="width:100%;padding:6px">正向：已知镜面 → 求像</button>
+      <button class="act ghost" id="modeI" style="width:100%;margin-top:5px;padding:6px">逆向：已知像 → 反推镜面</button>
+      <label>镜面角度：<span id="angVal">90°</span></label>
+      <input type="range" id="simAngle" min="-90" max="90" value="90" step="1">
+      <label>镜面位置：<span id="offVal">0.0</span></label>
+      <input type="range" id="simOffset" min="-4" max="4" value="0" step="0.1">
+      <button class="act ghost" id="set45" style="width:100%;margin-top:6px;padding:6px">一键 45° 斜镜</button>
+      <div class="hintbox" id="simInfo"></div>
+    </div>
+  </div>
+  <div class="tch"><b>教师提示：</b>本页演示严格控制在 3–5 分钟。演示完请让学生用可旋转镜面教具复现一次，避免"这是电脑特效"的怀疑。</div>
+</div>
+</section>
+
+<!-- ============ P14 垂直平分结论 ============ -->
+<section class="slide" data-sec="p3" data-name="环节三 · 一般结论">
+<div class="wrap">
+  <div class="say" style="font-size:1.1rem">
+    失灵的只是<b>坐标写法</b>，规律本身还在，只是要换一种更一般的话来说。<br>
+    不管镜子怎么转、转到哪，始终不变的是这两件事：
+  </div>
+  <div class="card" style="text-align:center;padding:24px 16px">
+    <div style="font-size:1.35rem;margin-bottom:10px"><span class="key">对称轴垂直于对应点连线</span>　+　<span class="key">对称轴平分这条连线</span></div>
+    <div class="formula" style="font-size:1.55rem;margin:0">对称轴 <b>垂直平分</b> 两个对应点的连线</div>
+  </div>
+  <div class="say">
+    反过来用也成立：<b>想让像出现在哪儿，就把镜面放在物点与目标点连线的垂直平分线上。</b><br>
+    这一句，就是我们后面设计装置的全部依据。
+  </div>
+</div>
+</section>
+
+<!-- ============ P15 ⑤拆穿魔盒 ============ -->
+<section class="slide" data-sec="p3" data-name="环节三 · ⑤ 拆穿魔盒">
+<div class="wrap">
+  <div class="ask">⑤ 谁上台，把魔盒说穿？</div>
+  <div class="say">现在回到课首那个盒子。请用我们刚建立的模型，把这句话补完整。</div>
+  <div class="do">
+    我们看到"悬空"的那个东西，其实是 ______ 关于 ______ 的像，它的位置由 ______ 唯一确定，所以我看见的是 ______（实像 / 虚像）。
+  </div>
+  <div class="grid2" style="margin-top:8px">
+    <div><label>第一个空（什么物体）</label><input id="f1" placeholder="如：盒底的小物件"></div>
+    <div><label>第二个空（关于什么对称）</label><input id="f2" placeholder="如：盒内 45° 斜镜所在的直线"></div>
+    <div><label>第三个空（由什么确定）</label><input id="f3" placeholder="如：对称轴（垂直平分线）"></div>
+    <div><label>第四个空（实像 / 虚像）</label><input id="f4" placeholder="虚像"></div>
+  </div>
+  <button class="act" id="chkFill" style="margin-top:10px">对照标准模型句式</button>
+  <div class="fb" id="fillFb"></div>
+</div>
+</section>
+
+<!-- ============ P16 猜想回收 ============ -->
+<section class="slide" data-sec="p3" data-name="环节三 · 回收猜想贴">
+<div class="wrap">
+  <h2>回收猜想贴 · 和 40 分钟前的自己对照</h2>
+  <div class="sub">课首写下猜想的同学，现在说说当时的想法。</div>
+  <div id="guessBack" class="card" style="min-height:90px"></div>
+  <div class="say">课首你猜的和现在解释的，是同一件事吗？差在哪一步？<br>——<b>知道自己原来错在哪，比答对更有价值。</b></div>
+  <div class="tch"><b>教师提示：</b>若用纸质猜想贴，此处请学生取下后墙的贴纸，口头对照 1–2 人即可，不要逐人念，费时。</div>
+</div>
+</section>
+
+<!-- ============ P17 环节四 三查 ============ -->
+<section class="slide" data-sec="p4" data-name="环节四 · 第一关 三查互评">
+<div class="wrap">
+  <h2>环节四 · 反馈：三关检验</h2>
+  <div class="sub">第一关 · 会画：同桌交换设计图，三查互评</div>
+  <div class="say">查一条勾一条，不合格的当场说出问题在哪。</div>
+  <label class="opt"><input type="checkbox" id="ck1"> <b>查等距</b>：物点到镜面、像点到镜面的距离相等，图上有 d₁、d₂ 标注</label>
+  <label class="opt"><input type="checkbox" id="ck2"> <b>查垂直</b>：连线 AA′ 与镜面成 90°，画了直角符号，且镜面平分这条连线</label>
+  <label class="opt"><input type="checkbox" id="ck3"> <b>查双标注</b>：物 A、像 A′ 都标名；对称轴画虚线并标注；像用虚线画</label>
+  <button class="act" id="chk3">提交三查结果</button>
+  <div class="fb" id="fb3"></div>
+  <div class="tch"><b>教师提示：</b>互评表纸质版见《资源包/01_打印件合集.html》第 3 页。重点是让学生说出"不合格在哪"，而不是打个勾。</div>
+</div>
+</section>
+
+<!-- ============ P18 AI 挑错 ============ -->
+<section class="slide" data-sec="p4" data-name="环节四 · 第二关 给 AI 当裁判">
+<div class="wrap">
+  <h2>第二关 · 懂原理：给 AI 当裁判</h2>
+  <div class="say">这幅图是 AI 画的，里面藏着<b>两处错误</b>。找到一处就举手，先别说出答案——等所有人都看完。</div>
+  <div style="text-align:center">
+    <img id="errImg" class="maxw" src="assets/03_AI挑错光路图_错误版.svg" alt="AI 挑错光路图">
+    <div class="note">若图片未显示，可从《资源包》目录复制这两个 SVG 到 <b>课件/assets/</b>。</div>
+  </div>
+  <div style="margin-top:8px">
+    <div class="opt" data-o="A">A．像到镜面的距离不等于物到镜面的距离（d₂ = 2.4 cm，应为 4.0 cm）</div>
+    <div class="opt" data-o="B">B．物像连线不垂直于镜面，却在交点处标了直角符号</div>
+    <div class="opt" data-o="C">C．镜面的角度画错了，不是 45°</div>
+    <div class="opt" data-o="D">D．像画得比物大</div>
+  </div>
+  <button class="act" id="chkErr">提交答案</button>
+  <button class="act ghost" id="showFix">揭晓</button>
+  <div class="fb" id="fbErr"></div>
+  <div id="fixBox" style="display:none;margin-top:8px;text-align:center">
+    <img class="maxw" src="assets/04_AI挑错光路图_正确版.svg">
+  </div>
+  <div class="tch"><b>教师提示：</b>标准答案 A + B。两处错其实是同一件事——违反"对称轴垂直平分对应点连线"。追问必问："你怎么知道它错了？依据是什么？"</div>
+</div>
+</section>
+
+<!-- ============ P19 30 秒 ============ -->
+<section class="slide" data-sec="p4" data-name="环节四 · 第三关 30 秒挑战">
+<div class="wrap">
+  <h2>第三关 · 会迁移：30 秒挑战</h2>
+  <div class="say">镜面是 y 轴，物点 A 在 (3, 4)。<b>30 秒</b>，写出像点 A′ 的坐标，并说一句依据。</div>
+  <div id="timerBig">30</div>
+  <div style="text-align:center;margin:6px 0">
+    <button class="act" id="t30">开始</button>
+    <button class="act ghost" id="t30r">重置</button>
+  </div>
+  <div class="grid2">
+    <div><label>你的答案 A′( a′ , b′ )</label><input id="ans30" placeholder="如：(-3, 4)"></div>
+    <div><label>依据（一句话）</label><input id="why30" placeholder="如：对称轴垂直平分 AA′"></div>
+  </div>
+  <div style="margin-top:8px">
+    <button class="act" id="judge30">判一判</button>
+    <span style="margin-left:8px" class="note">贴墙汇总：</span>
+    <button class="act ghost" id="addR">答对 +1</button>
+    <button class="act ghost" id="addW">答错 +1</button>
+    <button class="act ghost" id="clrWall">清空</button>
+  </div>
+  <div class="fb" id="fb30"></div>
+  <div id="wall"></div>
+  <div class="note" id="wallStat"></div>
+  <div class="tch"><b>教师提示：</b>更多挑战题（含逆向难题与"镜子至少多高"）见《资源包/01_打印件合集.html》第 6 页，可裁成题卡。正确答案 A′(−3, 4)。</div>
+</div>
+</section>
+
+<!-- ============ P20 结项发布 ============ -->
+<section class="slide" data-sec="p5" data-name="环节五 · 任务发布">
+<div class="wrap">
+  <h2>环节五 · 结项启动：任务发布</h2>
+  <div class="say">
+    模型学到这儿，该轮到你们出题了：<b>为真实场景设计并制作一件可演示的"看见看不见"镜像装置</b>。<br>
+    交三样东西——<span class="pill big">双标注设计图</span><span class="pill big">实物模型</span><span class="pill big">一句建模说明</span>
+  </div>
+  <h3>四道备选题 · 任选其一</h3>
+  <div class="task"><h4>① 潜望镜 <span class="star">★ 推荐</span></h4>
+    <p style="margin:0">两面 45° 镜面两次反射成像，像与物经过<b>两次</b>轴对称。<br><span class="note">材料：硬纸板、两面小镜、胶带</span></p></div>
+  <div class="task"><h4>② 魔盒"悬空"展示台 <span class="star">★ 推荐</span></h4>
+    <p style="margin:0">盒内 45° 斜镜让盒底物品的像"悬浮"在上方——就是课首那个盒子的复刻。<br><span class="note">材料：鞋盒、一面小镜、小物件</span></p></div>
+  <div class="task"><h4>③ 万花筒</h4>
+    <p style="margin:0">三面镜围成三棱镜筒，多次对称成像。<br><span class="note">材料：纸筒、三面窄镜、彩色碎片</span></p></div>
+  <div class="task"><h4>④ 反射"隐身"演示器</h4>
+    <p style="margin:0">镜面遮挡物体一半，靠对称补全视觉。<br><span class="note">材料：纸板、一面小镜</span></p></div>
+</div>
+</section>
+
+<!-- ============ P21 约束卡 ============ -->
+<section class="slide" data-sec="p5" data-name="环节五 · 设计约束卡">
+<div class="wrap">
+  <h2>设计约束卡（各组填写，课后带走）</h2>
+  <div class="grid2">
+    <div><label>组号 / 作品名</label><input id="k1"></div>
+    <div><label>为谁设计</label><input id="k2"></div>
+    <div><label>在哪看（观察位置、高度）</label><input id="k3"></div>
+    <div><label>看到什么（像应出现在哪）</label><input id="k4"></div>
+    <div><label>材料清单</label><input id="k5"></div>
+    <div><label>成本上限</label><input id="k6"></div>
+    <div><label>制作周期</label><input id="k7"></div>
+    <div><label>验收标准（怎样算成功）</label><input id="k8"></div>
+  </div>
+  <div style="margin-top:8px">
+    <label>★ 关键一问：你打算把镜子放在什么位置、什么角度？为什么？</label>
+    <textarea id="k9"></textarea>
+  </div>
+  <div style="margin-top:8px">
+    <button class="act" id="saveCard">保存</button>
+    <button class="act ghost" id="printCard">打印本卡</button>
+    <button class="act ghost" id="loadCard">读取已保存</button>
+  </div>
+  <div class="fb" id="fbCard"></div>
+  <div class="say" style="margin-top:12px">
+    最后留一句：<b>镜子不会骗人，它只是严格地执行对称。</b><br>
+    骗过我们的，是我们对"看见"的想当然——而数学，就是用来拆穿想当然的。
+  </div>
+  <div class="tch"><b>教师提示：</b>纸质版见《资源包/01_打印件合集.html》第 4 页。这一问直接训练难点"由目标可见位置反推镜面位置"，不能让学生跳过。评价量规见《资源包/07_附录_评价量规与逐条对照.md》。</div>
+</div>
+</section>
+
+</div>
+
+<div id="foot">
+  <span class="secname" id="secName">首页 · 驱动性问题</span>
+  <div class="dotsbar" id="dotsBar"></div>
+  <span id="pageNo">1 / 1</span>
+  <button class="tbtn" id="pgPrev">上一页</button>
+  <button class="tbtn" id="pgNext">下一页</button>
+</div>
+
+<script>
+/* ================= 工具 ================= */
+var $=function(s){return document.querySelector(s)};
+var $$=function(s){return Array.prototype.slice.call(document.querySelectorAll(s))};
+var store={g:function(k,d){try{var v=localStorage.getItem('kb_'+k);return v==null?d:JSON.parse(v)}catch(e){return d}},
+           s:function(k,v){try{localStorage.setItem('kb_'+k,JSON.stringify(v))}catch(e){}}};
+
+/* ================= 全屏动态点：散布整屏，越靠内容区越淡 ================= */
+var bg=$('#bgCanvas'),bctx=bg.getContext('2d'),dots=[],ZW=null,dpr=Math.min(2,window.devicePixelRatio||1);
+var dotOn=store.g('dots',true);
+function palette(){return document.documentElement.classList.contains('light')
+  ? ['#0b62cf','#00866b','#6b3fd4'] : ['#8ecbff','#9df5db','#d0bcff']}
+/* 透明度随离画面中轴的距离衰减：内容区约 0.42 倍，边缘全亮；内容仍始终最清楚 */
+function fadeAt(x){var d=Math.abs(x-ZW.cx)/(ZW.W/2); return 0.42+0.58*Math.pow(d,1.4)}
+function drawDot(x,y,r,a,c){
+  bctx.globalAlpha=a; bctx.fillStyle=c;
+  bctx.beginPath(); bctx.arc(x,y,r,0,6.2832); bctx.fill();
+  bctx.globalAlpha=a*0.30;
+  bctx.beginPath(); bctx.arc(x,y,r*3.4,0,6.2832); bctx.fill();
+  bctx.globalAlpha=a*0.12;
+  bctx.beginPath(); bctx.arc(x,y,r*6.5,0,6.2832); bctx.fill();
+}
+function initDots(){
+  var W=window.innerWidth,H=window.innerHeight;
+  ZW={W:W,H:H,cx:W/2};
+  var pairs=Math.max(10,Math.min(22,Math.round(W*H/62000))),cols=palette();
+  dots=[];
+  for(var i=0;i<pairs;i++){
+    dots.push({
+      x:22+Math.random()*(W-44), y:22+Math.random()*(H-44),
+      vx:(Math.random()*0.20+0.04)*(Math.random()<.5?-1:1),
+      vy:(Math.random()*0.24+0.05)*(Math.random()<.5?-1:1),
+      r:1.7+Math.random()*2.5, c:cols[i%cols.length],
+      a:0.34+Math.random()*0.30, ph:Math.random()*6.28
+    });
+  }
+}
+function resizeCanvas(){
+  bg.width=Math.floor(window.innerWidth*dpr); bg.height=Math.floor(window.innerHeight*dpr);
+  bg.style.width=window.innerWidth+'px'; bg.style.height=window.innerHeight+'px';
+  bctx.setTransform(dpr,0,0,dpr,0,0);
+  initDots();
+}
+function drawBg(){
+  if(bg.width!==Math.floor(window.innerWidth*dpr)||bg.height!==Math.floor(window.innerHeight*dpr))resizeCanvas();
+  bctx.clearRect(0,0,ZW.W,ZW.H);
+  if(dotOn){
+    var t=Date.now()/1000;
+    dots.forEach(function(p){
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<10){p.x=10;p.vx*=-1}
+      if(p.x>ZW.W-10){p.x=ZW.W-10;p.vx*=-1}
+      if(p.y<10){p.y=10;p.vy*=-1}
+      if(p.y>ZW.H-10){p.y=ZW.H-10;p.vy*=-1}
+      var glow=1+0.28*Math.sin(t*1.3+p.ph), rr=p.r*glow;
+      drawDot(p.x,p.y,rr,p.a*fadeAt(p.x),p.c);
+      var mx=ZW.W-p.x;                 /* 关于屏幕中轴的对称伙伴 */
+      drawDot(mx,p.y,rr,p.a*fadeAt(mx),p.c);
+    });
+  }
+  bctx.globalAlpha=1;
+  requestAnimationFrame(drawBg);
+}
+/* 顶栏开关：投屏觉得花，可一键关掉背景点 */
+function mountDotToggle(){
+  var bar=document.querySelector('.tools'); if(!bar)return;
+  var b=document.createElement('button');
+  b.className='tbtn'; b.id='dotTgl'; b.title='背景动态点：开 / 关';
+  bar.insertBefore(b,bar.firstChild);
+  function paint(){b.textContent=dotOn?'· 点 开':'· 点 关'; b.style.opacity=dotOn?1:.55}
+  paint();
+  b.onclick=function(){dotOn=!dotOn; store.s('dots',dotOn); paint();};
+}
+window.addEventListener('resize',resizeCanvas);
+resizeCanvas(); requestAnimationFrame(drawBg);
+mountDotToggle();
+
+/* ================= 环节三 · 轴对称建模页 ================= */
+(function(){
+  var svg=$('#foldSvg'); if(!svg)return;
+  var NS='http://www.w3.org/2000/svg';
+  function mk(t,a,txt){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;svg.appendChild(e);return e}
+  var CX=360;                                   /* 对称轴所在 x */
+  var P=[{n:'A',x:180,y:70},{n:'B',x:295,y:165},{n:'C',x:165,y:200}];
+  var extra=[],fold=0,anim=null;
+  var rng=$('#foldRange'),val=$('#foldVal'),info=$('#foldInfo'),segBox=$('#foldSeg');
+  function stop(){if(anim){cancelAnimationFrame(anim);anim=null}}
+  function setFold(v){
+    fold=Math.max(0,Math.min(180,v)); rng.value=fold; val.textContent=Math.round(fold)+'\u00b0'; draw();
+  }
+  function draw(){
+    while(svg.firstChild)svg.removeChild(svg.firstChild);
+    var L=document.documentElement.classList.contains('light');
+    var acc=L?'#1766d1':'#4ea1ff', acc2=L?'#00866b':'#7ee0c0';
+    var tx=L?'#1a2233':'#e8edf7', tx2=L?'#5a6780':'#9fb0cc';
+    var k=Math.cos(fold*Math.PI/180), done=Math.abs(k+1)<0.03;
+
+    /* 对称轴 */
+    mk('line',{x1:CX,y1:22,x2:CX,y2:282,stroke:acc,'stroke-width':2,'stroke-dasharray':'7 5'});
+    mk('text',{x:CX+10,y:32,fill:acc,'font-size':13},'对称轴 l（镜子就在这条直线上）');
+
+    /* 右侧目标位置（虚线等待被重合） */
+    mk('polygon',{points:P.map(function(p){return (2*CX-p.x)+','+p.y}).join(' '),
+      fill:'none',stroke:acc2,'stroke-width':2,'stroke-dasharray':'6 5',opacity:.55});
+    P.forEach(function(p){
+      mk('circle',{cx:2*CX-p.x,cy:p.y,r:4,fill:acc2,opacity:.5});
+      mk('text',{x:2*CX-p.x+9,y:p.y-6,fill:acc2,'font-size':14,opacity:.75},p.n+'\u2032');
+    });
+
+    /* 当前形状：x' = CX + (x-CX)*cosθ，即绕轴翻折的视觉效果 */
+    mk('polygon',{points:P.map(function(p){return (CX+(p.x-CX)*k)+','+p.y}).join(' '),
+      fill:k>=0?acc:acc2,'fill-opacity':.26,stroke:k>=0?acc:acc2,'stroke-width':done?3:2});
+    P.forEach(function(p){
+      var x=CX+(p.x-CX)*k;
+      mk('circle',{cx:x,cy:p.y,r:4.5,fill:k>=0?acc:acc2});
+      mk('text',{x:x-17,y:p.y-9,fill:tx,'font-size':15,'font-weight':700},p.n);
+    });
+
+    /* 对应点连线的垂直平分关系 */
+    if(segBox.checked){
+      P.forEach(function(p,i){
+        mk('line',{x1:p.x,y1:p.y,x2:2*CX-p.x,y2:p.y,stroke:tx2,
+          'stroke-width':i===0?1.6:1,'stroke-dasharray':'5 4',opacity:i===0?.95:.45});
+      });
+      var y=P[0].y,x1=P[0].x,x2=2*CX-P[0].x,mxA=(CX+x1)/2,mxB=(CX+x2)/2;
+      mk('circle',{cx:CX,cy:y,r:3.5,fill:acc});
+      mk('text',{x:CX+6,y:y-7,fill:acc,'font-size':12},'M');
+      mk('path',{d:'M '+CX+' '+(y-12)+' L '+(CX-12)+' '+(y-12)+' L '+(CX-12)+' '+y,
+        fill:'none',stroke:acc,'stroke-width':1.6});
+      [mxA,mxB].forEach(function(m){mk('line',{x1:m,y1:y-5,x2:m,y2:y+5,stroke:acc2,'stroke-width':1.6})});
+      mk('text',{x:mxA-4,y:y-11,fill:acc2,'font-size':12},'d');
+      mk('text',{x:mxB-4,y:y-11,fill:acc2,'font-size':12},'d');
+      mk('text',{x:CX-92,y:y+22,fill:acc,'font-size':12.5},'AM = MA\u2032，且 AA\u2032 \u22a5 l');
+    }
+
+    /* 学生自己点的点 */
+    extra.forEach(function(q){
+      var m=2*CX-q.x;
+      mk('line',{x1:q.x,y1:q.y,x2:m,y2:q.y,stroke:'#ffb84e','stroke-width':1,'stroke-dasharray':'4 4',opacity:.7});
+      mk('circle',{cx:q.x,cy:q.y,r:4.5,fill:'#ffb84e'});
+      mk('circle',{cx:m,cy:q.y,r:4.5,fill:'#ffb84e',opacity:.7});
+      mk('circle',{cx:CX,cy:q.y,r:2.5,fill:'#ffb84e',opacity:.6});
+    });
+
+    if(done) mk('text',{x:CX,y:272,fill:acc2,'font-size':17,'font-weight':700,'text-anchor':'middle'},
+      '完全重合 —— 这就是轴对称');
+    else mk('text',{x:14,y:292,fill:tx2,'font-size':12},'在图里任意位置单击，可以自己放一个点试试');
+
+    if(done) info.innerHTML='两个三角形<b>完全重合</b>。像这样：一个图形沿着一条直线<b>折叠</b>，能与另一个图形重合，就说这两个图形<b>关于这条直线对称（轴对称）</b>；这条直线叫<b>对称轴</b>，折叠后重合的点叫<b>对应点</b>。';
+    else if(fold<1) info.innerHTML='还没开始折。注意两个三角形<b>分居对称轴两侧</b>，A 与 A\u2032、B 与 B\u2032、C 与 C\u2032 分别是对应点。';
+    else if(Math.abs(k)<0.07) info.innerHTML='折到 90°——此刻图形被压成了<b>一条线</b>，它正在穿过纸面往背面去。';
+    else if(k>0) info.innerHTML='折到 '+Math.round(fold)+'°：还没到位，注意它的宽度在变小。';
+    else info.innerHTML='已经翻到背面（'+Math.round(fold)+'°），再往下就重合了。';
+  }
+  rng.oninput=function(){stop();setFold(+this.value)};
+  $('#foldSeg').onchange=draw;
+  $('#foldReset').onclick=function(){stop();setFold(0)};
+  $('#foldClear').onclick=function(){extra=[];draw()};
+  $('#foldPlay').onclick=function(){
+    if(anim)return; stop(); setFold(0);
+    var step=function(){ setFold(fold+2.2); anim = fold<180 ? requestAnimationFrame(step) : null; };
+    anim=requestAnimationFrame(step);
+  };
+  svg.addEventListener('click',function(e){
+    var r=svg.getBoundingClientRect();
+    var x=(e.clientX-r.left)/r.width*720, y=(e.clientY-r.top)/r.height*300;
+    if(Math.abs(x-CX)<10||y<20||y>280)return;
+    if(extra.length>=6)extra.shift();
+    extra.push({x:Math.round(x),y:Math.round(y)}); draw();
+  });
+  draw();
+})();
+
+
+/* ================= 翻页 ================= */
+var slides=$$('.slide'), cur=0, maxSeen=0;
+function buildDotsBar(){
+  $('#dotsBar').innerHTML=slides.map(function(_,i){return '<button class="pdot" data-p="'+i+'" title="'+(slides[i].dataset.name||'')+'"></button>'}).join('');
+  $$('#dotsBar .pdot').forEach(function(d){d.onclick=function(){go(+d.dataset.p)}});
+}
+function go(i,dir){
+  if(i<0||i>=slides.length)return;
+  var d=dir||(i>cur?'f':'b');
+  cur=i; maxSeen=Math.max(maxSeen,i);
+  slides.forEach(function(s,ix){
+    s.classList.toggle('on',ix===i);
+    s.classList.remove('fwd','back');
+    if(ix===i)s.classList.add(d==='f'?'fwd':'back');
+  });
+  var sec=slides[i].dataset.sec;
+  $$('.navb').forEach(function(b){b.classList.toggle('on',b.dataset.sec===sec)});
+  $('#secName').textContent=slides[i].dataset.name||'';
+  $('#pageNo').textContent=(i+1)+' / '+slides.length;
+  $('#barProg').style.width=((i+1)/slides.length*100)+'%';
+  $$('#dotsBar .pdot').forEach(function(dt,ix){
+    dt.classList.toggle('on',ix===i);
+    dt.classList.toggle('done',ix<maxSeen&&ix!==i);
+  });
+}
+$('#pgNext').onclick=function(){go(cur+1,'f')};
+$('#pgPrev').onclick=function(){go(cur-1,'b')};
+$('#aL').onclick=function(){go(cur-1,'b')};
+$('#aR').onclick=function(){go(cur+1,'f')};
+$$('.navb').forEach(function(b){
+  b.onclick=function(){
+    var t=b.dataset.sec;
+    for(var i=0;i<slides.length;i++){if(slides[i].dataset.sec===t){go(i,'f');return}}
+  };
+});
+document.addEventListener('keydown',function(e){
+  if(/INPUT|TEXTAREA/.test(document.activeElement.tagName))return;
+  if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();go(cur+1,'f')}
+  if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(cur-1,'b')}
+  if(e.key==='Home'){go(0,'b')}
+  if(e.key==='End'){go(slides.length-1,'f')}
+});
+buildDotsBar(); go(0,'f');
+
+/* 触屏左右滑动翻页 */
+(function(){
+  var x0=null,y0=null;
+  document.addEventListener('touchstart',function(e){
+    if(/INPUT|TEXTAREA/.test(document.activeElement.tagName))return;
+    x0=e.touches[0].clientX;y0=e.touches[0].clientY;
+  },{passive:true});
+  document.addEventListener('touchend',function(e){
+    if(x0===null)return;
+    var dx=e.changedTouches[0].clientX-x0,dy=e.changedTouches[0].clientY-y0;
+    if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5){go(cur+(dx<0?1:-1),dx<0?'f':'b')}
+    x0=null;
+  },{passive:true});
+})();
+
+/* 字号 */
+var fs=parseFloat(store.g('fs',19));
+function setFs(v){fs=Math.max(14,Math.min(30,v));document.documentElement.style.setProperty('--fs',fs+'px');store.s('fs',fs)}
+setFs(fs);
+$('#fsUp').onclick=function(){setFs(fs+2)};
+$('#fsDn').onclick=function(){setFs(fs-2)};
+/* 主题 */
+$('#theme').onclick=function(){
+  document.documentElement.classList.toggle('light');
+  this.textContent=document.documentElement.classList.contains('light')?'投屏深色':'投屏浅色';
+  initDots(); drawSim();
+};
+/* 教师提示 */
+$('#tchMode').onclick=function(){
+  document.body.classList.toggle('teacher');
+  this.textContent='教师提示：'+(document.body.classList.contains('teacher')?'开':'关');
+};
+/* 计时器 */
+var left=45*60,running=false,tid=null;
+function fmt(s){var m=Math.floor(s/60),x=s%60;return (m<10?'0':'')+m+':'+(x<10?'0':'')+x}
+function paintClock(){$('#clock').textContent=fmt(left);$('#clock').style.color=left<300?'var(--bad)':'var(--acc)'}
+$('#ckStart').onclick=function(){
+  running=!running; this.textContent=running?'暂停':'继续';
+  if(running){tid=setInterval(function(){if(left>0)left--;paintClock()},1000)}else{clearInterval(tid)}
+};
+$('#ckReset').onclick=function(){left=45*60;paintClock();running=false;$('#ckStart').textContent='开始';clearInterval(tid)};
+paintClock();
+
+/* 视频占位 */
+(function(){
+  var v=document.createElement('video');
+  v.src='assets/magic-box.mp4'; v.controls=true; v.className='maxw'; v.style.maxHeight='40vh';
+  v.onerror=function(){$('#videoSlot').innerHTML='<div class="note" style="color:inherit">（未检测到 assets/magic-box.mp4，当前显示占位）</div>'};
+  $('#videoSlot').appendChild(v);
+})();
+
+/* 猜想贴 */
+function paintGuess(){
+  var arr=store.g('guess',[]);
+  $('#guessWall').innerHTML=arr.map(function(t,i){
+    return '<span class="pill big">'+t.replace(/</g,'&lt;')+' <span style="cursor:pointer;color:var(--bad)" data-del="'+i+'">×</span></span>';
+  }).join('')||'<span class="note">还没有人贴上来。</span>';
+  $$('#guessWall [data-del]').forEach(function(x){x.onclick=function(){var a=store.g('guess',[]);a.splice(+x.dataset.del,1);store.s('guess',a);paintGuess()}});
+}
+$('#guessAdd').onclick=function(){var t=$('#guessIn').value.trim();if(!t)return;var a=store.g('guess',[]);a.push(t);store.s('guess',a);$('#guessIn').value='';paintGuess()};
+$('#guessClr').onclick=function(){store.s('guess',[]);paintGuess()};
+paintGuess();
+
+/* ================= 分步播放器 ================= */
+function Player(cfg){
+  this.i=0; this.timer=null; this.cfg=cfg; this.playing=false;
+  var self=this,dots=cfg.dots;
+  dots.innerHTML=cfg.steps.map(function(_,i){return '<div class="dot" data-i="'+i+'"></div>'}).join('');
+  $$('#'+dots.id+' .dot').forEach(function(d){d.onclick=function(){self.stop();self.show(+d.dataset.i)}});
+  cfg.box.querySelectorAll('[data-p]').forEach(function(b){
+    b.onclick=function(){var p=b.dataset.p;
+      if(p==='play'){self.playing?self.stop():self.play()}
+      if(p==='next'){self.stop();self.show(self.i+1)}
+      if(p==='prev'){self.stop();self.show(self.i-1)}
+      if(p==='reset'){self.stop();self.show(0)}
+    };
+  });
+  this.show(0);
+}
+Player.prototype.show=function(i){
+  var n=this.cfg.steps.length; this.i=(i+n)%n;
+  this.cfg.steps[this.i].render(this.cfg.stage,this.i);
+  this.cfg.cap.textContent=this.cfg.steps[this.i].cap;
+  this.cfg.no.textContent='第 '+(this.i+1)+' / '+n+' 步';
+  var cur=this.i;
+  $$('#'+this.cfg.dots.id+' .dot').forEach(function(d,ix){d.classList.toggle('on',ix===cur)});
+};
+Player.prototype.play=function(){
+  var self=this; this.playing=true;
+  this.cfg.box.querySelector('[data-p="play"]').textContent='暂停';
+  this.timer=setInterval(function(){
+    if(self.i>=self.cfg.steps.length-1){self.stop();return}
+    self.show(self.i+1);
+  },this.cfg.gap||2600);
+};
+Player.prototype.stop=function(){
+  this.playing=false; clearInterval(this.timer);
+  var b=this.cfg.box.querySelector('[data-p="play"]'); if(b)b.textContent='播放';
+};
+
+/* ============ 环节二：三步实验动画 ============ */
+var CS={w:760,h:230};
+function svgWrap(inner){return '<svg viewBox="0 0 '+CS.w+' '+CS.h+'" style="width:100%;height:auto">'+inner+'</svg>'}
+function expStep(k){
+  var g='',lgt=document.documentElement.classList.contains('light');
+  g+='<rect x="60" y="52" width="640" height="140" fill="'+(lgt?'#fff':'#222c40')+'" stroke="#8fa0bd" stroke-dasharray="4 4"/>';
+  g+='<line x1="380" y1="52" x2="380" y2="192" stroke="#4ea1ff" stroke-width="6" opacity=".85"/>';
+  g+='<text x="386" y="70" font-size="15" fill="#4ea1ff">玻璃板（当作镜面）</text>';
+  function candle(x,lit,label,color){
+    var s='<rect x="'+(x-9)+'" y="122" width="18" height="60" fill="#f5f0e6" stroke="#333"/>';
+    s+='<rect x="'+(x-2)+'" y="110" width="4" height="12" fill="#555"/>';
+    if(lit){s+='<ellipse cx="'+x+'" cy="102" rx="8" ry="14" fill="#ffb84e"><animate attributeName="ry" values="14;18;14" dur="1.1s" repeatCount="indefinite"/></ellipse>'}
+    s+='<text x="'+(x-16)+'" y="204" font-size="15" fill="'+(color||'#e8edf7')+'">'+label+'</text>';
+    return s;
+  }
+  if(k>=0) g+=candle(250,true,'蜡烛A（物）');
+  if(k>=1){ g+=candle(510,false,'蜡烛B（找像）','#7ee0c0');
+    g+='<text x="466" y="96" font-size="15" fill="#7ee0c0">移到"与像重合"为止</text>'; }
+  if(k>=2){
+    g+='<line x1="250" y1="152" x2="510" y2="152" stroke="#b69cff" stroke-width="2.5" stroke-dasharray="7 5"/>';
+    g+='<rect x="366" y="142" width="6" height="20" fill="none" stroke="#b69cff" stroke-width="2"/>';
+    g+='<rect x="374" y="144" width="12" height="16" fill="none" stroke="#b69cff" stroke-width="2"/>';
+    g+='<text x="256" y="176" font-size="14" fill="#b69cff">d₁</text>';
+    g+='<text x="452" y="176" font-size="14" fill="#b69cff">d₂</text>';
+    g+='<text x="342" y="220" font-size="16" fill="#b69cff" font-weight="bold">连线 ⊥ 镜面？量一量</text>';
+  }
+  return svgWrap(g);
+}
+new Player({
+  box:$('#expPlayer'),stage:$('#expStage'),cap:$('#expCap'),no:$('#expNo'),dots:$('#expDots'),gap:2800,
+  steps:[
+    {cap:'第一步：为什么用玻璃板，不用镜子？因为玻璃板既能反射成像、又能透光——我才能看见镜后那支蜡烛，去和像重合。',
+     render:function(st){st.innerHTML=expStep(0)}},
+    {cap:'第二步：为什么两支蜡烛必须等大？把没点燃的那支在镜后移动，直到它和点燃那支的像完全重合——重合了，就说明像和物一样大；这时的位置，就是像的位置。',
+     render:function(st){st.innerHTML=expStep(1)}},
+    {cap:'第三步：在纸上记下物点和像点，用刻度尺连线，量两者到玻璃板刻线的距离，并看这条连线是否与刻线垂直。这三条数据，是我们后面建模的全部原料。',
+     render:function(st){st.innerHTML=expStep(2)}}
+  ]
+});
+
+/* ============ 环节二：虚像动画 ============ */
+var VIR={A:{x:250,y:150},EYE:{x:660,y:150},MIR:470};
+function virBase(extra){
+  var g='';
+  g+='<line x1="'+VIR.MIR+'" y1="40" x2="'+VIR.MIR+'" y2="215" stroke="#4ea1ff" stroke-width="5" opacity=".8"/>';
+  g+='<text x="'+(VIR.MIR+8)+'" y="52" font-size="14" fill="#4ea1ff">镜面</text>';
+  g+='<circle cx="'+VIR.A.x+'" cy="'+VIR.A.y+'" r="7" fill="#ffb84e"/>';
+  g+='<text x="'+(VIR.A.x-14)+'" y="'+(VIR.A.y+28)+'" font-size="15" fill="#ffb84e">物 A</text>';
+  g+=extra;
+  g+='<g><ellipse cx="'+VIR.EYE.x+'" cy="'+VIR.EYE.y+'" rx="18" ry="11" fill="none" stroke="#e8edf7" stroke-width="2"/><circle cx="'+VIR.EYE.x+'" cy="'+VIR.EYE.y+'" r="4" fill="#e8edf7"/></g>';
+  g+='<text x="'+(VIR.EYE.x-20)+'" y="'+(VIR.EYE.y+30)+'" font-size="14" fill="#e8edf7">眼睛</text>';
+  return svgWrap(g);
+}
+function virStep(k){
+  var g='',A=VIR.A,M={x:VIR.MIR,y:130},EYE=VIR.EYE,Ax=2*VIR.MIR-A.x;
+  if(k>=0){ g+='<line x1="'+A.x+'" y1="'+A.y+'" x2="'+M.x+'" y2="'+M.y+'" stroke="#ffb84e" stroke-width="2.5"/>';
+    g+='<circle id="ph1" cx="'+A.x+'" cy="'+A.y+'" r="5" fill="#fff"/>'; }
+  if(k>=1){ g+='<line x1="'+M.x+'" y1="'+M.y+'" x2="'+EYE.x+'" y2="'+EYE.y+'" stroke="#ffb84e" stroke-width="2.5"/>';
+    g+='<text x="505" y="106" font-size="14" fill="#ffb84e">反射光进入眼睛</text>'; }
+  if(k>=2){ g+='<line x1="'+M.x+'" y1="'+M.y+'" x2="'+Ax+'" y2="'+A.y+'" stroke="#b69cff" stroke-width="2" stroke-dasharray="6 5"/>';
+    g+='<text x="512" y="180" font-size="14" fill="#b69cff">反向延长线（虚线）</text>'; }
+  if(k>=3){ g+='<circle cx="'+Ax+'" cy="'+A.y+'" r="7" fill="none" stroke="#b69cff" stroke-width="3" stroke-dasharray="4 3"/>';
+    g+='<text x="'+(Ax-14)+'" y="'+(A.y+28)+'" font-size="15" fill="#b69cff">像 A′</text>';
+    g+='<line x1="'+A.x+'" y1="'+A.y+'" x2="'+Ax+'" y2="'+A.y+'" stroke="#7ee0c0" stroke-width="2" stroke-dasharray="7 5"/>';
+    g+='<text x="296" y="'+(A.y-16)+'" font-size="14" fill="#7ee0c0">连线被镜面垂直平分</text>'; }
+  if(k>=4){ g+='<rect x="'+(Ax-6)+'" y="'+(A.y-42)+'" width="12" height="84" fill="#8fa0bd" stroke="#333"/>';
+    g+='<text x="'+(Ax-30)+'" y="'+(A.y+64)+'" font-size="15" fill="#8fa0bd">光屏</text>';
+    g+='<text x="'+(Ax+16)+'" y="'+(A.y-48)+'" font-size="18" fill="#ff6b6b" font-weight="bold">屏上什么也没有</text>'; }
+  return virBase(g);
+}
+var phRaf=null;
+function startPhoton(st){
+  if(phRaf)cancelAnimationFrame(phRaf);
+  var t0=performance.now(),A=VIR.A,M={x:VIR.MIR,y:130},EYE=VIR.EYE;
+  function frame(now){
+    var t=((now-t0)/1400)%1,p1;
+    if(t<0.5){p1={x:A.x+(M.x-A.x)*(t*2),y:A.y+(M.y-A.y)*(t*2)}}
+    else{p1={x:M.x+(EYE.x-M.x)*((t-0.5)*2),y:M.y+(EYE.y-M.y)*((t-0.5)*2)}}
+    var c=st.querySelector('#ph1'); if(!c)return;
+    c.setAttribute('cx',p1.x); c.setAttribute('cy',p1.y);
+    phRaf=requestAnimationFrame(frame);
+  }
+  phRaf=requestAnimationFrame(frame);
+}
+new Player({
+  box:$('#virPlayer'),stage:$('#virStage'),cap:$('#virCap'),no:$('#virNo'),dots:$('#virDots'),gap:3000,
+  steps:[
+    {cap:'第 1 步：物点发出的光射到镜面上。',render:function(st){st.innerHTML=virStep(0);startPhoton(st)}},
+    {cap:'第 2 步：光被镜面反射，进入你的眼睛。你看见东西，是因为有光真的进入了眼睛。',render:function(st){st.innerHTML=virStep(1);startPhoton(st)}},
+    {cap:'第 3 步：关键在这里——大脑默认"光是沿直线来的"，于是它把进入眼睛的光线往回延长。',render:function(st){st.innerHTML=virStep(2);startPhoton(st)}},
+    {cap:'第 4 步：这些反向延长线交于镜后一点。你的眼睛"以为"光是从那儿发出来的——那就是像。',render:function(st){st.innerHTML=virStep(3);startPhoton(st)}},
+    {cap:'第 5 步：拿光屏去接，接不到。说明那里没有真实的光会聚——所以叫虚像。但它在几何上真实存在，位置可以被唯一确定。',render:function(st){st.innerHTML=virStep(4);startPhoton(st)}}
+  ]
+});
+
+/* 实验数据 */
+$('#demoData').onclick=function(){
+  var demo=[['4.0','4.0','是','是','否'],['6.0','6.0','是','是','否'],['8.0','8.0','是','是','否']];
+  for(var i=1;i<=3;i++){var d=demo[i-1];
+    $('#r'+i+'d1').value=d[0];$('#r'+i+'d2').value=d[1];$('#r'+i+'v').value=d[2];$('#r'+i+'s').value=d[3];$('#r'+i+'p').value=d[4];}
+};
+$('#clrData').onclick=function(){$$('.cell').forEach(function(x){x.value=''})};
+
+/* ================= 环节三：镜面模拟器 ================= */
+var SIM={A:{x:-2.5,y:1.4},T:{x:3,y:2.4},theta:90,c:0,mode:'f',drag:null};
+var SV={ox:360,oy:200,k:56};
+function ink(){return document.documentElement.classList.contains('light')?'#1a2233':'#e8edf7'}
+function gridc(){return document.documentElement.classList.contains('light')?'#c9d3e4':'#2a3348'}
+function toS(p){return{x:SV.ox+p.x*SV.k,y:SV.oy-p.y*SV.k}}
+function nrm(){var t=SIM.theta*Math.PI/180;return{x:-Math.sin(t),y:Math.cos(t)}}
+function dvec(){var n=nrm();return{x:-n.y,y:n.x}}
+function reflect(P){var n=nrm(),t=(P.x*n.x+P.y*n.y)-SIM.c;return{x:P.x-2*t*n.x,y:P.y-2*t*n.y}}
+function distPlane(P){var n=nrm();return Math.abs(P.x*n.x+P.y*n.y-SIM.c)}
+function norm90(t){t=((t%180)+180)%180;if(t>90)t-=180;if(t<-90)t+=180;return t}
+function syncInverse(){
+  var v={x:SIM.T.x-SIM.A.x,y:SIM.T.y-SIM.A.y},L=Math.hypot(v.x,v.y);
+  if(L<1e-6)return;
+  var n={x:v.x/L,y:v.y/L},F={x:(SIM.A.x+SIM.T.x)/2,y:(SIM.A.y+SIM.T.y)/2};
+  SIM.c=Math.round((n.x*F.x+n.y*F.y)*100)/100;
+  SIM.theta=Math.round(norm90(Math.atan2(-n.x,n.y)*180/Math.PI));
+  $('#simAngle').value=SIM.theta;$('#simOffset').value=Math.max(-4,Math.min(4,SIM.c));
+  $('#angVal').textContent=SIM.theta+'°';$('#offVal').textContent=SIM.c.toFixed(1);
+}
+function drawSim(){
+  var g='',n=nrm(),d=dvec(),P0={x:n.x*SIM.c,y:n.y*SIM.c};
+  for(var i=-6;i<=6;i++){var a=toS({x:i,y:-3.4}),b=toS({x:i,y:3.4});
+    g+='<line x1="'+a.x+'" y1="'+a.y+'" x2="'+b.x+'" y2="'+b.y+'" stroke="'+gridc()+'" stroke-width="'+(i===0?1.4:.6)+'"/>';}
+  for(var j=-3;j<=3;j++){var a2=toS({x:-6,y:j}),b2=toS({x:6,y:j});
+    g+='<line x1="'+a2.x+'" y1="'+a2.y+'" x2="'+b2.x+'" y2="'+b2.y+'" stroke="'+gridc()+'" stroke-width="'+(j===0?1.4:.6)+'"/>';}
+  g+='<text x="'+(toS({x:6,y:0}).x-16)+'" y="'+(toS({x:6,y:0}).y-6)+'" font-size="13" fill="'+ink()+'">x</text>';
+  g+='<text x="'+(toS({x:0,y:3.4}).x+6)+'" y="'+(toS({x:0,y:3.4}).y+14)+'" font-size="13" fill="'+ink()+'">y</text>';
+  var e1={x:P0.x-d.x*12,y:P0.y-d.y*12},e2={x:P0.x+d.x*12,y:P0.y+d.y*12};
+  var s1=toS(e1),s2=toS(e2);
+  g+='<line x1="'+s1.x+'" y1="'+s1.y+'" x2="'+s2.x+'" y2="'+s2.y+'" stroke="#4ea1ff" stroke-width="12" stroke-opacity=".13"/>';
+  g+='<line x1="'+s1.x+'" y1="'+s1.y+'" x2="'+s2.x+'" y2="'+s2.y+'" stroke="#4ea1ff" stroke-width="4"/>';
+  var lbl=toS({x:P0.x+d.x*3.1+n.x*0.55,y:P0.y+d.y*3.1+n.y*0.55});
+  g+='<text x="'+lbl.x+'" y="'+lbl.y+'" font-size="14" fill="#4ea1ff" font-weight="bold">镜面（对称轴）</text>';
+  var A=toS(SIM.A),Ap=reflect(SIM.A),As=toS(Ap);
+  g+='<line x1="'+A.x+'" y1="'+A.y+'" x2="'+As.x+'" y2="'+As.y+'" stroke="#7ee0c0" stroke-width="2" stroke-dasharray="7 5"/>';
+  var F={x:(SIM.A.x+Ap.x)/2,y:(SIM.A.y+Ap.y)/2},Fs=toS(F);
+  g+='<circle cx="'+Fs.x+'" cy="'+Fs.y+'" r="4" fill="#7ee0c0"/>';
+  var u={x:Ap.x-SIM.A.x,y:Ap.y-SIM.A.y},lu=Math.hypot(u.x,u.y)||1;
+  u={x:u.x/lu,y:u.y/lu};
+  var p1=toS({x:F.x+u.x*0.45+d.x*0.45,y:F.y+u.y*0.45+d.y*0.45});
+  var p2=toS({x:F.x+u.x*0.45+d.x*0.9,y:F.y+u.y*0.45+d.y*0.9});
+  var p3=toS({x:F.x+u.x*0.9+d.x*0.45,y:F.y+u.y*0.9+d.y*0.45});
+  g+='<polyline points="'+p1.x+','+p1.y+' '+p2.x+','+p2.y+' '+p3.x+','+p3.y+'" fill="none" stroke="#7ee0c0" stroke-width="2"/>';
+  var m1=toS({x:(SIM.A.x+F.x)/2,y:(SIM.A.y+F.y)/2}),m2=toS({x:(Ap.x+F.x)/2,y:(Ap.y+F.y)/2});
+  g+='<text x="'+m1.x+'" y="'+(m1.y-6)+'" font-size="13" fill="#7ee0c0">d₁='+distPlane(SIM.A).toFixed(1)+'</text>';
+  g+='<text x="'+m2.x+'" y="'+(m2.y-6)+'" font-size="13" fill="#7ee0c0">d₂='+distPlane(Ap).toFixed(1)+'</text>';
+  g+='<circle cx="'+A.x+'" cy="'+A.y+'" r="9" fill="#ffb84e"/>';
+  g+='<text x="'+(A.x+12)+'" y="'+(A.y-8)+'" font-size="15" fill="#ffb84e" font-weight="bold">A('+SIM.A.x.toFixed(1)+', '+SIM.A.y.toFixed(1)+')</text>';
+  if(SIM.mode==='f'){
+    g+='<circle cx="'+As.x+'" cy="'+As.y+'" r="9" fill="none" stroke="#b69cff" stroke-width="3" stroke-dasharray="4 3"/>';
+    g+='<text x="'+(As.x+12)+'" y="'+(As.y-8)+'" font-size="15" fill="#b69cff" font-weight="bold">A′('+Ap.x.toFixed(1)+', '+Ap.y.toFixed(1)+')</text>';
+  }else{
+    var Ts=toS(SIM.T);
+    g+='<circle cx="'+Ts.x+'" cy="'+Ts.y+'" r="10" fill="none" stroke="#b69cff" stroke-width="3"/>';
+    g+='<text x="'+(Ts.x+12)+'" y="'+(Ts.y-8)+'" font-size="15" fill="#b69cff" font-weight="bold">目标像('+SIM.T.x.toFixed(1)+', '+SIM.T.y.toFixed(1)+')</text>';
+  }
+  $('#simSvg').innerHTML=g;
+  $('#simInfo').innerHTML='<b>物点</b> A('+SIM.A.x.toFixed(1)+', '+SIM.A.y.toFixed(1)+')<br>'
+    +'<b>像点</b> A′('+Ap.x.toFixed(1)+', '+Ap.y.toFixed(1)+')<br>'
+    +'<b>镜面倾角</b> '+SIM.theta+'°　<b>位置</b> '+SIM.c.toFixed(1)+'<br>'
+    +'<b>物到镜面</b> '+distPlane(SIM.A).toFixed(2)+'　<b>像到镜面</b> '+distPlane(Ap).toFixed(2)+'<br>'
+    +'<span style="color:var(--ok)">连线始终被镜面垂直平分</span>';
+}
+function svgPt(e){
+  var svg=$('#simSvg'),pt=svg.createSVGPoint();
+  pt.x=e.clientX;pt.y=e.clientY;
+  var m=svg.getScreenCTM();
+  return m?pt.matrixTransform(m.inverse()):{x:0,y:0};
+}
+function toMath(p){return{x:(p.x-SV.ox)/SV.k,y:(SV.oy-p.y)/SV.k}}
+$('#simSvg').addEventListener('pointerdown',function(e){
+  var p=svgPt(e),A=toS(SIM.A),Ts=toS(SIM.T);
+  if(Math.hypot(p.x-A.x,p.y-A.y)<22){SIM.drag='A';$('#simSvg').setPointerCapture(e.pointerId);return}
+  if(SIM.mode==='i'&&Math.hypot(p.x-Ts.x,p.y-Ts.y)<22){SIM.drag='T';$('#simSvg').setPointerCapture(e.pointerId)}
+});
+$('#simSvg').addEventListener('pointermove',function(e){
+  if(!SIM.drag)return;
+  var m=toMath(svgPt(e));
+  m.x=Math.max(-6,Math.min(6,Math.round(m.x*10)/10));
+  m.y=Math.max(-3.2,Math.min(3.2,Math.round(m.y*10)/10));
+  if(SIM.drag==='A')SIM.A=m; else SIM.T=m;
+  if(SIM.mode==='i')syncInverse();
+  drawSim();
+});
+window.addEventListener('pointerup',function(){SIM.drag=null});
+$('#simAngle').addEventListener('input',function(){
+  SIM.theta=parseFloat(this.value);$('#angVal').textContent=SIM.theta+'°';
+  if(SIM.mode==='i'){SIM.mode='f';setMode('f')}
+  drawSim();
+});
+$('#simOffset').addEventListener('input',function(){
+  SIM.c=parseFloat(this.value);$('#offVal').textContent=SIM.c.toFixed(1);
+  if(SIM.mode==='i'){SIM.mode='f';setMode('f')}
+  drawSim();
+});
+function setMode(m){
+  SIM.mode=m;
+  $('#modeF').className='act'+(m==='f'?'':' ghost');
+  $('#modeI').className='act'+(m==='i'?' ghost':'');
+  if(m==='i'){SIM.A={x:-2.5,y:1.4};SIM.T={x:3,y:2.4};syncInverse()}
+  drawSim();
+}
+$('#modeF').onclick=function(){setMode('f')};
+$('#modeI').onclick=function(){setMode('i')};
+$('#set45').onclick=function(){
+  if(SIM.mode==='i')setMode('f');
+  SIM.theta=45;$('#simAngle').value=45;$('#angVal').textContent='45°';drawSim();
+};
+drawSim();
+
+/* 环节三：坐标数据表与句式 */
+$('#calcTbl').onclick=function(){
+  var cnt=0;
+  for(var i=1;i<=3;i++){
+    var a=parseFloat($('#ta'+i).value),b=parseFloat($('#tb'+i).value);
+    if(isNaN(a)||isNaN(b)){$('#o'+i).textContent='—';continue}
+    $('#o'+i).textContent='('+(-a)+', '+b+')';
+    $('#c'+i).textContent='互为相反数';$('#d'+i).textContent='相同';cnt++;
+  }
+  $('#tblFb').className='fb ok';
+  $('#tblFb').textContent=cnt?('共 '+cnt+' 组数据：a′ = −a，b′ = b —— 规律由你们的数据自己说出来。'):'请先填入物点坐标。';
+};
+$('#demoTbl').onclick=function(){
+  var d=[[3,4],[5,1],[6,3]];
+  for(var i=1;i<=3;i++){$('#ta'+i).value=d[i-1][0];$('#tb'+i).value=d[i-1][1]}
+  $('#calcTbl').click();
+};
+$('#chkFill').onclick=function(){
+  var f1=$('#f1').value.trim(),f2=$('#f2').value.trim(),f3=$('#f3').value.trim(),f4=$('#f4').value.trim();
+  var ok=(f1&&f2&&f3&&f4.indexOf('虚')>=0);
+  $('#fillFb').className='fb '+(ok?'ok':'no');
+  $('#fillFb').innerHTML=ok
+    ? '模型句式成立：看到的"悬空"之物，是盒底物品关于 45° 斜镜所在直线的像，位置由对称轴（垂直平分线）唯一确定，因而是<b>虚像</b>。'
+    : '还差一点：第四空应为<b>虚像</b>（光屏承接不到，是反射光线反向延长线相交而成）；其余三空要点：物在盒底、对称轴是斜镜所在直线、位置由对称轴唯一确定。';
+};
+function paintBack(){
+  var arr=store.g('guess',[]);
+  $('#guessBack').innerHTML=arr.length
+    ? arr.map(function(t){return '<span class="pill big">'+t.replace(/</g,'&lt;')+'</span>'}).join('')
+    : '<span class="note">（还没有录入猜想。可在环节一页面输入，或展示墙上的纸质猜想贴。）</span>';
+}
+paintBack();
+$('#guessAdd').addEventListener('click',paintBack);
+
+/* ================= 环节四 ================= */
+$('#chk3').onclick=function(){
+  var n=($('#ck1').checked?1:0)+($('#ck2').checked?1:0)+($('#ck3').checked?1:0);
+  $('#fb3').className='fb '+(n===3?'ok':'no');
+  $('#fb3').textContent=n===3?'三查全过：等距、垂直、双标注 —— 这张图可以直接进入下一关。'
+    :'还有 '+(3-n)+' 项未通过。请同桌把未通过的那一处具体说出来，并当场改。';
+};
+var errSel={};
+$$('.opt[data-o]').forEach(function(o){
+  o.onclick=function(){o.classList.toggle('sel');errSel[o.dataset.o]=!errSel[o.dataset.o]};
+});
+$('#chkErr').onclick=function(){
+  var s=Object.keys(errSel).filter(function(k){return errSel[k]}).sort();
+  var ok=s.length===2&&s[0]==='A'&&s[1]==='B';
+  $('#fbErr').className='fb '+(ok?'ok':'no');
+  $('#fbErr').innerHTML=ok
+    ? '完全正确。两处错其实是同一件事：它违反了<b>对称轴垂直平分对应点连线</b>——像贴镜子太近（不等距），连线是斜的（不垂直）。'
+    : (s.length?'再想想：判断一幅镜像图对不对，就查"等距"和"垂直"两条。镜面角度是对的（45°），像与物也是等大的。':'请先选择你认为错误的选项。');
+};
+$('#showFix').onclick=function(){var b=$('#fixBox');b.style.display=b.style.display==='none'?'block':'none'};
+var t30=null,tv=30;
+$('#t30').onclick=function(){
+  if(t30)return; tv=30;$('#timerBig').textContent=tv;
+  t30=setInterval(function(){
+    tv--;$('#timerBig').textContent=Math.max(0,tv);
+    $('#timerBig').style.color=tv<=5?'var(--bad)':'var(--acc)';
+    if(tv<=0){clearInterval(t30);t30=null}
+  },1000);
+};
+$('#t30r').onclick=function(){clearInterval(t30);t30=null;tv=30;$('#timerBig').textContent=30;$('#timerBig').style.color='var(--acc)'};
+$('#judge30').onclick=function(){
+  var v=$('#ans30').value.replace(/[（）()\s]/g,'');
+  var ok=(v==='-3,4'||v==='－3,4'||v==='-3，4');
+  var why=$('#why30').value.trim();
+  $('#fb30').className='fb '+(ok?'ok':'no');
+  $('#fb30').innerHTML=ok
+    ? '正确：A′(−3, 4)。'+(why?'你的依据：'+why.replace(/</g,'&lt;'):'依据应是"对称轴垂直平分 AA′，且纵坐标不变"。')
+    : '再想：镜面是 y 轴，物点 (3, 4) 关于 y 轴对称的点是 (−3, 4)。横坐标变号，纵坐标不变。';
+};
+function paintWall(){
+  var w=store.g('wall',[]);
+  $('#wall').innerHTML=w.map(function(r){return '<span class="dotp '+r+'"></span>'}).join('');
+  var n=w.length,r=w.filter(function(x){return x==='r'}).length,rate=n?Math.round(r/n*100):0;
+  $('#wallStat').textContent=n?('已汇总 '+n+' 人，正确率 '+rate+'%。'+(rate>=80?'全班已掌握，可直接进入结项发布。':rate>=50?'过半掌握：请让答对的同学说思路，再出一题逆向题。':'不足一半：回到"垂直平分"再讲一次，暂缓结项发布。')):'';
+}
+$('#addR').onclick=function(){var w=store.g('wall',[]);w.push('r');store.s('wall',w);paintWall()};
+$('#addW').onclick=function(){var w=store.g('wall',[]);w.push('w');store.s('wall',w);paintWall()};
+$('#clrWall').onclick=function(){store.s('wall',[]);paintWall()};
+paintWall();
+
+/* ================= 环节五 ================= */
+$('#saveCard').onclick=function(){
+  var o={};for(var i=1;i<=9;i++)o['k'+i]=$('#k'+i).value;
+  store.s('card',o);
+  $('#fbCard').className='fb ok';$('#fbCard').textContent='已保存到本机（刷新不丢）。';
+};
+$('#loadCard').onclick=function(){
+  var o=store.g('card',null);
+  if(!o){$('#fbCard').className='fb no';$('#fbCard').textContent='没有找到已保存的约束卡。';return}
+  for(var i=1;i<=9;i++)$('#k'+i).value=o['k'+i]||'';
+  $('#fbCard').className='fb ok';$('#fbCard').textContent='已读取。';
+};
+$('#printCard').onclick=function(){window.print()};
+</script>
+</body>
+</html>

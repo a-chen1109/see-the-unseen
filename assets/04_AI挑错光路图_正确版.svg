@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 470" width="1120" height="940" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <rect width="560" height="470" fill="#ffffff"/>
+
+  <text x="20" y="34" font-size="22" font-weight="bold" fill="#111">魔盒光路图 · 正确版（揭晓用）</text>
+  <text x="20" y="60" font-size="16" fill="#27ae60">✓ 对称轴垂直平分对应点连线，像距 = 物距，像与物等大。</text>
+  <line x1="20" y1="72" x2="540" y2="72" stroke="#999" stroke-width="1"/>
+
+  <rect x="100" y="110" width="320" height="290" fill="#fbfbfb" stroke="#333" stroke-width="2.5"/>
+  <rect x="416" y="160" width="10" height="120" fill="#ffffff" stroke="#ffffff" stroke-width="4"/>
+  <text x="432" y="228" font-size="14" fill="#555">观察口</text>
+
+  <line x1="120" y1="380" x2="380" y2="120" stroke="#1f4e79" stroke-width="4"/>
+  <g stroke="#1f4e79" stroke-width="1.6">
+    <line x1="140" y1="391" x2="150" y2="381"/>
+    <line x1="170" y1="391" x2="180" y2="381"/>
+    <line x1="240" y1="391" x2="250" y2="381"/>
+    <line x1="290" y1="391" x2="300" y2="381"/>
+  </g>
+  <text x="384" y="118" font-size="15" fill="#1f4e79" font-weight="bold">45° 镜面</text>
+
+  <!-- 物 -->
+  <rect x="288" y="330" width="24" height="20" fill="#e67e22" stroke="#a04000" stroke-width="2"/>
+  <circle cx="300" cy="340" r="2.5" fill="#a04000"/>
+  <text x="313" y="358" font-size="14" fill="#333">物 A</text>
+
+  <!-- 正确像点 A'=(160,200) -->
+  <rect x="148" y="190" width="24" height="20" fill="none" stroke="#8e44ad" stroke-width="2" stroke-dasharray="5 4"/>
+  <circle cx="160" cy="200" r="2.5" fill="#8e44ad"/>
+  <text x="120" y="182" font-size="14" fill="#8e44ad">像 A′（悬空）</text>
+
+  <!-- 物像连线：垂直镜面，且被镜面平分 -->
+  <line x1="300" y1="340" x2="160" y2="200" stroke="#2980b9" stroke-width="2.4" stroke-dasharray="7 5"/>
+  <text x="212" y="290" font-size="14" fill="#2980b9">物像连线 ⊥ 镜面</text>
+  <!-- 垂足（中点）(230,270) 处的直角符号 -->
+  <g stroke="#27ae60" stroke-width="2.2" fill="none">
+    <polyline points="222,258 222,266 230,266"/>
+  </g>
+  <text x="180" y="258" font-size="13" fill="#27ae60">90°</text>
+  <circle cx="230" cy="270" r="3.5" fill="#27ae60"/>
+  <text x="238" y="284" font-size="13" fill="#27ae60">中点：镜面把 AA′ 平分</text>
+
+  <!-- 等距标注 -->
+  <text x="204" y="312" font-size="14" fill="#333">d₁ = 4.0 cm</text>
+  <text x="176" y="228" font-size="14" fill="#333">d₂ = 4.0 cm</text>
+
+  <!-- 眼睛与光路 -->
+  <g>
+    <ellipse cx="470" cy="215" rx="20" ry="12" fill="#fff" stroke="#333" stroke-width="2"/>
+    <circle cx="470" cy="215" r="5" fill="#333"/>
+    <text x="452" y="248" font-size="14" fill="#333">眼睛</text>
+  </g>
+  <line x1="450" y1="212" x2="300" y2="207" stroke="#16a085" stroke-width="2.4" marker-end="url(#arw2)"/>
+  <line x1="294" y1="206" x2="166" y2="201" stroke="#16a085" stroke-width="2" stroke-dasharray="6 5"/>
+  <text x="330" y="196" font-size="13" fill="#16a085">反射光线反向延长线过像点</text>
+
+  <defs>
+    <marker id="arw2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#16a085"/>
+    </marker>
+  </defs>
+
+  <g font-size="13" fill="#555">
+    <rect x="20" y="410" width="520" height="46" fill="#f7f7f7" stroke="#ddd"/>
+    <text x="30" y="430">对照错误版看：错误版把像画得离镜面太近（d₂ 写成 2.4 cm），并且连线明显倾斜却标了直角。</text>
+    <text x="30" y="449">正确做法：先作垂线定方向，再取等距定点——像的位置由对称轴唯一确定。</text>
+  </g>
+</svg>
