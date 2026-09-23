@@ -8,13 +8,9 @@
 
 ## 在线地址
 
-Push 后由 GitHub Actions 自动部署，地址形如：
+**https://a-chen1109.github.io/see-the-unseen/**
 
-```
-https://<用户名>.github.io/<仓库名>/
-```
-
-首次部署约需 1–3 分钟；之后每次 push 到 `main` 自动更新。
+部署方式：GitHub Pages「Deploy from a branch」，源为 `main` 分支根目录。每次 push 到 `main` 后约 30 秒生效。
 
 ## 操作方式
 
@@ -37,8 +33,9 @@ index.html                 课件本体（全部内容内联，含 CSS/JS）
 assets/                    外部素材
   ├─ 03_AI挑错光路图_错误版.svg
   └─ 04_AI挑错光路图_正确版.svg
-.github/workflows/deploy.yml   GitHub Pages 自动部署流程
 ```
+
+更新课件：替换 `index.html` 后 `git add -A && git commit -m "..."` 并 push 到 `main` 即可。
 
 ## 待补充素材
 
