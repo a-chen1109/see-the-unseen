@@ -351,7 +351,7 @@ img.maxw{width:100%;max-width:640px;border-radius:10px;background:#fff;max-heigh
     真正决定像在哪的，只有一件事：<b>位置</b>。<br>
     所以——把蜡烛抽象成一个<b>点 A</b>。它叫什么、多大、什么颜色，从此与我们无关。
   </div>
-  <div class="tch"><b>教师提示：</b>这一步叫"点化"，是全课第一个抽象动作，务必让学生自己说出"只要位置"，不要替他们说。</div>
+  <div class="tch"><b>教师提示：</b>这一步叫"点化"，是全课第一个抽象动作，务必让学生自己说出"只要位置"，不要替他们说。<b>抛出问题后停顿 3–5 秒</b>，别急着翻页——这一页的价值在学生的思考，不在屏幕上的答案。</div>
 </div>
 </section>
 
@@ -361,6 +361,7 @@ img.maxw{width:100%;max-width:640px;border-radius:10px;background:#fff;max-heigh
   <h2>② 用什么工具研究"位置"？</h2>
   <div class="say">位置要用数来刻画——那就<b>建坐标系</b>。以玻璃板刻线为 y 轴，过物点作 x 轴，白纸就是坐标纸。</div>
   <div class="do">读出物点 A 的坐标 (a, b)，像点 A′ 的坐标 (a′, b′)，填进下表。</div>
+  <div class="hintbox" style="font-size:1.02rem">坐标要带<b>正负号</b>：镜面（y 轴）<b>左侧</b>横坐标为<b>负</b>，<b>右侧</b>横坐标为<b>正</b>。</div>
   <table>
     <tr><th>次数</th><th>物点 A (a, b)</th><th>像点 A′ (a′, b′)</th><th>a 与 a′</th><th>b 与 b′</th></tr>
     <tr><td>1</td><td>(<input id="ta1" class="cell" style="width:58px;display:inline-block">,<input id="tb1" class="cell" style="width:58px;display:inline-block">)</td><td id="o1">—</td><td id="c1">—</td><td id="d1">—</td></tr>
@@ -386,6 +387,7 @@ img.maxw{width:100%;max-width:640px;border-radius:10px;background:#fff;max-heigh
   <div class="say">把这三句合成一句：<span class="key">像与物关于镜面所在直线（对称轴）对称</span>。</div>
   <div class="ask">④ 镜子是斜的呢？这套坐标写法还管用吗？</div>
   <div class="say">魔盒里的镜子是 <b>45°</b> 斜的，它不沿任何坐标轴。这时 a′ = −a 这种漂亮式子……<b>失灵了</b>。</div>
+  <div class="tch"><b>教师提示：</b>本页最容易出现的问题是<b>教师直接把结论念出来</b>。请把"纵坐标相同、横坐标互为相反数、连线被垂直平分"这三句话<b>等学生自己说出来</b>，学生卡住时用追问引导（"a 和 a′ 除了符号，还有什么不一样？"），不要替他们总结。</div>
 </div>
 </section>
 
@@ -413,6 +415,7 @@ img.maxw{width:100%;max-width:640px;border-radius:10px;background:#fff;max-heigh
         <label for="foldSeg">标出对应点连线与对称轴的关系</label>
       </div>
       <button class="act ghost" id="foldClear" style="width:100%;padding:6px">清除我点的点</button>
+      <div class="hintbox" style="font-size:1.05rem;font-weight:600">在图里<b>任意位置单击</b>，可以自己放一个点试试</div>
       <div class="hintbox" id="foldInfo">在图上任意位置<b>点一下</b>，可以自己放一个点，看它的对称点在哪。</div>
     </div>
   </div>
@@ -448,6 +451,7 @@ img.maxw{width:100%;max-width:640px;border-radius:10px;background:#fff;max-heigh
       <label>镜面位置：<span id="offVal">0.0</span></label>
       <input type="range" id="simOffset" min="-4" max="4" value="0" step="0.1">
       <button class="act ghost" id="set45" style="width:100%;margin-top:6px;padding:6px">一键 45° 斜镜</button>
+      <button class="act ghost" id="simReset" style="width:100%;margin-top:6px;padding:6px">恢复初始状态</button>
       <div class="hintbox" id="simInfo"></div>
     </div>
   </div>
@@ -466,9 +470,19 @@ img.maxw{width:100%;max-width:640px;border-radius:10px;background:#fff;max-heigh
     <div style="font-size:1.35rem;margin-bottom:10px"><span class="key">对称轴垂直于对应点连线</span>　+　<span class="key">对称轴平分这条连线</span></div>
     <div class="formula" style="font-size:1.55rem;margin:0">对称轴 <b>垂直平分</b> 两个对应点的连线</div>
   </div>
-  <div class="say">
-    反过来用也成立：<b>想让像出现在哪儿，就把镜面放在物点与目标点连线的垂直平分线上。</b><br>
-    这一句，就是我们后面设计装置的全部依据。
+  <div class="grid2" style="margin-top:8px">
+    <div class="card" style="text-align:left;padding:10px 12px">
+      <div style="font-size:1rem;font-weight:600">只在特殊情况下成立</div>
+      <div style="font-size:.92rem;opacity:.85">坐标写法 a′ = −a、b′ = b，<b>只有镜面恰好与 y 轴重合时才成立</b>，镜子一斜就失灵。</div>
+    </div>
+    <div class="card" style="text-align:left;padding:10px 12px">
+      <div style="font-size:1rem;font-weight:600">镜面怎么转都成立</div>
+      <div style="font-size:.92rem;opacity:.85">"垂直平分"不依赖任何坐标系，<b>镜面转到任意角度、移到任意位置都对</b>。</div>
+    </div>
+  </div>
+  <div class="say" style="margin-top:8px">
+    <span style="font-size:.95rem;opacity:.85">反过来用，也成立——设计装置全靠这一句：</span><br>
+    <span class="key" style="font-size:1.2rem">想让像出现在哪儿，就把镜面放在物点与目标点连线的垂直平分线上。</span>
   </div>
 </div>
 </section>
@@ -481,6 +495,7 @@ img.maxw{width:100%;max-width:640px;border-radius:10px;background:#fff;max-heigh
   <div class="do">
     我们看到"悬空"的那个东西，其实是 ______ 关于 ______ 的像，它的位置由 ______ 唯一确定，所以我看见的是 ______（实像 / 虚像）。
   </div>
+  <div class="say" style="font-size:.95rem;opacity:.85;margin-top:6px">填不出的时候，看输入框里的<b>灰色提示</b>。</div>
   <div class="grid2" style="margin-top:8px">
     <div><label>第一个空（什么物体）</label><input id="f1" placeholder="如：盒底的小物件"></div>
     <div><label>第二个空（关于什么对称）</label><input id="f2" placeholder="如：盒内 45° 斜镜所在的直线"></div>
@@ -489,6 +504,7 @@ img.maxw{width:100%;max-width:640px;border-radius:10px;background:#fff;max-heigh
   </div>
   <button class="act" id="chkFill" style="margin-top:10px">对照标准模型句式</button>
   <div class="fb" id="fillFb"></div>
+  <div class="tch"><b>教师提示：</b>参考答案——盒底的小物件 / 盒内 45° 斜镜所在的直线 / 对称轴（它垂直平分物与像的连线）/ 虚像。学生说不出"对称轴"时，<b>不要直接给答案</b>，改问："想让像正好落在你看到的地方，镜子该放在哪？"用难点②反推，让学生自己说出"垂直平分线上"。</div>
 </div>
 </section>
 
@@ -1162,6 +1178,13 @@ $('#modeI').onclick=function(){setMode('i')};
 $('#set45').onclick=function(){
   if(SIM.mode==='i')setMode('f');
   SIM.theta=45;$('#simAngle').value=45;$('#angVal').textContent='45°';drawSim();
+};
+$('#simReset').onclick=function(){
+  SIM.mode='f';SIM.A={x:-2.5,y:1.4};SIM.T={x:3,y:2.4};SIM.theta=90;SIM.c=0;SIM.drag=null;
+  setMode('f');
+  $('#simAngle').value=90;$('#angVal').textContent='90°';
+  $('#simOffset').value=0;$('#offVal').textContent='0.0';
+  drawSim();
 };
 drawSim();
 
