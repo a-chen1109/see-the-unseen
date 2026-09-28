@@ -204,17 +204,17 @@ img.maxw{width:100%;max-width:640px;border-radius:10px;background:#fff;max-heigh
   <div class="sub">目标：制造一个"说不通"的现象，让你自己提出问题。</div>
 
   <div class="placeholder">
-    <div style="font-size:1.1rem;font-weight:700">此处播放：数字人魔盒挑战视频（≤ 60 秒）</div>
-    <div class="note" style="margin-top:6px;color:inherit">
-      视频资源未到位。请将文件放入 <b>课件/assets/</b> 命名为 <b>magic-box.mp4</b>，刷新页面即可播放。<br>
-      拍摄要点见《资源包/02_魔盒视频分镜脚本.md》。<b>全程不得揭示原理。</b>
+    <div style="font-size:1.1rem;font-weight:700">魔盒挑战视频（37 秒 · 看完先别讨论）</div>
+    <div class="note" id="vHint" style="margin-top:6px;color:inherit">
+      视频加载中……若长时间无画面，请检查 课件/assets/magic-box.mp4 是否存在。
     </div>
     <div id="videoSlot" style="margin-top:8px"></div>
+    <div class="note" style="margin-top:6px;font-size:.85rem;opacity:.75">视频素材：B站 @趣玩魔术解密 · 仅限课堂教学使用 · 结尾以提问收束，未揭示原理</div>
   </div>
 
   <div class="say">
-    先别急着解释。我只是想问一句：<b>你刚才看见的那个东西，真的在那里吗？</b><br>
-    看得见，摸不着——这说明"看见"这件事本身，是可以被安排的。
+    先别急着要答案，我先问一句：<b>你刚才看见的那些硬币，真的不见了吗？</b><br>
+    听得见，看不着——这说明"看见"这件事本身，是可以被安排的。
   </div>
   <div class="ask">它能骗人，我们能不能用同一条规律，让看不见的被看见？</div>
   <div class="tch"><b>教师提示：</b>驱动性问题抛出后要贯穿全课，环节三拆穿魔盒、环节五发布任务都会回到这句话。</div>
@@ -493,18 +493,18 @@ img.maxw{width:100%;max-width:640px;border-radius:10px;background:#fff;max-heigh
   <div class="ask">⑤ 谁上台，把魔盒说穿？</div>
   <div class="say">现在回到课首那个盒子。请用我们刚建立的模型，把这句话补完整。</div>
   <div class="do">
-    我们看到"悬空"的那个东西，其实是 ______ 关于 ______ 的像，它的位置由 ______ 唯一确定，所以我看见的是 ______（实像 / 虚像）。
+    我们看到的那只"空"盒子，其实是 ______ 关于 ______ 的像，它的位置由 ______ 唯一确定，所以我看见的是 ______（实像 / 虚像）。
   </div>
   <div class="say" style="font-size:.95rem;opacity:.85;margin-top:6px">填不出的时候，看输入框里的<b>灰色提示</b>。</div>
   <div class="grid2" style="margin-top:8px">
-    <div><label>第一个空（什么物体）</label><input id="f1" placeholder="如：盒底的小物件"></div>
+    <div><label>第一个空（什么物体的像）</label><input id="f1" placeholder="如：盒内贴花纹的内壁"></div>
     <div><label>第二个空（关于什么对称）</label><input id="f2" placeholder="如：盒内 45° 斜镜所在的直线"></div>
     <div><label>第三个空（由什么确定）</label><input id="f3" placeholder="如：对称轴（垂直平分线）"></div>
     <div><label>第四个空（实像 / 虚像）</label><input id="f4" placeholder="虚像"></div>
   </div>
   <button class="act" id="chkFill" style="margin-top:10px">对照标准模型句式</button>
   <div class="fb" id="fillFb"></div>
-  <div class="tch"><b>教师提示：</b>参考答案——盒底的小物件 / 盒内 45° 斜镜所在的直线 / 对称轴（它垂直平分物与像的连线）/ 虚像。学生说不出"对称轴"时，<b>不要直接给答案</b>，改问："想让像正好落在你看到的地方，镜子该放在哪？"用难点②反推，让学生自己说出"垂直平分线上"。</div>
+  <div class="tch"><b>教师提示：</b>参考答案——盒内贴花纹的内壁 / 盒内 45° 斜镜所在的直线 / 对称轴（它垂直平分物与像的连线）/ 虚像。要点：硬币被 45° 斜镜挡在镜后，我们从窗口看到的"盒内空间"其实是内壁的虚像，所以"明明有硬币却看不见"。学生说不出"对称轴"时，<b>不要直接给答案</b>，改问："想让像正好落在你看到的地方，镜子该放在哪？"用难点②反推。（视频效果为"硬币消失"；若课堂改用"悬空展示"魔盒，第一空换回"盒底的小物件"即可，骨架不变。）</div>
 </div>
 </section>
 
@@ -599,7 +599,7 @@ img.maxw{width:100%;max-width:640px;border-radius:10px;background:#fff;max-heigh
   <div class="task"><h4>① 潜望镜 <span class="star">★ 推荐</span></h4>
     <p style="margin:0">两面 45° 镜面两次反射成像，像与物经过<b>两次</b>轴对称。<br><span class="note">材料：硬纸板、两面小镜、胶带</span></p></div>
   <div class="task"><h4>② 魔盒"悬空"展示台 <span class="star">★ 推荐</span></h4>
-    <p style="margin:0">盒内 45° 斜镜让盒底物品的像"悬浮"在上方——就是课首那个盒子的复刻。<br><span class="note">材料：鞋盒、一面小镜、小物件</span></p></div>
+    <p style="margin:0">盒内 45° 斜镜让盒底物品的像"悬浮"在上方——和课首魔盒同一个原理，效果正相反：课首是"明明有却看不见"，这个是"明明没有却看得见"。<br><span class="note">材料：鞋盒、一面小镜、小物件</span></p></div>
   <div class="task"><h4>③ 万花筒</h4>
     <p style="margin:0">三面镜围成三棱镜筒，多次对称成像。<br><span class="note">材料：纸筒、三面窄镜、彩色碎片</span></p></div>
   <div class="task"><h4>④ 反射"隐身"演示器</h4>
@@ -915,6 +915,7 @@ paintClock();
   var v=document.createElement('video');
   v.src='assets/magic-box.mp4'; v.controls=true; v.className='maxw'; v.style.maxHeight='40vh';
   v.onerror=function(){$('#videoSlot').innerHTML='<div class="note" style="color:inherit">（未检测到 assets/magic-box.mp4，当前显示占位）</div>'};
+  v.addEventListener('loadedmetadata',function(){var h=$('#vHint'); if(h)h.style.display='none';});
   $('#videoSlot').appendChild(v);
 })();
 
@@ -1210,8 +1211,8 @@ $('#chkFill').onclick=function(){
   var ok=(f1&&f2&&f3&&f4.indexOf('虚')>=0);
   $('#fillFb').className='fb '+(ok?'ok':'no');
   $('#fillFb').innerHTML=ok
-    ? '模型句式成立：看到的"悬空"之物，是盒底物品关于 45° 斜镜所在直线的像，位置由对称轴（垂直平分线）唯一确定，因而是<b>虚像</b>。'
-    : '还差一点：第四空应为<b>虚像</b>（光屏承接不到，是反射光线反向延长线相交而成）；其余三空要点：物在盒底、对称轴是斜镜所在直线、位置由对称轴唯一确定。';
+    ? '模型句式成立：看到的那只"空"盒子，是盒内壁关于 45° 斜镜所在直线的像，位置由对称轴（垂直平分线）唯一确定，因而是<b>虚像</b>——硬币就在镜后，只是被镜子"藏"了起来。'
+    : '还差一点：第四空应为<b>虚像</b>（光屏承接不到，是反射光线反向延长线相交而成）；其余三空要点：看到的是盒内壁的像、对称轴是斜镜所在直线、位置由对称轴唯一确定。';
 };
 function paintBack(){
   var arr=store.g('guess',[]);
