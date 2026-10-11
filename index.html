@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>看见看不见 —— 平面镜成像 × 镜面对称（课堂课件）</title>
-<style>
+<html lang="zh-CN" style="--fs: 19px;" data-page-node-id="al3RmE50SG007zGFULvf02"><head data-page-node-id="4HqWJOuSxG0y0KjbbjbTbM">
+<meta charset="utf-8" data-page-node-id="BJkoP3FArjgLhWg4dPq7Dg">
+<meta name="viewport" content="width=device-width,initial-scale=1" data-page-node-id="ekmKPYOdjRnzlHEIkiWu6y">
+<title data-page-node-id="1dLEaDYrWyLNMcwmtwC0d9">看见看不见 —— 平面镜成像 × 镜面对称（课堂课件）</title>
+<style data-page-node-id="QcGervRZfA8vJEMGBM6otw">
 :root{
   --bg:#0f1420; --panel:#171e2e; --panel2:#1e2739; --line:#2c3750;
   --tx:#e8edf7; --tx2:#9fb0cc; --acc:#4ea1ff; --acc2:#7ee0c0;
@@ -39,6 +38,48 @@ body{background:var(--bg);color:var(--tx);font-family:"Microsoft YaHei","PingFan
 @keyframes slideInL{from{opacity:0;transform:translateX(-40px)}to{opacity:1;transform:none}}
 @media(prefers-reduced-motion:reduce){.slide.on.fwd,.slide.on.back{animation:none}}
 .wrap{max-width:1000px;margin:0 auto}
+/* 首页封面：内容垂直+水平居中 */
+.slide.cover{display:none;padding:0;overflow:hidden}
+.slide.cover.on{display:flex;align-items:center;justify-content:center}
+.coverWrap{width:100%;max-width:1000px;margin:0 auto}
+.coverWrap .card{margin:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.coverWrap h1{margin:0 0 10px;line-height:1.15}
+.coverWrap .sub{margin-bottom:0;line-height:1.6}
+/* 目录页：左标题 + 右环节列表 */
+.toc{display:flex;align-items:center;gap:5vw;width:100%}
+.tocLeft{flex:0 0 auto;text-align:center;padding-right:5vw;border-right:2px solid var(--line)}
+.tocTitle{font-size:5.4rem;font-weight:700;letter-spacing:.22em;line-height:1.1;color:var(--tx);text-indent:.22em}
+.tocSub{margin-top:14px;font-size:1.05rem;letter-spacing:.42em;color:var(--tx2);text-indent:.42em}
+.tocList{flex:1 1 auto;list-style:none;margin:0;padding:0;counter-reset:toc}
+.tocList li{display:flex;align-items:center;gap:22px;padding:2.1vh 0;border-bottom:1px solid var(--line)}
+.tocList li:last-child{border-bottom:none}
+.tocList .num{flex:0 0 auto;width:64px;height:64px;border-radius:50%;background:var(--acc);color:#fff;font-weight:700;font-size:1.6rem;display:flex;align-items:center;justify-content:center}
+.tocList .txt{font-size:2.15rem;font-weight:700;letter-spacing:.02em;line-height:1.25}
+/* 环节一：标题留在顶部，视频+问题整体在剩余空间垂直居中，并拉开彼此间距 */
+.slide:not(.cover) .wrap.flowPage{display:flex;flex-direction:column;min-height:calc(100vh - var(--barT) - var(--barB) - 38px)}
+.wrap.flowPage > h2{flex:0 0 auto;margin-bottom:0}
+.flowBody{flex:1 1 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9vh;padding:3vh 0}
+.flowBody > .placeholder{width:100%;margin:0}
+.flowBody > .say{margin:0;text-align:center;width:100%}
+.flowBody > .say b{display:inline-block;line-height:1.5}
+.flowBody > .do,.flowBody > .card{width:100%;margin:0}
+.flowBody > .formula,.flowBody > .ask{width:100%;margin:0}
+.flowBody > .player{width:100%;margin:0}
+.flowBody > .sub{margin:0;text-align:center;width:100%}
+.flowBody > h2{width:100%;margin:0}
+.flowBody > table{width:100%;margin:0;font-size:1.06rem}
+.flowBody th,.flowBody td{padding:15px 12px}
+.flowBody th{white-space:nowrap}
+.flowBody td input{font-size:1.05rem;padding:11px 9px}
+.flowBody > .btnRow{display:flex;justify-content:center;gap:14px;width:100%;flex-wrap:wrap}
+/* 建系交互演示：左展示区 + 右步骤选择 */
+.buildDemo{display:flex;gap:14px;align-items:stretch;margin:6px 0}
+.bdStage{flex:1 1 auto;min-width:0;height:27vh;border:1px solid var(--line);border-radius:12px;padding:8px;background:rgba(127,140,170,.06)}
+.bdStage svg{width:100%;height:100%;display:block}
+.bdSide{flex:0 0 176px;display:flex;flex-direction:column;gap:9px;justify-content:center}
+.bdSide .act{width:100%}
+.bdCap{font-size:.95rem;line-height:1.55;opacity:.9;margin-top:2px}
+.wrap.wideTbl{max-width:1180px}
 /* 左右大翻页按钮 */
 .arrow{position:fixed;top:50%;transform:translateY(-50%);z-index:40;width:46px;height:78px;border-radius:14px;background:var(--panel);border:1px solid var(--line);color:var(--tx);font-size:1.5rem;cursor:pointer;opacity:.75;display:flex;align-items:center;justify-content:center}
 .arrow:hover{opacity:1;border-color:var(--acc);color:var(--acc)}
@@ -70,6 +111,16 @@ h3{font-size:1.08rem;margin:10px 0 4px;color:var(--acc2)}
 .tch{display:none;background:rgba(255,184,78,.1);border:1px dashed var(--warn);border-radius:10px;padding:9px 13px;margin:9px 0;font-size:.86rem;color:var(--warn)}
 body.teacher .tch{display:block}
 .placeholder{background:repeating-linear-gradient(45deg,rgba(255,184,78,.12),rgba(255,184,78,.12) 10px,transparent 10px,transparent 20px);border:2px dashed var(--warn);border-radius:12px;padding:12px;text-align:center;color:var(--warn)}
+.vidEntry{display:inline-flex;flex-direction:column;align-items:center;gap:10px;background:none;border:none;cursor:pointer;color:var(--warn);font-family:inherit;font-size:1.02rem;font-weight:700;padding:8px 20px}
+.vidEntry .playIco{width:64px;height:64px;border-radius:50%;background:var(--warn);color:#1b2330;font-size:24px;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(0,0,0,.3);transition:transform .15s}
+.vidEntry:hover .playIco{transform:scale(1.08)}
+.vidEntry small{font-weight:400;opacity:.75;font-size:.8rem}
+#videoModal{position:fixed;inset:0;background:rgba(10,14,22,.88);display:none;align-items:center;justify-content:center;z-index:9999}
+#videoModal.open{display:flex}
+#videoModal .vmBox{width:min(940px,94vw);position:relative}
+#videoModal video{width:100%;max-height:78vh;border-radius:12px;background:#000;display:block}
+#videoModal .vmBar{display:flex;justify-content:flex-end;gap:10px;margin-top:10px}
+#videoModal .vmNote{color:var(--warn);font-size:.9rem;text-align:center;padding:14px 6px;display:none}
 button.act{background:var(--acc);color:#fff;border:none;border-radius:10px;padding:8px 16px;font-size:.95rem;cursor:pointer;font-family:inherit}
 button.act:hover{filter:brightness(1.1)}
 button.act.ghost{background:transparent;border:1px solid var(--acc);color:var(--acc)}
@@ -99,13 +150,23 @@ td.l{text-align:left}
 .sliders label{display:block;font-size:.82rem;color:var(--tx2);margin:8px 0 2px}
 .hintbox{font-size:.82rem;color:var(--tx2);background:var(--panel2);border-radius:10px;padding:8px;margin-top:8px}
 /* ---------- 轴对称建模页 ---------- */
-.foldWrap{display:grid;grid-template-columns:1fr 236px;gap:12px}
+.foldWrap{display:grid;grid-template-columns:1fr 300px;gap:12px}
 @media(max-width:900px){.foldWrap{grid-template-columns:1fr}}
 #foldBox{background:var(--panel2);border-radius:12px;padding:4px}
 #foldSvg{width:100%;height:auto;display:block;max-height:44vh;touch-action:none;cursor:crosshair}
 .chkrow{display:flex;align-items:flex-start;gap:8px;font-size:.85rem;color:var(--tx2);margin:8px 0 2px}
 .chkrow input{width:auto;margin-top:3px;flex:none}
 .chkrow label{margin:0;line-height:1.5}
+.foldWrap .sliders .act{padding:4px 10px;font-size:.9rem}
+.foldWrap .sliders .hintbox{padding:6px;margin-top:6px;font-size:.78rem}
+.foldWrap .sliders label{margin:4px 0 2px}
+.foldWrap .chkrow{margin:4px 0 2px}
+#foldSvg{height:280px;width:auto;max-width:100%;margin:0 auto}
+.tblTight .flowBody th,.tblTight .flowBody td{padding:3px 7px}
+.tblTight .flowBody > table{font-size:.88rem}
+.tblTight .flowBody > .say{padding:8px 15px}
+.tblTight .flowBody > .ask{padding:8px 15px}
+.tblTight .flowBody > .do{padding:6px 15px}
 /* ---------- 练习 ---------- */
 .opt{display:block;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:8px 13px;margin:5px 0;cursor:pointer;font-size:.95rem}
 .opt:hover{border-color:var(--acc)}
@@ -127,529 +188,425 @@ img.maxw{width:100%;max-width:640px;border-radius:10px;background:#fff;max-heigh
   .slide{display:block!important;height:auto;overflow:visible;page-break-after:always;animation:none!important}
 }
 </style>
-</head>
-<body>
-<canvas id="bgCanvas"></canvas>
-
-<div id="bar">
-  <span class="title">看见看不见</span>
-  <button class="navb on" data-sec="p0">首页</button>
-  <button class="navb" data-sec="p1">一 入项</button>
-  <button class="navb" data-sec="p2">二 探究</button>
-  <button class="navb" data-sec="p3">三 建模</button>
-  <button class="navb" data-sec="p4">四 反馈</button>
-  <button class="navb" data-sec="p5">五 结项</button>
-  <div class="tools">
-    <span id="clock">45:00</span>
-    <button class="tbtn" id="ckStart">开始</button>
-    <button class="tbtn" id="ckReset">归零</button>
-    <button class="tbtn" id="fsUp">A+</button>
-    <button class="tbtn" id="fsDn">A-</button>
-    <button class="tbtn" id="theme">投屏浅色</button>
-    <button class="tbtn" id="tchMode">教师提示：关</button>
+<style id="__dm_no_drag_style__">* { -webkit-user-drag: none !important; }</style><style id="__dm_bindable_badge_style__">[data-sp-bindable="database"]{outline:1px dashed #0088ff;outline-offset:2px;border-radius:4px;}[data-sp-bindable="database"] *{pointer-events:none !important;transition:none !important;animation:none !important;}[data-sp-bindable="database"]{transition:none !important;animation:none !important;}</style></head>
+<body data-page-node-id="VjEcx3HsvKc2N5ldAFMSV1" style="position: relative;">
+<!-- 魔盒视频播放模态层（全局，点击入口打开；须在主脚本块之前，保证绑定时可取到节点） -->
+<div id="videoModal">
+  <div class="vmBox">
+    <video id="mbVideo" src="assets/magic-box.mp4" controls preload="metadata"></video>
+    <div id="vmFail" class="vmNote">视频加载失败：请确认与本文件同级的 assets/magic-box.mp4 存在，或将课件整个文件夹拷贝到本机后重新打开。</div>
+    <div class="vmBar">
+      <button class="act ghost" id="vmFull">⛶ 全屏播放</button>
+      <button class="act" id="vmClose">关闭 ✕</button>
+    </div>
   </div>
-  <div id="barProg"></div>
+</div>
+<canvas id="bgCanvas" width="1600" height="1327" style="width: 1067px; height: 885px;" data-page-node-id="HNAa2fwaKXBaDOsDYctjdB"></canvas>
+
+<div id="bar" data-page-node-id="FuJmtWJaf3o8buKOMukwwk">
+  <span class="title" data-page-node-id="QA0OmZQQ9hROjt4Uwae20J">看见看不见</span>
+  <button class="navb" data-sec="p0" data-page-node-id="S1KRtG2UKQtpcjsqHQ9uFF">首页</button>
+  <button class="navb" data-sec="p1" data-page-node-id="AABzrAIopE6iEm0m3DI8WQ">一 入项</button>
+  <button class="navb" data-sec="p2" data-page-node-id="Gon5fvqT4AbLbVAGdWstr6">二 探究</button>
+  <button class="navb" data-sec="p3" data-page-node-id="ZmbYyB15HyoGH2RDy0W536">三 建模</button>
+  
+  <button class="navb on" data-sec="p4" data-page-node-id="RpwxA0Q8HT7Gv8YpVBrKyU">四 结项</button>
+  <div class="tools" data-page-node-id="1B2COhlRKYeZUGiDuFTRUA"><button class="tbtn" id="dotTgl" title="背景动态点：开 / 关" style="opacity: 1;" data-page-node-id="iSJRU4j9djFGJ8F0Tk27pH">· 点 开</button>
+    <span id="clock" style="color: var(--acc);" data-page-node-id="bvyZrAGsMQsX6iVffZ7MuY">45:00</span>
+    <button class="tbtn" id="ckStart" data-page-node-id="fPmFLNQPnCjd2TjJqdzCEk">开始</button>
+    <button class="tbtn" id="ckReset" data-page-node-id="2SDFs8PfsdjVxKzOYIevP3">归零</button>
+    <button class="tbtn" id="fsUp" data-page-node-id="bRWPn9bNbrgHgnSIHpqEzN">A+</button>
+    <button class="tbtn" id="fsDn" data-page-node-id="dPFfqquAbZftODZpHOkleR">A-</button>
+    <button class="tbtn" id="theme" data-page-node-id="cxZjtyJzIWf6BN1JTOtPbh">投屏浅色</button>
+    <button class="tbtn" id="tchMode" data-page-node-id="1aCKRFQGFPFeN0LGiBbRV2">教师提示：关</button>
+  </div>
+  <div id="barProg" style="width: 100%;" data-page-node-id="8lvsAfNXCdHBCCEeKrk0yk"></div>
 </div>
 
-<button class="arrow" id="aL">‹</button>
-<button class="arrow" id="aR">›</button>
+<button class="arrow" id="aL" data-page-node-id="ZWjqAV7yBftTlkLYRCcP2y">‹</button>
+<button class="arrow" id="aR" data-page-node-id="akNN200UW2bbi6MEHvdnrk">›</button>
 
-<div id="deck">
+<div id="deck" data-page-node-id="8Pq3BZwOKfPFk7GVrWeaDe">
 
 <!-- ============ P1 首页 ============ -->
-<section class="slide" data-sec="p0" data-name="首页 · 驱动性问题">
-<div class="wrap">
-  <div class="card" style="text-align:center;padding:6vh 18px">
-    <h1 style="font-size:2.6rem">看见看不见</h1>
-    <div class="sub" style="margin-bottom:18px">平面镜成像 × 镜面对称 · 跨学科数学建模 · 八年级 · 1 课时</div>
-    <div style="font-size:1.45rem;font-weight:700;line-height:1.75">
-      魔盒骗过了所有人的眼睛——<br>
-      <span style="color:var(--warn)">它能骗人，我们能不能用同一条规律，让看不见的被看见？</span>
-    </div>
-    <div class="note" style="margin-top:14px">这句话是今天全课的主线，每个环节都会回到它。</div>
-  </div>
-  <div class="grid3">
-    <div class="card"><h3>今天要学什么</h3>
-      <p style="margin:0">用一次实验拿到证据，用一个数学模型说清"像在哪"，再用这个模型设计一件能骗过眼睛的装置。</p></div>
-    <div class="card"><h3>两门课怎么合作</h3>
-      <p style="margin:0"><b>物理</b>负责给证据（实验测出像的位置），<b>数学</b>负责给语言（用对称和坐标说清规律）。</p></div>
-    <div class="card"><h3>下课时要交什么</h3>
-      <p style="margin:0">一件可演示的镜像装置 + <b>双标注设计图</b> + <b>一句建模说明</b>。</p></div>
+<section class="slide cover" data-sec="p0" data-name="首页 · 驱动性问题" data-page-node-id="Wpkfgla6eL37va0OTnFKrl" style="">
+<div class="wrap coverWrap" data-page-node-id="WwZONBo3zFcNkftV6CRXHn">
+  
+  <div class="card" style="text-align: center; padding: calc(7vh + 30px) 32px 7vh; border-color: transparent; background-color: transparent;" data-page-node-id="cR85ndOIVum53F7DkLVclx">
+    <h1 style="font-size: 96px; font-weight: 700; margin-bottom: 40px;" data-page-node-id="JeoXfUdNtWcqi1QxiIK5tE">看见“看不见”</h1>
+    <div class="sub" style="margin-bottom: 18px; font-size: 32px; white-space: pre-wrap;" data-page-node-id="LUGrVuNYcNVgcRUFwHIIBh">平面镜成像 × 镜面对称 · 跨学科数学建模 · 八年级 ​</div>
+    
+    
+  </div><div class="grid3" data-page-node-id="UKsngDyLKD5In2W9bTLACi">
+    
+    
+    
   </div>
 </div>
 </section>
 
 <!-- ============ P2 路线图 ============ -->
-<section class="slide" data-sec="p0" data-name="首页 · 课堂路线图">
-<div class="wrap">
-  <h2>课堂路线图</h2>
-  <div class="sub">五个环节，一步一步把"骗术"变成模型</div>
-  <table>
-    <tr><th>环节</th><th>做什么</th><th>建议用时</th></tr>
-    <tr><td>一 入项·魔盒挑战</td><td class="l">看视频，写下猜想</td><td>5 分钟</td></tr>
-    <tr><td>二 探究·成像规律与虚像</td><td class="l">三步实验，归纳等大、等距、连线垂直，搞懂虚像</td><td>12 分钟</td></tr>
-    <tr><td>三 建模·把对称交给数学</td><td class="l">点化 → 建系 → 归纳 → 一般化 → 拆穿魔盒</td><td>13 分钟</td></tr>
-    <tr><td>四 反馈·三关检验</td><td class="l">会画、懂原理、会迁移</td><td>8 分钟</td></tr>
-    <tr><td>五 结项启动·任务发布</td><td class="l">领约束卡，认领备选题</td><td>7 分钟</td></tr>
-  </table>
-  <div class="say">左右方向键或屏幕两侧的箭头可以翻页；每一环节的内容都压缩在一屏里。</div>
-  <div class="tch"><b>教师提示：</b>教学设计未给出各环节分钟数，上表为建议分配，合计 45 分钟。试讲后请按实际调整并填回。</div>
-</div>
-</section>
+
 
 <!-- ============ P3 环节一 视频 ============ -->
-<section class="slide" data-sec="p1" data-name="环节一 · 入项：魔盒挑战">
-<div class="wrap">
-  <h2>环节一 · 入项：魔盒挑战</h2>
-  <div class="sub">目标：制造一个"说不通"的现象，让你自己提出问题。</div>
+<section class="slide cover" data-sec="p0" data-name="首页 · 课堂路线图" data-page-node-id="kfWhtApmX3Yb11vWR9jcSQ">
+<div class="wrap coverWrap" data-page-node-id="9DV1cxAkx7GpFCTzJL8Jzy">
+  <div class="toc" data-page-node-id="NRT5lHNfCnlz4fyJsqJRLB">
+    <div class="tocLeft" data-page-node-id="QNQHnFdPYFFublIalFwZG8">
+      <div class="tocTitle" data-page-node-id="SULdcOTnRLRXEw0at0ZzOR">目录</div>
+      
+    </div>
+    <ol class="tocList" data-page-node-id="iYYG0s0yKgUkAmKVqzCiG7">
+      <li data-page-node-id="UYlV9MuEwOTZg5CkM5Q2WW"><span class="num" data-page-node-id="8Flg43MDoHU4VsYqNf8Zcp">一</span><span class="txt" data-page-node-id="qeRpL0211F5QUcUDioG361">入项 · 魔盒挑战</span></li>
+      <li data-page-node-id="kxDbtZDvc2Z5GVhYW94CZS"><span class="num" data-page-node-id="bMMTzCssV5lMndTDY5crML">二</span><span class="txt" data-page-node-id="OeoGSVh02G1Kic4ihLicY7">探究 · 成像规律与虚像</span></li>
+      <li data-page-node-id="Rx0thhIVk7SrnH8rVvJmzg"><span class="num" data-page-node-id="mAVvV8CHS2DVBx34jfVkDX">三</span><span class="txt" data-page-node-id="YaBu6paEwYbAfKcxnFFIws">建模 · 把对称交给数学</span></li>
+      
+      <li data-page-node-id="HDhyiP8hfw0TsZkPXEQlkE"><span class="num" data-page-node-id="SR9dYzCz6KU1KAyRGs5Ekq">四</span><span class="txt" data-page-node-id="YMP4LxGn1s7TDlbiJHt5MZ">结项启动 · 任务发布</span></li>
+    </ol>
+  </div>
+</div>
+</section><section class="slide" data-sec="p1" data-name="环节一 · 入项：魔盒挑战" data-page-node-id="1PU4fMN4UioN28yEqXhEBX">
+<div class="wrap flowPage" data-page-node-id="BLk5VedBLHbZn9F1UzaQGC">
+  <h2 data-page-node-id="VWC7stjOluxHu3VAoDTeHG" style="text-align: center; white-space: pre-wrap; font-size: 48px;">环节一 魔盒挑战​</h2>
+  
 
-  <div class="placeholder">
-    <div style="font-size:1.1rem;font-weight:700">魔盒挑战视频（37 秒 · 看完先别讨论）</div>
-    <div class="note" id="vHint" style="margin-top:6px;color:inherit">
+  <div class="flowBody" data-page-node-id="S0HVcWtMhxo0KkOvnaABaX">
+  <div class="placeholder" data-page-node-id="WUDiFyhPG8TW4ssh7uwwKr">
+    <div style="font-size: 28px; font-weight: 700;" data-page-node-id="ulLOOAnlBm89AZjtUdYp70">魔盒挑战视频​</div>
+    <div class="note" id="vHint" style="margin-top: 6px; color: inherit; display: none;" data-page-node-id="64fBj09vdEEpzy4C5JUIqk">
       视频加载中……若长时间无画面，请检查 课件/assets/magic-box.mp4 是否存在。
     </div>
-    <div id="videoSlot" style="margin-top:8px"></div>
-    <div class="note" style="margin-top:6px;font-size:.85rem;opacity:.75">视频素材：B站 @趣玩魔术解密 · 仅限课堂教学使用 · 结尾以提问收束，未揭示原理</div>
+    <div id="videoSlot" style="margin-top:8px" data-page-node-id="8Ww9nOnrvxoVWEXHySbWwL"><button id="videoEntry" class="vidEntry" data-page-node-id="aRX7GjLkdSpriO1xYE1h8M"><span class="playIco">▶</span><span>点击播放 · 魔盒挑战视频</span><small>支持全屏播放</small></button></div>
+    
   </div>
 
-  <div class="say">
-    先别急着要答案，我先问一句：<b>你刚才看见的那些硬币，真的不见了吗？</b><br>
-    听得见，看不着——这说明"看见"这件事本身，是可以被安排的。
+  <div class="say" data-page-node-id="mXSIlgTzZ9I3jUTrBRGS20" style=""><b data-page-node-id="P4gF05BfC5KfchG4Ray7jU" style="font-size: 24px; text-align: center; white-space: pre-wrap;">我们刚才看见的那些硬币，真的不见了吗？​​</b><br data-page-node-id="Dp67oojvHUVzqWXE8A6Xsv"><br data-page-node-id="pNGvY47CrqXZyupQlGXqCL"></div>
   </div>
-  <div class="ask">它能骗人，我们能不能用同一条规律，让看不见的被看见？</div>
-  <div class="tch"><b>教师提示：</b>驱动性问题抛出后要贯穿全课，环节三拆穿魔盒、环节五发布任务都会回到这句话。</div>
+  
+  <div class="tch" data-page-node-id="9gA23Fwuy0KDXEGTtySC5B"><b data-page-node-id="OieBxpoug7zILERiulZHwj">教师提示：</b>驱动性问题抛出后要贯穿全课，环节三拆穿魔盒、环节四发布任务都会回到这句话。</div>
 </div>
 </section>
 
 <!-- ============ P4 环节一 猜想贴 ============ -->
-<section class="slide" data-sec="p1" data-name="环节一 · 写下你的猜想">
-<div class="wrap">
-  <h2>写下你的猜想</h2>
-  <div class="do">
-    <b>你的任务</b>：在猜想贴上写一句话——你猜盒子里发生了什么？<br>
-    不用写"正确"，写你<b>此刻真实的想法</b>。写完贴在桌面右上角。
+<section class="slide" data-sec="p1" data-name="环节一 · 写下你的猜想" data-page-node-id="gVnbZUToeusRDg24IXABEn">
+<div class="wrap flowPage" data-page-node-id="XUDQ1uXShu9f1d6HVOinag">
+  <h2 data-page-node-id="A2AiHEl7sYrzXM5BDTqDhy" style="font-size: 48px; text-align: center;">写下你的猜想</h2>
+  <div class="flowBody" style="gap:7vh" data-page-node-id="ECx9EqwRSwwMaDOr995qD6">
+  <div class="do" data-page-node-id="MwHKRMb2RJ3cpajdRK0rOS" style="font-size: 28px;">在猜想贴上，写你此刻真实的想法。写完贴在桌面右上角。<br data-page-node-id="Ye7H28L8fQQ7BGI4bzrwbM"></div>
+  <div class="card" data-page-node-id="ijFfzI4szwcfxOV05CVAZx">
+    <h3 data-page-node-id="NulfRcEf3kSWztpxAVdYGf" style="font-size: 24px;">猜想贴​</h3>
+    <input id="guessIn" placeholder="我猜：盒子里……" style="margin-bottom:8px" data-page-node-id="ZlVcAFUAyh4DRPuazPtyUB">
+    <button class="act" id="guessAdd" data-page-node-id="lfDiIYd0qU0dGiLDMhotZM">贴上墙</button>
+    <button class="act ghost" id="guessClr" data-page-node-id="qyAwb8TdvN7v9XabrIAIIh">清空</button>
+    <div id="guessWall" style="margin-top:10px" data-page-node-id="gTO2ifBvo6kfIzkFZsKSSi"><span class="note" data-page-node-id="54nGQCu427sLSYStGS5Yba">还没有人贴上来。</span></div>
+    <div class="tch" data-page-node-id="PxufnJ3Do70uPu4akTGUeB"><b data-page-node-id="JGiOWzZ3SlXjYcXubYDj9D">教师提示：</b>这一栏要<b data-page-node-id="tE4kDqspkALY1inw7E6Rgw">留到环节三第 5 步回收</b>。纸质便利贴请统一贴后墙并指定专人保管；本页输入则已存本地，刷新不丢。</div>
   </div>
-  <div class="card">
-    <h3>猜想贴（在本页输入，投屏给全班看）</h3>
-    <input id="guessIn" placeholder="我猜：盒子里……" style="margin-bottom:8px">
-    <button class="act" id="guessAdd">贴上墙</button>
-    <button class="act ghost" id="guessClr">清空</button>
-    <div id="guessWall" style="margin-top:10px"></div>
-    <div class="tch"><b>教师提示：</b>这一栏要<b>留到环节三第 5 步回收</b>。纸质便利贴请统一贴后墙并指定专人保管；本页输入则已存本地，刷新不丢。</div>
+  <div class="say" data-page-node-id="KNVz17Glr0g8jaFcpvFFLA" style="font-size: 28px; white-space: pre-wrap;">大家的猜想都不一样。谁对？​</div>
   </div>
-  <div class="say">大家的猜想都不一样。谁对？<b>靠争没用，靠证据。</b>所以下一环节我们进实验室。</div>
 </div>
 </section>
 
 <!-- ============ P5 环节二 三步实验 ============ -->
-<section class="slide" data-sec="p2" data-name="环节二 · 三步实验">
-<div class="wrap">
-  <h2>环节二 · 探究：成像规律与虚像</h2>
-  <div class="sub">目标：拿到三条能写进坐标系的证据。</div>
-  <div class="say">
-    要拆穿魔盒，我得先知道一条最朴素的规律：<b>镜子里的像，到底在哪？</b><br>
-    猜没用，测出来才算。接下来三步，每一步都在回答一个具体的问题。
-  </div>
-  <div class="player" id="expPlayer">
-    <div class="stage"><div id="expStage" style="width:100%;max-width:700px"></div></div>
-    <div class="ctrl">
-      <button class="act" data-p="play">播放</button>
-      <button class="act ghost" data-p="prev">上一步</button>
-      <button class="act ghost" data-p="next">下一步</button>
-      <button class="act ghost" data-p="reset">重置</button>
-      <div class="dots" id="expDots"></div>
+<section class="slide" data-sec="p2" data-name="环节二 · 三步实验" data-page-node-id="GWjfjF01fT54yB7Xqwj5gA">
+<div class="wrap flowPage" data-page-node-id="6k92RrJ3hub9Zjn5lpBpQr">
+  <h2 data-page-node-id="pGHs7TNEB7OYsF9st1Co2V" style="font-size: 48px; text-align: center;">环节二 · 成像规律与虚像​</h2>
+  <div class="flowBody" style="gap:5vh" data-page-node-id="C8jKG7nZcppVZHLJDhvuFA">
+  <div class="say" data-page-node-id="2oZ0ovsTtCUrNYyTLtCFm4" style="font-size: 24px;">
+    要拆穿魔盒，我得先知道一条最朴素的规律：<b data-page-node-id="Fm8RbPfMD9AWKgbr8nLT6s">镜子里的像，到底在哪？</b><br data-page-node-id="oqQCHGY3JiR0AS1JPyQFSG"></div>
+  <div class="player" id="expPlayer" data-page-node-id="gyUUcVZeeywLQ18gVDaEnh">
+    <div class="stage" data-page-node-id="jlR6RtMUoDkPTrVgDq34DM"><div id="expStage" style="width:100%;max-width:700px" data-page-node-id="YWsCYGZ3gcmBCiG9NunYNs"><svg viewBox="0 0 760 230" style="width:100%;height:auto" data-page-node-id="cDNr1W3lsWAQRwukpxkIrX"><rect x="60" y="52" width="640" height="140" fill="#222c40" stroke="#8fa0bd" stroke-dasharray="4 4" data-page-node-id="XXppkHC3TFijYm3nJKw6kM"></rect><line x1="380" y1="52" x2="380" y2="192" stroke="#4ea1ff" stroke-width="6" opacity=".85" data-page-node-id="bMlVZ9GSz7iELBhZqad4cg"></line><text x="386" y="70" font-size="15" fill="#4ea1ff" data-page-node-id="qBhfho0HByGW1YSsKXEPya">玻璃板（当作镜面）</text><rect x="241" y="122" width="18" height="60" fill="#f5f0e6" stroke="#333" data-page-node-id="2rQZBTLvc1TONHaS39MRyS"></rect><rect x="248" y="110" width="4" height="12" fill="#555" data-page-node-id="q230yTdFMNqx3SFcY3axQ2"></rect><ellipse cx="250" cy="102" rx="8" ry="14" fill="#ffb84e" data-page-node-id="VOPebUisLU7AaFmUbuQkmD"><animate attributeName="ry" values="14;18;14" dur="1.1s" repeatCount="indefinite" data-page-node-id="kCv4VUbyj3nnU7vZBVRrr7"></animate></ellipse><text x="234" y="204" font-size="15" fill="#e8edf7" data-page-node-id="W6iIeMHjGttKqtgfKgJJWf">蜡烛A（物）</text></svg></div></div>
+    <div class="ctrl" data-page-node-id="FsXRNy6tx20EV3CW9yLDH4">
+      <button class="act" data-p="play" data-page-node-id="s9W4l9e5cJnIVS7bzboaaz">播放</button>
+      <button class="act ghost" data-p="prev" data-page-node-id="Lk30hwiD0TorsoC8IHYpoB">上一步</button>
+      <button class="act ghost" data-p="next" data-page-node-id="n4coiz2AHKWgi3DvnzHHkz">下一步</button>
+      <button class="act ghost" data-p="reset" data-page-node-id="Q9eMjylMuUF8E2U9G4jWCa">重置</button>
+      <div class="dots" id="expDots" data-page-node-id="AUYAjNeN9y1hfWhw9TD1DJ"><div class="dot on" data-i="0" data-page-node-id="V7GMFNmZkMfHoTWCPKiOOV"></div><div class="dot" data-i="1" data-page-node-id="uiaHXhiuoDNwBo41MaLM4A"></div><div class="dot" data-i="2" data-page-node-id="Wh4vlJQHBIhzbYJ2KWn3gx"></div></div>
     </div>
-    <div class="stepno" id="expNo"></div>
-    <div class="cap" id="expCap"></div>
+    <div class="stepno" id="expNo" data-page-node-id="bzt8OGzSLmIgPAeWL5hNum">第 1 / 3 步</div>
+    <div class="cap" id="expCap" data-page-node-id="dZeuhEGNA0aV4AkPoz8St5" style="font-size: 20px; white-space: pre-wrap;">第一步：为什么用玻璃板，不用镜子？因为玻璃板既能反射成像、又能透光——我才能看见镜后那支蜡烛，去和像重合。</div>
   </div>
-  <div class="tch"><b>教师提示（实验组织）：</b>4 人一组：1 人扶玻璃板、1 人移动蜡烛找重合、1 人读尺、1 人记录。玻璃板必须<b>薄</b>（厚了重影，数据会崩）；禁明火则换 LED 小蜡烛。<b>本环节限时 12 分钟</b>。</div>
+  </div>
+  <div class="tch" data-page-node-id="CR0WpZ25uZFvuchEcT6y4E"><b data-page-node-id="zpyYLmZDsHwPyWob16B69z">教师提示（实验组织）：</b>4 人一组：1 人扶玻璃板、1 人移动蜡烛找重合、1 人读尺、1 人记录。玻璃板必须<b data-page-node-id="3IjZuJNRNZdkvbV7RyKMYa">薄</b>（厚了重影，数据会崩）；禁明火则换 LED 小蜡烛。<b data-page-node-id="3yhNE9Tyg2pCEwa45wtDEf">本环节限时 12 分钟</b>。</div>
 </div>
 </section>
 
 <!-- ============ P6 环节二 数据表 ============ -->
-<section class="slide" data-sec="p2" data-name="环节二 · 记录测量结果">
-<div class="wrap">
-  <h2>把数据填进来</h2>
-  <div class="sub">请一组报数，全班共用；用《资源包》里的纸质记录单也可以。</div>
-  <table>
-    <tr><th>次数</th><th>物到镜面 d₁/cm</th><th>像到镜面 d₂/cm</th><th>连线与镜面垂直？</th><th>像与物等大？</th><th>光屏能接到像？</th></tr>
-    <tr><td>1</td><td><input id="r1d1" class="cell"></td><td><input id="r1d2" class="cell"></td><td><input id="r1v" class="cell"></td><td><input id="r1s" class="cell"></td><td><input id="r1p" class="cell"></td></tr>
-    <tr><td>2</td><td><input id="r2d1" class="cell"></td><td><input id="r2d2" class="cell"></td><td><input id="r2v" class="cell"></td><td><input id="r2s" class="cell"></td><td><input id="r2p" class="cell"></td></tr>
-    <tr><td>3</td><td><input id="r3d1" class="cell"></td><td><input id="r3d2" class="cell"></td><td><input id="r3v" class="cell"></td><td><input id="r3s" class="cell"></td><td><input id="r3p" class="cell"></td></tr>
-  </table>
-  <button class="act" id="demoData">填入演示数据（试讲用）</button>
-  <button class="act ghost" id="clrData">清空</button>
-  <div class="tch"><b>教师提示：</b>"连线与镜面刻线是否垂直"这一栏是物理实验通向数学建模的唯一桥——它空了，环节三建系归纳会直接断粮。务必确认每组都填。</div>
-  <div class="note">课堂请使用学生实测数据；"演示数据"仅供试讲预演。</div>
+<section class="slide" data-sec="p2" data-name="环节二 · 记录测量结果" data-page-node-id="YJ5SkMD8ti4abiEHn7c9qb">
+<div class="wrap flowPage wideTbl" data-page-node-id="5gqIYSF7MiLhHkZ7WOXaz8">
+  <h2 data-page-node-id="mEAwjfgWHONcpolCWIOKiO" style="font-size: 48px; text-align: center;">把数据填进来</h2>
+  <div class="flowBody" style="gap:4vh; padding-bottom:12vh" data-page-node-id="2CgSPXGHyT3PGuNK74pOLM">
+  
+  <table data-page-node-id="4VMMrhbdNBKP9o6euXs4rH">
+    <tbody data-page-node-id="q6VvpRQHALPYnsEp9gNkAD"><tr data-page-node-id="DZ68enCLoats6yISGzY8Fb"><th data-page-node-id="Btz0CHuLkrUKCxCPBq3KH3">次数</th><th data-page-node-id="5pqs3DUS6HJRth5NYy86gH">物到镜面 d₁/cm</th><th data-page-node-id="DSvDfz0Z7skGJkTqo4vszw">像到镜面 d₂/cm</th><th data-page-node-id="aFLM4UacAdhheVpV16Yi6I">连线与镜面垂直？</th><th data-page-node-id="ovnFslHIx5UnmTu48eDu0G">像与物等大？</th><th data-page-node-id="anfjRgtHisZ4rvVrnf6dLO">光屏能接到像？</th></tr>
+    <tr data-page-node-id="jn58snBjvhCOGiSIbbLpVu"><td data-page-node-id="FWkp5Qb78D3zaUutkUGFuL">1</td><td data-page-node-id="YR4nPJPOauz8Xy90IJlMve"><input id="r1d1" class="cell" data-page-node-id="3KUFU7lv58dDDDltzqTdIb"></td><td data-page-node-id="tiZEWvsZOa4aKz7FveMj8W"><input id="r1d2" class="cell" data-page-node-id="96BAIYbsAVUmOdkXquvwJC"></td><td data-page-node-id="Jy5Cas6j5BvoFJPIxkubNJ"><input id="r1v" class="cell" data-page-node-id="ynpNPWBEbvJs8g4cEBYtXS"></td><td data-page-node-id="GYp43TUkKfNxem94oC3kII"><input id="r1s" class="cell" data-page-node-id="UFbSvxwlBDkECEyZZLvnVA"></td><td data-page-node-id="8MQGBPYHRl6H5ms2mBBQiY"><input id="r1p" class="cell" data-page-node-id="1VSsCnR3aEWf4YfJEZiGwi"></td></tr>
+    <tr data-page-node-id="EtGNhx7Fmi6ANtsP9htORv"><td data-page-node-id="3LSWovNSsqoMi4pdIYafrT">2</td><td data-page-node-id="buFRbeBj40Q4JOBlGFKqw5"><input id="r2d1" class="cell" data-page-node-id="NUY3tdq6EPhlo3vzjpgSIj"></td><td data-page-node-id="vfQuZT6dTCV2SrEJw1X2GX"><input id="r2d2" class="cell" data-page-node-id="v7s9fpLqanHXjtq0CndDHp"></td><td data-page-node-id="RtowJ3MjWBn4HFkTOad8zY"><input id="r2v" class="cell" data-page-node-id="pvA1MxS4h958L5x4KflPFg"></td><td data-page-node-id="5HEwLsoMCiBQktDz1B4FQe"><input id="r2s" class="cell" data-page-node-id="Hk0MocS8LyEeZQd1azU7ax"></td><td data-page-node-id="naPUU7Fl7YEGuHTDDLcb2O"><input id="r2p" class="cell" data-page-node-id="DmAENuIDosqVfTyX35V6zD"></td></tr>
+    <tr data-page-node-id="7RgCPbIrmlWD6o75buEnGT"><td data-page-node-id="aiX0Xg8yT7XlAFvwP9m3wq">3</td><td data-page-node-id="vAz29LxBiOGhwCuWQUSdUQ"><input id="r3d1" class="cell" data-page-node-id="h0afEoo299p2lwFzhpqysF"></td><td data-page-node-id="78mgzSRZm2P2x45iUaFrTG"><input id="r3d2" class="cell" data-page-node-id="WdLJDbLAuaW5w8vbp1WkuT"></td><td data-page-node-id="EEtN7T7aIcxOANYH0W04fR"><input id="r3v" class="cell" data-page-node-id="93nw8D28TRtzimVmCflgX6"></td><td data-page-node-id="Ad53jbXzdTTXxIziWJ3jah"><input id="r3s" class="cell" data-page-node-id="aEmdziA3cknsEVSnLFoj8p"></td><td data-page-node-id="CoaLvIlgPkeVzGSXwR7WX6"><input id="r3p" class="cell" data-page-node-id="L1Bbi73hWJOhSn4BLFhQCW"></td></tr>
+  </tbody></table>
+  <div class="btnRow" data-page-node-id="HTWri58VATa6gCVdV04HMq">
+  <button class="act" id="demoData" data-page-node-id="WawwLoJsAxGWmRrZPRDM65">填入演示数据</button>
+  <button class="act ghost" id="clrData" data-page-node-id="O8DJBIzzDrQWHBUpcdWJfm">清空</button>
+  </div>
+  </div>
+  <div class="tch" data-page-node-id="hChQbrLbUPEbGoqCuksvwn"><b data-page-node-id="NSm2QB1jjFeaVvtyl4Xu9o">教师提示：</b>"连线与镜面刻线是否垂直"这一栏是物理实验通向数学建模的唯一桥——它空了，环节三建系归纳会直接断粮。务必确认每组都填。</div>
+  
 </div>
 </section>
 
 <!-- ============ P7 环节二 三条规律 ============ -->
-<section class="slide" data-sec="p2" data-name="环节二 · 三条规律">
-<div class="wrap">
-  <h2>三条规律，自己浮出来了</h2>
-  <div class="say">
-    三组数据摆在一起，规律自己会说话——<br>
-    <b>像与物大小相等</b>、<b>像到镜面的距离等于物到镜面的距离</b>、<b>它们的连线垂直于镜面</b>。
+<section class="slide" data-sec="p2" data-name="环节二 · 三条规律" data-page-node-id="j1D9GxGvvN0AaGccYRX52b">
+<div class="wrap flowPage" data-page-node-id="XDTB4KlqbM6knRLAk8M0BO">
+  <h2 data-page-node-id="J7pZOMHzZ6ElD7Apx9Itrf" style="font-size: 48px; text-align: center;">三条规律​</h2>
+  <div class="flowBody" data-page-node-id="fHDY2gVsaRNCmHqZCZPqLT">
+  <div class="say" data-page-node-id="U3m9MgdNGkLJyj5qQaqEbR" style="white-space: pre-wrap; font-size: 24px; text-align: left;">三组数据摆在一起——
+<br data-page-node-id="XC3upyK8FnJon6gIJkdNpN"><b data-page-node-id="5WDdlu28Cjc6mHGtac070g">像与物大小相等</b>、<b data-page-node-id="4R9cYh0V98ggRaAUci1m9O">像到镜面的距离等于物到镜面的距离</b>、<b data-page-node-id="jJAcDzVVOf6fFwJqA4mDeK">它们的连线垂直于镜面</b></div>
+  <div class="formula" style="font-size: 24px;" data-page-node-id="ywyBvqKd9GKOfcB1LcL6fC">等大　·　等距　·　连线垂直​</div>
+  
+  
+  <div class="ask" data-page-node-id="9QwKsmmvKqcDXW4ltZdgd5" style="white-space: pre-wrap; text-align: center; font-size: 24px;">三条规律指向同一个什么词？​​</div>
   </div>
-  <div class="formula" style="font-size:1.4rem">等大　·　等距　·　连线垂直</div>
-  <h3>那"虚像"又是什么意思？</h3>
-  <div class="say">
-    我把光屏放到像的位置上，屏上<b>什么也没有</b>。可我的眼睛明明看见了它。<br>
-    这说明：那里<b>并没有真的光</b>。我们看见的，是眼睛把反射光线<b>往回沿直线延长</b>后，以为它们从那儿来。
-  </div>
-  <div class="ask">等大、等距、连线垂直——三条规律指向同一个什么词？</div>
-</div>
-</section>
-
-<!-- ============ P8 环节二 虚像动画 ============ -->
-<section class="slide" data-sec="p2" data-name="环节二 · 虚像成因动画">
-<div class="wrap">
-  <h2>虚像：看清它"虚"在哪</h2>
-  <div class="sub">五步动画，看光怎么走、眼睛怎么被骗。</div>
-  <div class="player" id="virPlayer">
-    <div class="stage"><div id="virStage" style="width:100%;max-width:700px"></div></div>
-    <div class="ctrl">
-      <button class="act" data-p="play">播放</button>
-      <button class="act ghost" data-p="prev">上一步</button>
-      <button class="act ghost" data-p="next">下一步</button>
-      <button class="act ghost" data-p="reset">重置</button>
-      <div class="dots" id="virDots"></div>
-    </div>
-    <div class="stepno" id="virNo"></div>
-    <div class="cap" id="virCap"></div>
-  </div>
-  <div class="tch"><b>教师提示：</b>此处不要把反射定律展开推导，一句话点破即可——教学设计的意图是"物理压缩为证据采集，把课堂重心让位给数学建模"。</div>
-</div>
-</section>
-
-<!-- ============ P9 环节二→三 衔接 ============ -->
-<section class="slide" data-sec="p2" data-name="环节二 · 交接给数学">
-<div class="wrap">
-  <div class="formula" style="font-size:1.25rem">虚像 = 反射光线的<b>反向延长线</b>相交而成 · <b>不能</b>用光屏承接 · 但眼睛看得见</div>
-  <div class="card">
-    <div class="ask" style="margin:0">等大、等距、连线垂直——三条规律指向同一个什么词？</div>
-    <div class="say" style="font-size:1.25rem;margin-top:12px"><b>对称。</b>而这，是数学的主场。接下来的时间，交给数学。</div>
-  </div>
-  <div class="say">
-    物理已经把证据交给我们了。<br>
-    但"等距"是个<b>测量结论</b>，我想把它变成一句能<b>算出来</b>的话——这就是建模。
-  </div>
-  <div class="tch"><b>教师提示：</b>这句衔接语务必原样说出，它是"物理 → 数学"的主场交接动作，教学设计里是点名要的。</div>
 </div>
 </section>
 
 <!-- ============ P10 环节三 ①点化 ============ -->
-<section class="slide" data-sec="p3" data-name="环节三 · ① 点化">
-<div class="wrap">
-  <h2>环节三 · 建模：把对称交给数学</h2>
-  <div class="sub">目标：把实验结论翻译成一句数学语言，再拿它拆穿课首那个魔盒。</div>
-  <div class="ask">① 决定像位置的，到底是什么？</div>
-  <div class="do">蜡烛有大小、有颜色、有味道——这些会影响"像在哪"吗？</div>
-  <div class="say">
-    实验已经证明像与物<b>等大</b>，那大小就不是我们要操心的变量。<br>
-    真正决定像在哪的，只有一件事：<b>位置</b>。<br>
-    所以——把蜡烛抽象成一个<b>点 A</b>。它叫什么、多大、什么颜色，从此与我们无关。
+<section class="slide" data-sec="p3" data-name="环节三 · ① 点化" data-page-node-id="nXX9yh0Xi8X6iII0thUa58">
+<div class="wrap flowPage" data-page-node-id="6936LsB6LZEiouH6XVZp1j">
+  <h2 data-page-node-id="S529liGxGkq5D82amZgEd1" style="font-size: 48px; text-align: center;">环节三 · 建模：把对称交给数学​</h2>
+  <div class="flowBody" style="gap:6vh" data-page-node-id="Fv3QkP1nZb7LmA0oWcRtYe">
+  <div class="sub" data-page-node-id="KTSk6Yz4jTuQMaPyEwWllY">目标：把实验结论翻译成一句数学语言，再拿它拆穿课首那个魔盒。</div>
+  <div class="ask" data-page-node-id="JfhuBMwFADjZo8ty2VoxNS" style="font-size: 24px;">① 决定像位置的，到底是什么？​</div>
+  <div class="do" data-page-node-id="oNltnmcKklNPFoPIro1BP3" style="font-size: 20px;">蜡烛有大小、有颜色、有味道——这些会影响"像在哪"吗？​</div>
+  <div class="say" data-page-node-id="Mplg5xiKqceR4byTHgUcpE" style="white-space: pre-wrap; font-size: 24px;"> 实验已经证明像与物<b data-page-node-id="acoF4eGXeeBToudLifUrB7">等大</b>，那大小就不是我们要操心的变量。
+<br data-page-node-id="iI63IKcvejdEBFso4hE3Yk"> 真正决定像在哪的，只有一件事：<b data-page-node-id="WPHbLCLAEMTFHgFYzOzZxj">位置</b>。<br data-page-node-id="Cww09bqxsvzhpGwyRciCs4"> 所以——把蜡烛抽象成一个<b data-page-node-id="QGAzYYeFeGczjTSDQHVMKp">点 A</b>。</div>
   </div>
-  <div class="tch"><b>教师提示：</b>这一步叫"点化"，是全课第一个抽象动作，务必让学生自己说出"只要位置"，不要替他们说。<b>抛出问题后停顿 3–5 秒</b>，别急着翻页——这一页的价值在学生的思考，不在屏幕上的答案。</div>
+  <div class="tch" data-page-node-id="QP4qli8WJ6OGCO7YAJmCdv"><b data-page-node-id="iqB0QHXfohd9kIBA3cKqKS">教师提示：</b>这一步叫"点化"，是全课第一个抽象动作，务必让学生自己说出"只要位置"，不要替他们说。<b data-page-node-id="kVHeRGLB1FSCra7uYsmYNP">抛出问题后停顿 3–5 秒</b>，别急着翻页——这一页的价值在学生的思考，不在屏幕上的答案。</div>
 </div>
 </section>
 
 <!-- ============ P11 环节三 ②建系 ============ -->
-<section class="slide" data-sec="p3" data-name="环节三 · ② 建系">
-<div class="wrap">
-  <h2>② 用什么工具研究"位置"？</h2>
-  <div class="say">位置要用数来刻画——那就<b>建坐标系</b>。以玻璃板刻线为 y 轴，过物点作 x 轴，白纸就是坐标纸。</div>
-  <div class="do">读出物点 A 的坐标 (a, b)，像点 A′ 的坐标 (a′, b′)，填进下表。</div>
-  <div class="hintbox" style="font-size:1.02rem">坐标要带<b>正负号</b>：镜面（y 轴）<b>左侧</b>横坐标为<b>负</b>，<b>右侧</b>横坐标为<b>正</b>。</div>
-  <table>
-    <tr><th>次数</th><th>物点 A (a, b)</th><th>像点 A′ (a′, b′)</th><th>a 与 a′</th><th>b 与 b′</th></tr>
-    <tr><td>1</td><td>(<input id="ta1" class="cell" style="width:58px;display:inline-block">,<input id="tb1" class="cell" style="width:58px;display:inline-block">)</td><td id="o1">—</td><td id="c1">—</td><td id="d1">—</td></tr>
-    <tr><td>2</td><td>(<input id="ta2" class="cell" style="width:58px;display:inline-block">,<input id="tb2" class="cell" style="width:58px;display:inline-block">)</td><td id="o2">—</td><td id="c2">—</td><td id="d2">—</td></tr>
-    <tr><td>3</td><td>(<input id="ta3" class="cell" style="width:58px;display:inline-block">,<input id="tb3" class="cell" style="width:58px;display:inline-block">)</td><td id="o3">—</td><td id="c3">—</td><td id="d3">—</td></tr>
-  </table>
-  <button class="act" id="calcTbl">计算像点坐标</button>
-  <button class="act ghost" id="demoTbl">填入演示数据</button>
-  <div class="fb" id="tblFb"></div>
-  <div class="tch"><b>教师提示：</b>表格按"镜面为 y 轴"计算，即 a′ = −a、b′ = b。先让学生填自己的实测值再点"计算"，规律由他们发现，不要先给公式。</div>
+<section class="slide" data-sec="p3" data-name="环节三 · ② 建系" data-page-node-id="TJx1SOtVF2F3HFZfVN6Mmj">
+<div class="wrap" data-page-node-id="kdCTcqLwkgdEvo77lC5LxF">
+  <h2 data-page-node-id="uzivt81THi38lYgjfT4HZR">② 用什么工具研究"位置"？</h2>
+  <div class="say" data-page-node-id="0pTxk8sujJkHiCtWqmEGeZ">位置要用数来刻画——那就<b data-page-node-id="b3mRX7ESH2bAO5NdobpAYh">建坐标系</b>。以玻璃板刻线为 y 轴，过物点作 x 轴，白纸就是坐标纸。</div>
+  <div class="buildDemo" data-page-node-id="BdDemo00000000000000001">
+    <div class="bdStage" id="bdStage" data-page-node-id="BdStage000000000000000001"><svg viewBox="0 0 680 300" style="width:100%;height:100%" data-page-node-id="0EsEtucSxYYK0n9ubRVgyl"><rect x="24" y="16" width="632" height="268" rx="10" fill="#222c40" stroke="#2a3348" stroke-width="1.5" data-page-node-id="jZqQmVaxlyFWqXSnH6Es6L"></rect><line x1="340" y1="265" x2="340" y2="33.80000000000001" stroke="#4ea1ff" stroke-width="4" stroke-dasharray="10 6" data-page-node-id="E5L8yDooVvYzPdcxa6SjqW"></line><text x="352" y="47.39999999999998" font-size="14" fill="#4ea1ff" data-page-node-id="TM4X2D8sJZBmpMUT2XbkGY">玻璃板（刻线）</text><circle cx="442" cy="112" r="7" fill="#ffb84e" data-page-node-id="UoLpuserrVMX6BBlrtyRGk"></circle><text x="428" y="139" font-size="15" fill="#ffb84e" font-weight="bold" data-page-node-id="FXcyP32UwedcRVReQ4GiaR">物点 A</text></svg></div>
+    <div class="bdSide" data-page-node-id="BdSide0000000000000000001">
+      <button class="act" id="bd0" data-page-node-id="BdBtn0000000000000000001">① 白纸</button>
+      <button class="act ghost" id="bd1" data-page-node-id="BdBtn0000000000000000002">② 建系</button>
+      <button class="act ghost" id="bd2" data-page-node-id="BdBtn0000000000000000003">③ 描点</button>
+      <div class="bdCap" id="bdCap" data-page-node-id="BdCap00000000000000000001">一张白纸，玻璃板刻线在中间（竖直虚线），物点 A 立在纸上。</div>
+    </div>
+  </div>
+  <div class="do" data-page-node-id="QesINHLtpBk49IxNYlfKVi">读出物点 A 的坐标 (a, b)，像点 A′ 的坐标 (a′, b′)，填进下表。</div>
+  <div class="hintbox" style="font-size:1.02rem" data-page-node-id="yQ705hhH5hIyZssu3xbyAp">坐标要带<b data-page-node-id="jeAble01Our3KrG9BRvsQK">正负号</b>：镜面（y 轴）<b data-page-node-id="ycLFBxqHPzWIwLgFWWtfMQ">左侧</b>横坐标为<b data-page-node-id="JRiSwSrPFqUQHtea28PTys">负</b>，<b data-page-node-id="n735uxuKnAOlAZGl1mg4yt">右侧</b>横坐标为<b data-page-node-id="Dmuo9EAwV877sARrXosPmO">正</b>。</div>
+  <table data-page-node-id="7RG5GIVv9ffycpUreqlIb4">
+    <tbody data-page-node-id="gVAX9sMGPFHCH4a6J4xgBQ"><tr data-page-node-id="Uo4l6OUV7yU6Kn6cUBvCHq"><th data-page-node-id="VHAeopMPNPw55nbrLRkl90">次数</th><th data-page-node-id="3URFEK1LzBOO7hVbzlbrtK">物点 A (a, b)</th><th data-page-node-id="BIvK1EZrDdKrDhuVfCy2Ac">像点 A′ (a′, b′)</th><th data-page-node-id="YtqoTrlYC2eTPPeT1edAWU">a 与 a′</th><th data-page-node-id="EdepqDEedKCp66cCcGFnAP">b 与 b′</th></tr>
+    <tr data-page-node-id="rep8dB85fk0BoGB8aHVzvt"><td data-page-node-id="fyLvnSCDVoxBG9HP4ThhhH">1</td><td data-page-node-id="hHvMOBNAGvtyRWoCWQZmjh">(<input id="ta1" class="cell" style="width:58px;display:inline-block" data-page-node-id="SsnBd38z0eU9RlODHMgsvA">,<input id="tb1" class="cell" style="width:58px;display:inline-block" data-page-node-id="Dkyiw61uak4Y6hAsoy4Pql">)</td><td id="o1" data-page-node-id="xUHIcPVVMu82br5EShNcPF">—</td><td id="c1" data-page-node-id="r2F4FM7f6PG14d3PkJN27s">—</td><td id="d1" data-page-node-id="6iQB8bHSfvrppWixoKDCdx">—</td></tr>
+    <tr data-page-node-id="1uB3vZ2j1sOueUjXPc3Ryt"><td data-page-node-id="wJvKKTcAE5V6HPc75n1XzQ">2</td><td data-page-node-id="6cO1ewfvPFLLdkoZEKm6GN">(<input id="ta2" class="cell" style="width:58px;display:inline-block" data-page-node-id="t9A9CXVARI3hlVH97fEwch">,<input id="tb2" class="cell" style="width:58px;display:inline-block" data-page-node-id="5uRO5MNe8PLSc1DBiv2QUB">)</td><td id="o2" data-page-node-id="ymmfbjKSfbYNoc7YKr9DFm">—</td><td id="c2" data-page-node-id="0d3rgFawVNdUJH1Ujn7qpD">—</td><td id="d2" data-page-node-id="BltwDVo49GgPXKmNGNTkk7">—</td></tr>
+    <tr data-page-node-id="xyDsMoruuObhiqJ9E6Xokd"><td data-page-node-id="cbLu2yxoEmgweJmfzqA56m">3</td><td data-page-node-id="SdWhPjPH2AFKW1Ha8QiRCt">(<input id="ta3" class="cell" style="width:58px;display:inline-block" data-page-node-id="9Esbxtd5iFZb39DhLD9rYq">,<input id="tb3" class="cell" style="width:58px;display:inline-block" data-page-node-id="NIgADYqiNOVXngvecoH71M">)</td><td id="o3" data-page-node-id="U0tKir1TH7okWBHCmdc64D">—</td><td id="c3" data-page-node-id="NmWAljSATmHIGiVX5XSEOt">—</td><td id="d3" data-page-node-id="VgpjANuoMVHGIJ9d8al58f">—</td></tr>
+  </tbody></table>
+  <button class="act" id="calcTbl" data-page-node-id="fqxTxLGWfDfX6EewZS8mFt">计算像点坐标</button>
+  <button class="act ghost" id="demoTbl" data-page-node-id="HxUX2TJv50fUaXlbdPmhqZ">填入演示数据</button>
+  <div class="fb" id="tblFb" data-page-node-id="EeQAYzgQ2KxfZpSWOWX6lE"></div>
+  <div class="tch" data-page-node-id="GJAgC4AV5uyUBxMOLyCVpO"><b data-page-node-id="Et5uWVFIqCnietoSyBathq">教师提示：</b>表格按"镜面为 y 轴"计算，即 a′ = −a、b′ = b。先让学生填自己的实测值再点"计算"，规律由他们发现，不要先给公式。</div>
 </div>
 </section>
 
 <!-- ============ P12 环节三 ③归纳 ============ -->
-<section class="slide" data-sec="p3" data-name="环节三 · ③ 归纳">
-<div class="wrap">
-  <h2>③ 规律藏在数据里——谁去发现它？</h2>
-  <div class="say">
-    三组以上数据进表，规律自己会说话：<br>
-    <b>纵坐标相同</b>、<b>横坐标互为相反数</b>、<b>连线垂直于 y 轴且被它平分</b>。
+<section class="slide" data-sec="p3" data-name="环节三 · ③ 归纳" data-page-node-id="m5G6VBhumE7xbdet3AXFKw">
+<div class="wrap flowPage" data-page-node-id="FLoE8Yc8kP0l7uxiYf2ttX">
+  <h2 data-page-node-id="0FUhVVtHjrSS8pdclHfBm3" style="font-size: 36px;">③ 规律藏在数据里​​​</h2>
+  <div class="flowBody" style="gap:8vh" data-page-node-id="qzrzAEakRXYv3cYlG89E5j">
+  <div class="say" data-page-node-id="B9X5qs11NGkITiMlFOLCkP" style="white-space: pre-wrap; font-size: 20px;">三组以上数据进表，规律自己会说话：<br data-page-node-id="L1eTatd3Wv4BTYwofh6paq"><b data-page-node-id="uY99F4hp5cZBdLrVsgilzN">纵坐标相同</b>、<b data-page-node-id="PBXuA0AHn2d1bsa78OibXk">横坐标互为相反数</b>、<b data-page-node-id="zWq5mGSvV9t6qDkQddL8GC">连线垂直于 y 轴且被它平分</b>。</div>
+  <div class="formula" style="font-size: 24px;" data-page-node-id="5WYMS4ALJNF1PAffiAKzFM">a′ = − a　　b′ = b　　连线 AA′ ⊥ y 轴，且被 y 轴平分​​</div>
+  <div class="say" data-page-node-id="117oObm9zpdhR0XtaKO2PP" style="font-size: 20px;">把这三句合成一句：<span class="key" data-page-node-id="GxCoGM9W8WpTtKvfdg9R3T" style="">像与物关于镜面所在直线（对称轴）对称​</span>。</div>
+  <div class="ask" data-page-node-id="oQfCNgdrDD4rxeJhC6PsVs" style="font-size: 28px;">④ 镜子是斜的呢？这套坐标写法还管用吗？​​​</div>
   </div>
-  <div class="formula" style="font-size:1.3rem">a′ = − a　　b′ = b　　连线 AA′ ⊥ y 轴，且被 y 轴平分</div>
-  <div class="say">把这三句合成一句：<span class="key">像与物关于镜面所在直线（对称轴）对称</span>。</div>
-  <div class="ask">④ 镜子是斜的呢？这套坐标写法还管用吗？</div>
-  <div class="say">魔盒里的镜子是 <b>45°</b> 斜的，它不沿任何坐标轴。这时 a′ = −a 这种漂亮式子……<b>失灵了</b>。</div>
-  <div class="tch"><b>教师提示：</b>本页最容易出现的问题是<b>教师直接把结论念出来</b>。请把"纵坐标相同、横坐标互为相反数、连线被垂直平分"这三句话<b>等学生自己说出来</b>，学生卡住时用追问引导（"a 和 a′ 除了符号，还有什么不一样？"），不要替他们总结。</div>
+  
+  <div class="tch" data-page-node-id="Bg93ckxOfVcF7ASQF3REy6"><b data-page-node-id="9QY4Srphno5zpHekSC5UV8">教师提示：</b>本页最容易出现的问题是<b data-page-node-id="OTV1otcVlSin6r4HpxxmFF">教师直接把结论念出来</b>。请把"纵坐标相同、横坐标互为相反数、连线被垂直平分"这三句话<b data-page-node-id="nKdAfFrEORTQdwv8ki7RLN">等学生自己说出来</b>，学生卡住时用追问引导（"a 和 a′ 除了符号，还有什么不一样？"），不要替他们总结。</div>
 </div>
 </section>
 
 <!-- ============ P12.5 环节三 · 轴对称建模（补：模型本身的建立） ============ -->
-<section class="slide" data-sec="p3" data-name="环节三 · 轴对称建模">
-<div class="wrap">
-  <h2>给这个规律一个名字：<span class="key">轴对称</span></h2>
-  <div class="sub">数学课本第十五章 15.1 · 今天要搬来的那件工具，就是它</div>
-  <div class="say">
-    上一页从数据里读出的三句话——<b>到镜面距离相等、连线垂直于镜面、纵坐标相同</b>——
+<section class="slide" data-sec="p3" data-name="环节三 · 轴对称建模" data-page-node-id="3mIIa0fcQCdi0qquE2k0Qn">
+<div class="wrap flowPage tblTight" data-page-node-id="ioGgaHRtiP3Dj0MtZocAHB">
+  <h2 data-page-node-id="FqOC6G2X7y0a0fSjUF5iFg">给这个规律一个名字：<span class="key" data-page-node-id="EOaFHk6xxaTonG4bFJOrIY">轴对称</span></h2>
+  <div class="flowBody" style="gap:2vh;padding:1vh 0;justify-content:flex-start" data-page-node-id="2pwQ4oxk7nVPFvabyFnK5b">
+  <div class="sub" data-page-node-id="rxitpcM5AGjGvv1ThdHHza">数学课本第十五章 15.1 · 今天要搬来的那件工具，就是它</div>
+  <div class="say" data-page-node-id="xzY5bSA9ASMucYkDtKm7rQ">
+    上一页从数据里读出的三句话——<b data-page-node-id="aBXV1R3l0k5UvbNtQWGJdG">到镜面距离相等、连线垂直于镜面、纵坐标相同</b>——
     其实都在描述同一件事。数学课早就给它取好了名字。
   </div>
-  <div class="ask">把一个图形沿着一条直线<b>折过去</b>，如果它能和另一个图形<b>完全重合</b>——这叫什么？</div>
-  <div class="do">拖动下面的滑块，把左边的三角形沿着对称轴折到右边去。看它最后落在哪儿。</div>
+  <div class="ask" data-page-node-id="yA4QGfZBHUyhRScZf7OQOu">把一个图形沿着一条直线<b data-page-node-id="cCi9vWmi1CsOI44NFWgj9K">折过去</b>，如果它能和另一个图形<b data-page-node-id="M2P2FEz2DjC0bqTPAG55In">完全重合</b>——这叫什么？</div>
+  <div class="do" data-page-node-id="hqpoiVXPQ3dg8dKFulvNOC">拖动下面的滑块，把左边的三角形沿着对称轴折到右边去。看它最后落在哪儿。</div>
 
-  <div class="foldWrap">
-    <div id="foldBox"><svg id="foldSvg" viewBox="0 0 720 300"></svg></div>
-    <div class="sliders">
-      <label>翻折角度：<span id="foldVal">0°</span></label>
-      <input type="range" id="foldRange" min="0" max="180" value="0" step="1">
-      <button class="act" id="foldPlay" style="width:100%;padding:6px">自动翻折一遍</button>
-      <button class="act ghost" id="foldReset" style="width:100%;margin-top:5px;padding:6px">回到 0°</button>
-      <div class="chkrow">
-        <input type="checkbox" id="foldSeg">
-        <label for="foldSeg">标出对应点连线与对称轴的关系</label>
+  <div class="foldWrap" data-page-node-id="vwgrAZR5Kwu3ugeouEskKP">
+    <div id="foldBox" data-page-node-id="OgDxXn4FfaBAWvBRNaMS48"><svg id="foldSvg" viewBox="0 0 720 300" data-page-node-id="Im5uE3eedBqXaa5AUYCMwA"><line x1="360" y1="22" x2="360" y2="282" stroke="#4ea1ff" stroke-width="2" stroke-dasharray="7 5" data-page-node-id="jGL8aJUQwu9ZMwKnoCCTqC"></line><text x="370" y="32" fill="#4ea1ff" font-size="13" data-page-node-id="TNRSB6wdI4cs7m36SImhjZ">对称轴 l（镜子就在这条直线上）</text><polygon points="540,70 425,165 555,200" fill="none" stroke="#7ee0c0" stroke-width="2" stroke-dasharray="6 5" opacity="0.55" data-page-node-id="fgUS1nQWzyzWk4izEsE0kW"></polygon><circle cx="540" cy="70" r="4" fill="#7ee0c0" opacity="0.5" data-page-node-id="65FOr2V1PfcS5Inmc1ano7"></circle><text x="549" y="64" fill="#7ee0c0" font-size="14" opacity="0.75" data-page-node-id="zIggfLGcwF6YBZfOIVtmWe">A′</text><circle cx="425" cy="165" r="4" fill="#7ee0c0" opacity="0.5" data-page-node-id="UoabjBdgJ8wg6V8kyNBgYQ"></circle><text x="434" y="159" fill="#7ee0c0" font-size="14" opacity="0.75" data-page-node-id="k9jxTUZL1ZZvE9N8IovieY">B′</text><circle cx="555" cy="200" r="4" fill="#7ee0c0" opacity="0.5" data-page-node-id="vBp2FQ7Y54KUf9RZXkjNUU"></circle><text x="564" y="194" fill="#7ee0c0" font-size="14" opacity="0.75" data-page-node-id="BzbF8XWsnMBb5BZcpDGZZG">C′</text><polygon points="180,70 295,165 165,200" fill="#4ea1ff" fill-opacity="0.26" stroke="#4ea1ff" stroke-width="2" data-page-node-id="HIg2l5M31pnKaLFX2AoYFJ"></polygon><circle cx="180" cy="70" r="4.5" fill="#4ea1ff" data-page-node-id="iHYxEv9jXvccUsaRwGze99"></circle><text x="163" y="61" fill="#e8edf7" font-size="15" font-weight="700" data-page-node-id="gbk7DPDRLiHIqx5Bh49ejU">A</text><circle cx="295" cy="165" r="4.5" fill="#4ea1ff" data-page-node-id="CUk5noax0UOpx92zX2eDjs"></circle><text x="278" y="156" fill="#e8edf7" font-size="15" font-weight="700" data-page-node-id="h4jljmjI1toMo0Yw3jcPR1">B</text><circle cx="165" cy="200" r="4.5" fill="#4ea1ff" data-page-node-id="ARg24EKOXbB13MAReAyNe6"></circle><text x="148" y="191" fill="#e8edf7" font-size="15" font-weight="700" data-page-node-id="oFElNiAgKAhKYsFKNwvIop">C</text><text x="14" y="292" fill="#9fb0cc" font-size="12" data-page-node-id="GgX9LEewXy6NmvrDWDqnAT">在图里任意位置单击，可以自己放一个点试试</text></svg></div>
+    <div class="sliders" data-page-node-id="wlljYmrzih4TQJl9Bikkhu">
+      <label data-page-node-id="cmPCDbDOFAb8ixiUGJwxQp">翻折角度：<span id="foldVal" data-page-node-id="znpgu9djpJeJeaVC076ekA">0°</span></label>
+      <input type="range" id="foldRange" min="0" max="180" value="0" step="1" data-page-node-id="1MInVRYhYKXV53USewQoF8">
+      <button class="act" id="foldPlay" style="width:100%;padding:6px" data-page-node-id="IoawWHp6njq9eRTd76oOBm">自动翻折一遍</button>
+      <button class="act ghost" id="foldReset" style="width:100%;margin-top:5px;padding:6px" data-page-node-id="d5tMiN6fM6268Ca9cJKZbJ">回到 0°</button>
+      <div class="chkrow" data-page-node-id="PcDKWCEubGX110lZTkHWFr">
+        <input type="checkbox" id="foldSeg" data-page-node-id="WFSkMHID2xLyvXLa0UZo2j">
+        <label for="foldSeg" data-page-node-id="KxcOEauWiHNuO4flXnAAeQ">标出对应点连线与对称轴的关系</label>
       </div>
-      <button class="act ghost" id="foldClear" style="width:100%;padding:6px">清除我点的点</button>
-      <div class="hintbox" style="font-size:1.05rem;font-weight:600">在图里<b>任意位置单击</b>，可以自己放一个点试试</div>
-      <div class="hintbox" id="foldInfo">在图上任意位置<b>点一下</b>，可以自己放一个点，看它的对称点在哪。</div>
+      <button class="act ghost" id="foldClear" style="width:100%;padding:6px" data-page-node-id="0Ch9QscoZNdPcYCBqYtavi">清除我点的点</button>
+      <div class="hintbox" style="font-size:1.05rem;font-weight:600" data-page-node-id="xXeGzhetUwza9Y2Bf1Rgn3">在图里<b data-page-node-id="w1V3kz6RGEKpk6HuKO6Spz">任意位置单击</b>，可以自己放一个点试试</div>
+      <div class="hintbox" id="foldInfo" data-page-node-id="RHKEm4dfCam0Wg7RPo96AK">还没开始折。注意两个三角形<b data-page-node-id="lvXqCFBdruvNm6Z5kZ6KFK">分居对称轴两侧</b>，A 与 A′、B 与 B′、C 与 C′ 分别是对应点。</div>
     </div>
   </div>
 
-  <table style="margin-top:8px">
-    <tr><th style="width:38%">刚才实验测出来的（物理语言）</th><th>轴对称的性质（数学语言）</th></tr>
-    <tr><td class="l">像与物<b>等大</b></td><td class="l">翻折后完全重合 → 两个图形<b>全等</b></td></tr>
-    <tr><td class="l">像到镜面的距离 <b>=</b> 物到镜面的距离</td><td class="l">对称轴<b>平分</b>两个对应点的连线</td></tr>
-    <tr><td class="l">像与物的连线<b>垂直</b>于镜面</td><td class="l">对称轴<b>垂直</b>于两个对应点的连线</td></tr>
-  </table>
+  <table data-page-node-id="N1483QURserWeSv4bGbYaX">
+    <tbody data-page-node-id="3hDD8EdLgH6YsSh5WWBJPF"><tr data-page-node-id="l9ywXP2kAZh3GatJFa87US"><th style="width:38%" data-page-node-id="slevUpjAk8Kww5aClFb4xe">刚才实验测出来的（物理语言）</th><th data-page-node-id="GlB8nFzhvi4o2DBDdh6CBS">轴对称的性质（数学语言）</th></tr>
+    <tr data-page-node-id="fePegirVLdz9QWOmZIsI1W"><td class="l" data-page-node-id="YFxwjOvHbY6JJZQrfo3H3F">像与物<b data-page-node-id="ELwtDIgeDHt6ezkwuryZsm">等大</b></td><td class="l" data-page-node-id="m2TRaGcdGLE3NB74MS3sMG">翻折后完全重合 → 两个图形<b data-page-node-id="hnR6lEtnqPuzfEEzqqdnPF">全等</b></td></tr>
+    <tr data-page-node-id="77GPtatFzdiRFQEfbiU4kW"><td class="l" data-page-node-id="1Xowx3EaFzfWTBACCtgzf4">像到镜面的距离 <b data-page-node-id="xEFrUfN1462Cvw5mJxkZmi">=</b> 物到镜面的距离</td><td class="l" data-page-node-id="1KXctDGnmiPwY1cFKHyH0r">对称轴<b data-page-node-id="iroh7a9CkQTTp4v36v0Npg">平分</b>两个对应点的连线</td></tr>
+    <tr data-page-node-id="iOth4o2RFgnGEXVtjMUoFb"><td class="l" data-page-node-id="YTdTVJKFScZW1fyUZlubDd">像与物的连线<b data-page-node-id="88my9ffMTlVMUPbGe9fxWH">垂直</b>于镜面</td><td class="l" data-page-node-id="LO8EK3uKxgqvfrgxMzaWLJ">对称轴<b data-page-node-id="PJdH80kZmDN3i3aFhBl6iD">垂直</b>于两个对应点的连线</td></tr>
+  </tbody></table>
 
-  <div class="say">
-    三句并成一句：<span class="key">对称轴，垂直平分两个对应点的连线。</span><br>
-    更关键的是它<b>反过来也成立</b>——如果两个图形的对应点连线被同一条直线垂直平分，
-    那么这两个图形就关于这条直线对称。<b>这句是判定，等一下"镜子该放哪儿"全靠它。</b>
+  <div class="say" data-page-node-id="KkMH7GOlNeasD6C6Y9eFz7">
+    三句并成一句：<span class="key" data-page-node-id="BKjqgJ9ViH9urH9MKJBUk8">对称轴，垂直平分两个对应点的连线。</span><br data-page-node-id="ohc2JGoXp6ZfWlYA5bp7mz">
+    更关键的是它<b data-page-node-id="EEyHnZxlvFBgmpOD9My7vb">反过来也成立</b>——如果两个图形的对应点连线被同一条直线垂直平分，
+    那么这两个图形就关于这条直线对称。<b data-page-node-id="FncgZnKw7qMX83IoNRqmMF">这句是判定，等一下"镜子该放哪儿"全靠它。</b>
   </div>
-  <div class="tch"><b>教师提示：</b>本页为本次修订新增：原先环节三从实验直接跳到坐标式 a′ = −a，缺了"轴对称"这个模型本身的建立环节，学生拿到的是代数结论而不是几何模型。用时约 2 分钟，不必深抠定义，重点做两件事——①让学生亲眼看到"折过去 → 重合"这个动作；②把"垂直平分"这句话连同它的<b>逆</b>一起钉住。放在坐标归纳之后、斜镜挑战之前。</div>
+  </div>
+  <div class="tch" data-page-node-id="I1ckiGxnCwF8XFK8wKVwNE"><b data-page-node-id="csUr4RvlBox38N6MjGJLt3">教师提示：</b>本页为本次修订新增：原先环节三从实验直接跳到坐标式 a′ = −a，缺了"轴对称"这个模型本身的建立环节，学生拿到的是代数结论而不是几何模型。用时约 2 分钟，不必深抠定义，重点做两件事——①让学生亲眼看到"折过去 → 重合"这个动作；②把"垂直平分"这句话连同它的<b data-page-node-id="FtJV17XwCmI1G1vLeK6DBS">逆</b>一起钉住。放在坐标归纳之后、斜镜挑战之前。</div>
 </div>
 </section>
 
 <!-- ============ P13 环节三 ④模拟器 ============ -->
-<section class="slide" data-sec="p3" data-name="环节三 · ④ 斜镜与一般化">
-<div class="wrap">
-  <h2>④ 拖动看看：镜子怎么转，像就怎么走</h2>
-  <div class="do">拖动物点、转动镜面。重点试：把镜面从竖直慢慢转到 45°，像点走了什么路线？</div>
-  <div id="simWrap">
-    <div id="simBox"><svg id="simSvg" viewBox="0 0 720 400"></svg></div>
-    <div class="sliders">
-      <button class="act" id="modeF" style="width:100%;padding:6px">正向：已知镜面 → 求像</button>
-      <button class="act ghost" id="modeI" style="width:100%;margin-top:5px;padding:6px">逆向：已知像 → 反推镜面</button>
-      <label>镜面角度：<span id="angVal">90°</span></label>
-      <input type="range" id="simAngle" min="-90" max="90" value="90" step="1">
-      <label>镜面位置：<span id="offVal">0.0</span></label>
-      <input type="range" id="simOffset" min="-4" max="4" value="0" step="0.1">
-      <button class="act ghost" id="set45" style="width:100%;margin-top:6px;padding:6px">一键 45° 斜镜</button>
-      <button class="act ghost" id="simReset" style="width:100%;margin-top:6px;padding:6px">恢复初始状态</button>
-      <div class="hintbox" id="simInfo"></div>
+<section class="slide" data-sec="p3" data-name="环节三 · ④ 斜镜与一般化" data-page-node-id="AL4fj4PnQxcJeGdgE1mzkI">
+<div class="wrap" data-page-node-id="zaKAgzvzgN2gdaMT6kxTDl">
+  <h2 data-page-node-id="UmzfJpI0BiCi661brdxGFB">④ 拖动看看：镜子怎么转，像就怎么走</h2>
+  <div class="do" data-page-node-id="xPtZqz0GqjKgGKt15sFXAU">拖动物点、转动镜面。重点试：把镜面从竖直慢慢转到 45°，像点走了什么路线？</div>
+  <div id="simWrap" data-page-node-id="Ci05kLm5ozBlYdp4l7aExk">
+    <div id="simBox" data-page-node-id="QxGzJI5NK6JfB5jyu5GPtn"><svg id="simSvg" viewBox="0 0 720 400" data-page-node-id="Ms1FcaXfwVzcAw8eIkF9c4"><line x1="24" y1="390.4" x2="24" y2="9.599999999999994" stroke="#2a3348" stroke-width="0.6" data-page-node-id="RZ8MlVGq9FV5LNL3NVNC2o"></line><line x1="80" y1="390.4" x2="80" y2="9.599999999999994" stroke="#2a3348" stroke-width="0.6" data-page-node-id="0GF6VAabeNRql4DYV4CbUe"></line><line x1="136" y1="390.4" x2="136" y2="9.599999999999994" stroke="#2a3348" stroke-width="0.6" data-page-node-id="GBU2y5N7EHrSDSAVBommKq"></line><line x1="192" y1="390.4" x2="192" y2="9.599999999999994" stroke="#2a3348" stroke-width="0.6" data-page-node-id="PsaKrQBcexysJpDHXurlA3"></line><line x1="248" y1="390.4" x2="248" y2="9.599999999999994" stroke="#2a3348" stroke-width="0.6" data-page-node-id="vG7qHpReLy8IOjsVed6BQ0"></line><line x1="304" y1="390.4" x2="304" y2="9.599999999999994" stroke="#2a3348" stroke-width="0.6" data-page-node-id="Jl35Quyiig19TWyHft8m8A"></line><line x1="360" y1="390.4" x2="360" y2="9.599999999999994" stroke="#2a3348" stroke-width="1.4" data-page-node-id="BvrMAVKGqMD9UBGDcKKQYq"></line><line x1="416" y1="390.4" x2="416" y2="9.599999999999994" stroke="#2a3348" stroke-width="0.6" data-page-node-id="5DrDdRgkCV3HWAnpgEdWNJ"></line><line x1="472" y1="390.4" x2="472" y2="9.599999999999994" stroke="#2a3348" stroke-width="0.6" data-page-node-id="7USYgLpVJiOMoSPRs3xAk3"></line><line x1="528" y1="390.4" x2="528" y2="9.599999999999994" stroke="#2a3348" stroke-width="0.6" data-page-node-id="oexPwY00z4KXoFSAppzVLh"></line><line x1="584" y1="390.4" x2="584" y2="9.599999999999994" stroke="#2a3348" stroke-width="0.6" data-page-node-id="4dNiiniPeUIkQlaPvyZuYm"></line><line x1="640" y1="390.4" x2="640" y2="9.599999999999994" stroke="#2a3348" stroke-width="0.6" data-page-node-id="OdMogGnPwMkDfFMrjQ9dSI"></line><line x1="696" y1="390.4" x2="696" y2="9.599999999999994" stroke="#2a3348" stroke-width="0.6" data-page-node-id="E5ZbAhOIZejI8DQn12oWUm"></line><line x1="24" y1="368" x2="696" y2="368" stroke="#2a3348" stroke-width="0.6" data-page-node-id="jKviCuoHSgCc64LC3jCAwa"></line><line x1="24" y1="312" x2="696" y2="312" stroke="#2a3348" stroke-width="0.6" data-page-node-id="BzupFNhGU5VEgQpwmB9b7y"></line><line x1="24" y1="256" x2="696" y2="256" stroke="#2a3348" stroke-width="0.6" data-page-node-id="gp9F3hfsg0H7EZuGIvOm8h"></line><line x1="24" y1="200" x2="696" y2="200" stroke="#2a3348" stroke-width="1.4" data-page-node-id="Ds8PVcz1slMdWCohe0VmNp"></line><line x1="24" y1="144" x2="696" y2="144" stroke="#2a3348" stroke-width="0.6" data-page-node-id="5dG2gz3EiJwcPMwCGkHAdB"></line><line x1="24" y1="88" x2="696" y2="88" stroke="#2a3348" stroke-width="0.6" data-page-node-id="WkeZMTXAdlndX8U2SNgf4f"></line><line x1="24" y1="32" x2="696" y2="32" stroke="#2a3348" stroke-width="0.6" data-page-node-id="MEGOFPnQSS2kSGGu0kdFUS"></line><text x="680" y="194" font-size="13" fill="#e8edf7" data-page-node-id="8hMmL100LIukDgD1yFBGMy">x</text><text x="366" y="23.599999999999994" font-size="13" fill="#e8edf7" data-page-node-id="4iPOlQZ0jIgcYJV2Oap5F0">y</text><line x1="360.00000000000006" y1="-472" x2="359.99999999999994" y2="872" stroke="#4ea1ff" stroke-width="12" stroke-opacity=".13" data-page-node-id="fuHoP0P5lJ6sCvWr3d8XbN"></line><line x1="360.00000000000006" y1="-472" x2="359.99999999999994" y2="872" stroke="#4ea1ff" stroke-width="4" data-page-node-id="0AwDDGMTJSe5fxPtGKXdUj"></line><text x="329.2" y="373.6" font-size="14" fill="#4ea1ff" font-weight="bold" data-page-node-id="KGXdCR0GzxGjyh0VRPZjW8">镜面（对称轴）</text><line x1="220" y1="121.60000000000001" x2="500" y2="121.60000000000002" stroke="#7ee0c0" stroke-width="2" stroke-dasharray="7 5" data-page-node-id="EZUiqfx8Lc5tXYptj6Jntm"></line><circle cx="360" cy="121.60000000000001" r="4" fill="#7ee0c0" data-page-node-id="X90G6tw36SOrEDAP0k83PF"></circle><polyline points="385.2,146.8 385.2,172 410.4,146.8" fill="none" stroke="#7ee0c0" stroke-width="2" data-page-node-id="oyJqHnvRDnjyUOE8sC8w1g"></polyline><text x="290" y="115.60000000000001" font-size="13" fill="#7ee0c0" data-page-node-id="fa2meOswbCQINFJzwFRQ55">d₁=2.5</text><text x="430" y="115.60000000000001" font-size="13" fill="#7ee0c0" data-page-node-id="1okD39RngBDX1mBLBECAVI">d₂=2.5</text><circle cx="220" cy="121.60000000000001" r="9" fill="#ffb84e" data-page-node-id="bEAqwnBPMGHkWQdZ0IGSjz"></circle><text x="232" y="113.60000000000001" font-size="15" fill="#ffb84e" font-weight="bold" data-page-node-id="xO955yuAAs4nAGjMmZmuZx">A(-2.5, 1.4)</text><circle cx="500" cy="121.60000000000002" r="9" fill="none" stroke="#b69cff" stroke-width="3" stroke-dasharray="4 3" data-page-node-id="9y3yvhwwrSyrjEoLbG4M1U"></circle><text x="512" y="113.60000000000002" font-size="15" fill="#b69cff" font-weight="bold" data-page-node-id="L2Ryl3guzrHz2IO3KjOiSW">A′(2.5, 1.4)</text></svg></div>
+    <div class="sliders" data-page-node-id="mF3pGSvWJIylAksZ5B1a9U">
+      <button class="act" id="modeF" style="width:100%;padding:6px" data-page-node-id="3sVmGp7FmQE4dIrrJUUaPE">正向：已知镜面 → 求像</button>
+      <button class="act ghost" id="modeI" style="width:100%;margin-top:5px;padding:6px" data-page-node-id="goXmhrhusc7pr99lGhYVuO">逆向：已知像 → 反推镜面</button>
+      <label data-page-node-id="nCjJI0bhqQMZVpNCku6L4K">镜面角度：<span id="angVal" data-page-node-id="mO5rin05mBzdxOXqBGe36Q">90°</span></label>
+      <input type="range" id="simAngle" min="-90" max="90" value="90" step="1" data-page-node-id="DxGfZIBElHZf0aIwrRTiNr">
+      <label data-page-node-id="urxZpo98rlZCedEpaa5ZFJ">镜面位置：<span id="offVal" data-page-node-id="5OkpLegy7VmnWVbaYu3zTR">0.0</span></label>
+      <input type="range" id="simOffset" min="-4" max="4" value="0" step="0.1" data-page-node-id="YfMnIU6OGAR3FlUHbbplE8">
+      <button class="act ghost" id="set45" style="width:100%;margin-top:6px;padding:6px" data-page-node-id="qE5AuBabQtiSMnVH28JCss">一键 45° 斜镜</button>
+      <button class="act ghost" id="simReset" style="width:100%;margin-top:6px;padding:6px" data-page-node-id="zHyJIq19FGJDSNgF4aOjb8">恢复初始状态</button>
+      <div class="hintbox" id="simInfo" data-page-node-id="Z3zJ4DS7MxLyIfC1AB0z6k"><b data-page-node-id="DntzFCKqusYTYniVqKPCOr">物点</b> A(-2.5, 1.4)<br data-page-node-id="dAv9iogJSP1kjlFpuMWcfS"><b data-page-node-id="VXYrlqOwEYunYMunAC4ToJ">像点</b> A′(2.5, 1.4)<br data-page-node-id="mRhQDK4R1AI1BtXYb6VNC3"><b data-page-node-id="WsxqXSzZtU1aBh6bftSFhI">镜面倾角</b> 90°　<b data-page-node-id="qlbXnkTXr7P4hr03FpDfyk">位置</b> 0.0<br data-page-node-id="e86ea0uUiXXxopM02GppXw"><b data-page-node-id="DoA3lMJvU92KNthBZmCKxQ">物到镜面</b> 2.50　<b data-page-node-id="27HupBbLJkIxk2vfnRSN0N">像到镜面</b> 2.50<br data-page-node-id="XcLGxmZUVLK8foV0fv4V80"><span style="color:var(--ok)" data-page-node-id="dQh4Y2oB12H4Y43comYz72">连线始终被镜面垂直平分</span></div>
     </div>
   </div>
-  <div class="tch"><b>教师提示：</b>本页演示严格控制在 3–5 分钟。演示完请让学生用可旋转镜面教具复现一次，避免"这是电脑特效"的怀疑。</div>
+  <div class="tch" data-page-node-id="gMLnGBQ9ooF7BdBB8ICWSl"><b data-page-node-id="llUcBap9gFkcFEixcrXPyn">教师提示：</b>本页演示严格控制在 3–5 分钟。演示完请让学生用可旋转镜面教具复现一次，避免"这是电脑特效"的怀疑。</div>
 </div>
 </section>
 
 <!-- ============ P14 垂直平分结论 ============ -->
-<section class="slide" data-sec="p3" data-name="环节三 · 一般结论">
-<div class="wrap">
-  <div class="say" style="font-size:1.1rem">
-    失灵的只是<b>坐标写法</b>，规律本身还在，只是要换一种更一般的话来说。<br>
+<section class="slide" data-sec="p3" data-name="环节三 · 一般结论" data-page-node-id="LdW6O9roFE6Wz5UlGWMIuW">
+<div class="wrap" data-page-node-id="nFTkeUPS86FNpvWmJd9Ew8">
+  <div class="say" style="font-size: 20px;" data-page-node-id="YCOfiJhPKzp0Owp3uPltNL">
+    失灵的只是<b data-page-node-id="ctyWbQf9gYuMF3IDvMwd0L">坐标写法</b>，规律本身还在，只是要换一种更一般的话来说。<br data-page-node-id="5jugDiATNvYx6ywGAuLrxi">
     不管镜子怎么转、转到哪，始终不变的是这两件事：
   </div>
-  <div class="card" style="text-align:center;padding:24px 16px">
-    <div style="font-size:1.35rem;margin-bottom:10px"><span class="key">对称轴垂直于对应点连线</span>　+　<span class="key">对称轴平分这条连线</span></div>
-    <div class="formula" style="font-size:1.55rem;margin:0">对称轴 <b>垂直平分</b> 两个对应点的连线</div>
+  <div class="card" style="text-align:center;padding:24px 16px" data-page-node-id="bjckhCOg245Cof60lGEKN8">
+    <div style="font-size: 24px; margin-bottom: 10px;" data-page-node-id="NABXckwBkr2Z80HvHcSWtD"><span class="key" data-page-node-id="X0LlgPogtw01h9p6Z9Mqcd">对称轴垂直于对应点连线</span>　+　<span class="key" data-page-node-id="yyPs61bSDAy6v9Ui6w7jTl">对称轴平分这条连线</span></div>
+    <div class="formula" style="font-size: 32px; margin: 0px;" data-page-node-id="UaSJkhqErGEiEkLh0H0tUw">对称轴 <b data-page-node-id="Vl4AJXG9BWK3R4VOB6g4Et">垂直平分</b> 两个对应点的连线</div>
   </div>
-  <div class="grid2" style="margin-top:8px">
-    <div class="card" style="text-align:left;padding:10px 12px">
-      <div style="font-size:1rem;font-weight:600">只在特殊情况下成立</div>
-      <div style="font-size:.92rem;opacity:.85">坐标写法 a′ = −a、b′ = b，<b>只有镜面恰好与 y 轴重合时才成立</b>，镜子一斜就失灵。</div>
+  <div class="grid2" style="margin-top:8px" data-page-node-id="hjXqAaO6C6bzEfRquMTzfn">
+    <div class="card" style="text-align:left;padding:10px 12px" data-page-node-id="dNCmBcYL0D6bFH8SoY7wE0">
+      <div style="font-size: 1rem; font-weight: 600;" data-page-node-id="1sR6xCKWB3szafkucEO8Qm">只在特殊情况下成立​</div>
+      <div style="font-size: 0.92rem; opacity: 0.85;" data-page-node-id="mOQulfPcLvE7itCKdSVQDD">坐标写法 a′ = −a、b′ = b，<b data-page-node-id="cUmBHXMXbQJJrFIZZ4HtL6">只有镜面恰好与 y 轴重合时才成立</b>，镜子一斜就失灵。</div>
     </div>
-    <div class="card" style="text-align:left;padding:10px 12px">
-      <div style="font-size:1rem;font-weight:600">镜面怎么转都成立</div>
-      <div style="font-size:.92rem;opacity:.85">"垂直平分"不依赖任何坐标系，<b>镜面转到任意角度、移到任意位置都对</b>。</div>
+    <div class="card" style="text-align:left;padding:10px 12px" data-page-node-id="23zhNCY9BeHuHIssAs7m92">
+      <div style="font-size:1rem;font-weight:600" data-page-node-id="gwvTJmzFGvtyP7XEp8a9kx">镜面怎么转都成立</div>
+      <div style="font-size:.92rem;opacity:.85" data-page-node-id="CVnXBbaBRm9CNyZF1M5JXo">"垂直平分"不依赖任何坐标系，<b data-page-node-id="PxThSxQmI8YY7qbTRxc03g">镜面转到任意角度、移到任意位置都对</b>。</div>
     </div>
   </div>
-  <div class="say" style="margin-top:8px">
-    <span style="font-size:.95rem;opacity:.85">反过来用，也成立——设计装置全靠这一句：</span><br>
-    <span class="key" style="font-size:1.2rem">想让像出现在哪儿，就把镜面放在物点与目标点连线的垂直平分线上。</span>
+  <div class="say" style="margin-top: 8px; font-size: 20px;" data-page-node-id="V4z7JZ0SjR2O21S29l8aKj">
+    <span style="font-size: 0.95rem; opacity: 0.85;" data-page-node-id="rO4H8ScGqhr0yNlbVvMnM3">反过来用，也成立——​</span><br data-page-node-id="Xid7J9ALJxsmlqU7gvZpAA">
+    <span class="key" style="font-size: 24px; white-space: pre-wrap; text-align: center;" data-page-node-id="PQ4AdD4AbVZ5PIPiVW5vzc">想让像出现在哪儿，就把镜面放在物点与目标点连线的垂直平分线上。​​​</span>
   </div>
 </div>
 </section>
 
 <!-- ============ P15 ⑤拆穿魔盒 ============ -->
-<section class="slide" data-sec="p3" data-name="环节三 · ⑤ 拆穿魔盒">
-<div class="wrap">
-  <div class="ask">⑤ 谁上台，把魔盒说穿？</div>
-  <div class="say">现在回到课首那个盒子。请用我们刚建立的模型，把这句话补完整。</div>
-  <div class="do">
-    我们看到的那只"空"盒子，其实是 ______ 关于 ______ 的像，它的位置由 ______ 唯一确定，所以我看见的是 ______（实像 / 虚像）。
+<section class="slide" data-sec="p3" data-name="环节三 · ⑤ 拆穿魔盒" data-page-node-id="CYuo7EH4FLO5eAxbG1TOQi">
+<div class="wrap" data-page-node-id="w0MfOJgTjsQclxVFR07ja3">
+  <div class="ask" data-page-node-id="dhq6IbljO8alyIw6jDaGf5" style="font-size: 32px;">⑤ 把魔盒说穿​​</div>
+  <div class="say" data-page-node-id="SiN3bYRRb1L1a6sTqpzTwL">现在回到课首那个盒子。请用我们刚建立的模型，把这句话补完整。</div>
+  <div class="do" data-page-node-id="xEC7E20QFYyblS0moYOlIV" style="font-size: 20px; font-weight: 700;">我们看到的那只"空"盒子，其实是 ______ 关于 ______ 的像，它的位置由 ______ 唯一确定，所以我看见的是 ______（实像 / 虚像）。</div>
+  
+  <div class="grid2" style="margin-top:8px" data-page-node-id="NZrnEDFrx4fKZ38fuzvG44">
+    <div data-page-node-id="eAVzSi80yVTbfCNbth2bgW"><label data-page-node-id="TnAXNMFb3CX9BzmQkKNdhb">第一个空（什么物体的像）</label><input id="f1" placeholder="如：盒内贴花纹的内壁" data-page-node-id="QMEm3jp8KpMXHhDUakDxr3"></div>
+    <div data-page-node-id="8DKqVMAboKAOPTYnAVEv9K"><label data-page-node-id="av1fEr3S20JISGietz5CPN">第二个空（关于什么对称）</label><input id="f2" placeholder="如：盒内 45° 斜镜所在的直线" data-page-node-id="Lf3QBMFB8WcOssF9arShWQ"></div>
+    <div data-page-node-id="fFUgaAnVRL2QnWKKp5YRuF"><label data-page-node-id="vtaHfViDZfujD0H0BhT6UQ">第三个空（由什么确定）</label><input id="f3" placeholder="如：对称轴（垂直平分线）" data-page-node-id="2GARZN8bwvUyVA2qHSbiQZ"></div>
+    <div data-page-node-id="xbMjPtfz6HtZTrGYNCnbe2"><label data-page-node-id="fXJ0RceVw4foRtKBexefOa">第四个空（实像 / 虚像）</label><input id="f4" placeholder="虚像" data-page-node-id="ITNFOAhDuhc8ZVzY601C4P"></div>
   </div>
-  <div class="say" style="font-size:.95rem;opacity:.85;margin-top:6px">填不出的时候，看输入框里的<b>灰色提示</b>。</div>
-  <div class="grid2" style="margin-top:8px">
-    <div><label>第一个空（什么物体的像）</label><input id="f1" placeholder="如：盒内贴花纹的内壁"></div>
-    <div><label>第二个空（关于什么对称）</label><input id="f2" placeholder="如：盒内 45° 斜镜所在的直线"></div>
-    <div><label>第三个空（由什么确定）</label><input id="f3" placeholder="如：对称轴（垂直平分线）"></div>
-    <div><label>第四个空（实像 / 虚像）</label><input id="f4" placeholder="虚像"></div>
-  </div>
-  <button class="act" id="chkFill" style="margin-top:10px">对照标准模型句式</button>
-  <div class="fb" id="fillFb"></div>
-  <div class="tch"><b>教师提示：</b>参考答案——盒内贴花纹的内壁 / 盒内 45° 斜镜所在的直线 / 对称轴（它垂直平分物与像的连线）/ 虚像。要点：硬币被 45° 斜镜挡在镜后，我们从窗口看到的"盒内空间"其实是内壁的虚像，所以"明明有硬币却看不见"。学生说不出"对称轴"时，<b>不要直接给答案</b>，改问："想让像正好落在你看到的地方，镜子该放在哪？"用难点②反推。（视频效果为"硬币消失"；若课堂改用"悬空展示"魔盒，第一空换回"盒底的小物件"即可，骨架不变。）</div>
+  <button class="act" id="chkFill" style="margin-top:10px" data-page-node-id="PyMxCsiirWvrWmnGNI5bnI">对照标准模型句式</button>
+  <div class="fb" id="fillFb" data-page-node-id="MTSFt6riD1eDnZXMRQtfG9"></div>
+  <div class="tch" data-page-node-id="APnGtwxOOuirw4gQRLq5Zq"><b data-page-node-id="tQGMiz6AYQjWxfp5GwNybG">教师提示：</b>参考答案——盒内贴花纹的内壁 / 盒内 45° 斜镜所在的直线 / 对称轴（它垂直平分物与像的连线）/ 虚像。要点：硬币被 45° 斜镜挡在镜后，我们从窗口看到的"盒内空间"其实是内壁的虚像，所以"明明有硬币却看不见"。学生说不出"对称轴"时，<b data-page-node-id="rB4FTC20sKUfZyjtxFTJTJ">不要直接给答案</b>，改问："想让像正好落在你看到的地方，镜子该放在哪？"用难点②反推。（视频效果为"硬币消失"；若课堂改用"悬空展示"魔盒，第一空换回"盒底的小物件"即可，骨架不变。）</div>
 </div>
 </section>
 
-<!-- ============ P16 猜想回收 ============ -->
-<section class="slide" data-sec="p3" data-name="环节三 · 回收猜想贴">
-<div class="wrap">
-  <h2>回收猜想贴 · 和 40 分钟前的自己对照</h2>
-  <div class="sub">课首写下猜想的同学，现在说说当时的想法。</div>
-  <div id="guessBack" class="card" style="min-height:90px"></div>
-  <div class="say">课首你猜的和现在解释的，是同一件事吗？差在哪一步？<br>——<b>知道自己原来错在哪，比答对更有价值。</b></div>
-  <div class="tch"><b>教师提示：</b>若用纸质猜想贴，此处请学生取下后墙的贴纸，口头对照 1–2 人即可，不要逐人念，费时。</div>
-</div>
-</section>
-
-<!-- ============ P17 环节四 三查 ============ -->
-<section class="slide" data-sec="p4" data-name="环节四 · 第一关 三查互评">
-<div class="wrap">
-  <h2>环节四 · 反馈：三关检验</h2>
-  <div class="sub">第一关 · 会画：同桌交换设计图，三查互评</div>
-  <div class="say">查一条勾一条，不合格的当场说出问题在哪。</div>
-  <label class="opt"><input type="checkbox" id="ck1"> <b>查等距</b>：物点到镜面、像点到镜面的距离相等，图上有 d₁、d₂ 标注</label>
-  <label class="opt"><input type="checkbox" id="ck2"> <b>查垂直</b>：连线 AA′ 与镜面成 90°，画了直角符号，且镜面平分这条连线</label>
-  <label class="opt"><input type="checkbox" id="ck3"> <b>查双标注</b>：物 A、像 A′ 都标名；对称轴画虚线并标注；像用虚线画</label>
-  <button class="act" id="chk3">提交三查结果</button>
-  <div class="fb" id="fb3"></div>
-  <div class="tch"><b>教师提示：</b>互评表纸质版见《资源包/01_打印件合集.html》第 3 页。重点是让学生说出"不合格在哪"，而不是打个勾。</div>
-</div>
-</section>
-
-<!-- ============ P18 AI 挑错 ============ -->
-<section class="slide" data-sec="p4" data-name="环节四 · 第二关 给 AI 当裁判">
-<div class="wrap">
-  <h2>第二关 · 懂原理：给 AI 当裁判</h2>
-  <div class="say">这幅图是 AI 画的，里面藏着<b>两处错误</b>。找到一处就举手，先别说出答案——等所有人都看完。</div>
-  <div style="text-align:center">
-    <img id="errImg" class="maxw" src="assets/03_AI挑错光路图_错误版.svg" alt="AI 挑错光路图">
-    <div class="note">若图片未显示，可从《资源包》目录复制这两个 SVG 到 <b>课件/assets/</b>。</div>
-  </div>
-  <div style="margin-top:8px">
-    <div class="opt" data-o="A">A．像到镜面的距离不等于物到镜面的距离（d₂ = 2.4 cm，应为 4.0 cm）</div>
-    <div class="opt" data-o="B">B．物像连线不垂直于镜面，却在交点处标了直角符号</div>
-    <div class="opt" data-o="C">C．镜面的角度画错了，不是 45°</div>
-    <div class="opt" data-o="D">D．像画得比物大</div>
-  </div>
-  <button class="act" id="chkErr">提交答案</button>
-  <button class="act ghost" id="showFix">揭晓</button>
-  <div class="fb" id="fbErr"></div>
-  <div id="fixBox" style="display:none;margin-top:8px;text-align:center">
-    <img class="maxw" src="assets/04_AI挑错光路图_正确版.svg">
-  </div>
-  <div class="tch"><b>教师提示：</b>标准答案 A + B。两处错其实是同一件事——违反"对称轴垂直平分对应点连线"。追问必问："你怎么知道它错了？依据是什么？"</div>
-</div>
-</section>
-
-<!-- ============ P19 30 秒 ============ -->
-<section class="slide" data-sec="p4" data-name="环节四 · 第三关 30 秒挑战">
-<div class="wrap">
-  <h2>第三关 · 会迁移：30 秒挑战</h2>
-  <div class="say">镜面是 y 轴，物点 A 在 (3, 4)。<b>30 秒</b>，写出像点 A′ 的坐标，并说一句依据。</div>
-  <div id="timerBig">30</div>
-  <div style="text-align:center;margin:6px 0">
-    <button class="act" id="t30">开始</button>
-    <button class="act ghost" id="t30r">重置</button>
-  </div>
-  <div class="grid2">
-    <div><label>你的答案 A′( a′ , b′ )</label><input id="ans30" placeholder="如：(-3, 4)"></div>
-    <div><label>依据（一句话）</label><input id="why30" placeholder="如：对称轴垂直平分 AA′"></div>
-  </div>
-  <div style="margin-top:8px">
-    <button class="act" id="judge30">判一判</button>
-    <span style="margin-left:8px" class="note">贴墙汇总：</span>
-    <button class="act ghost" id="addR">答对 +1</button>
-    <button class="act ghost" id="addW">答错 +1</button>
-    <button class="act ghost" id="clrWall">清空</button>
-  </div>
-  <div class="fb" id="fb30"></div>
-  <div id="wall"></div>
-  <div class="note" id="wallStat"></div>
-  <div class="tch"><b>教师提示：</b>更多挑战题（含逆向难题与"镜子至少多高"）见《资源包/01_打印件合集.html》第 6 页，可裁成题卡。正确答案 A′(−3, 4)。</div>
-</div>
-</section>
 
 <!-- ============ P20 结项发布 ============ -->
-<section class="slide" data-sec="p5" data-name="环节五 · 任务发布">
-<div class="wrap">
-  <h2>环节五 · 结项启动：任务发布</h2>
-  <div class="say">
-    模型学到这儿，该轮到你们出题了：<b>为真实场景设计并制作一件可演示的"看见看不见"镜像装置</b>。<br>
-    交三样东西——<span class="pill big">双标注设计图</span><span class="pill big">实物模型</span><span class="pill big">一句建模说明</span>
+<section class="slide" data-sec="p4" data-name="环节四 · 任务发布" data-page-node-id="385M8fDEIyGhkDIFGFFL5I">
+<div class="wrap" data-page-node-id="0gGTPhDZHEBG1rGbvwXshb">
+  <h2 data-page-node-id="ID0mhUD82GLSR4RZ4BASFy" style="white-space: pre-wrap; font-size: 36px; text-align: center;">环节四 · 任务发布​</h2>
+  <div class="say" data-page-node-id="b05mQi245a0MSwzEQKZ9N6">
+    模型学到这儿，该轮到你们出题了：<b data-page-node-id="geTXhGNmlqHZ1eUZlJscHg">为真实场景设计并制作一件可演示的"看见看不见"镜像装置</b>。<br data-page-node-id="AcGlbEdAiGOSWQWZ1I2q4B">
+    交三样东西——<span class="pill big" data-page-node-id="kQUYTzXkupNiuENIDvzO6P">双标注设计图</span><span class="pill big" data-page-node-id="GK2ou9TOVjB4WGsqfDHkdu">实物模型</span><span class="pill big" data-page-node-id="hNSZYNK6PmmfLap3S5HCW0">一句建模说明</span>
   </div>
-  <h3>四道备选题 · 任选其一</h3>
-  <div class="task"><h4>① 潜望镜 <span class="star">★ 推荐</span></h4>
-    <p style="margin:0">两面 45° 镜面两次反射成像，像与物经过<b>两次</b>轴对称。<br><span class="note">材料：硬纸板、两面小镜、胶带</span></p></div>
-  <div class="task"><h4>② 魔盒"悬空"展示台 <span class="star">★ 推荐</span></h4>
-    <p style="margin:0">盒内 45° 斜镜让盒底物品的像"悬浮"在上方——和课首魔盒同一个原理，效果正相反：课首是"明明有却看不见"，这个是"明明没有却看得见"。<br><span class="note">材料：鞋盒、一面小镜、小物件</span></p></div>
-  <div class="task"><h4>③ 万花筒</h4>
-    <p style="margin:0">三面镜围成三棱镜筒，多次对称成像。<br><span class="note">材料：纸筒、三面窄镜、彩色碎片</span></p></div>
-  <div class="task"><h4>④ 反射"隐身"演示器</h4>
-    <p style="margin:0">镜面遮挡物体一半，靠对称补全视觉。<br><span class="note">材料：纸板、一面小镜</span></p></div>
+  <h3 data-page-node-id="veaizGifnfd8KckZVjdrEu">四道备选题 · 任选其一</h3>
+  <div class="task" data-page-node-id="tSCXnR4eUUCFCBW5m20EOJ"><h4 data-page-node-id="H0wpI85QFX60ZWuXuyYp1B">① 潜望镜 <span class="star" data-page-node-id="BPh2LJ4ZjpsCIZ10B5Y7cL">★ 推荐</span></h4>
+    <p style="margin:0" data-page-node-id="2fGiFc8gxXh9mruQOaHAlq">两面 45° 镜面两次反射成像，像与物经过<b data-page-node-id="jDwv83LFjlLt9vWksLIPZO">两次</b>轴对称。<br data-page-node-id="2NX1YJZMgBA8gZZTo3EeQ5"><span class="note" data-page-node-id="7cHsmb5v331V1cZA03NPY0">材料：硬纸板、两面小镜、胶带</span></p></div>
+  <div class="task" data-page-node-id="Bu396sIOgera423HjhcblQ"><h4 data-page-node-id="T2bi1jNGXlD4P1brzQVg9I">② 魔盒"悬空"展示台 <span class="star" data-page-node-id="8iGNyavaL4Mt2hKwosMpfn">★ 推荐</span></h4>
+    <p style="margin:0" data-page-node-id="YlHdBgc1gRyeG3exs49WYM">盒内 45° 斜镜让盒底物品的像"悬浮"在上方——和课首魔盒同一个原理，效果正相反：课首是"明明有却看不见"，这个是"明明没有却看得见"。<br data-page-node-id="CEtkugJ2TxKkLnEv8bNCYS"><span class="note" data-page-node-id="P4eGwgNLQi2UifBTBfu08O">材料：鞋盒、一面小镜、小物件</span></p></div>
+  <div class="task" data-page-node-id="FC8vb55nPRRYUzkDxCMEoE"><h4 data-page-node-id="f6nVvueMuvGeEARrVuq7bB">③ 万花筒</h4>
+    <p style="margin:0" data-page-node-id="tiPtG0TKryr6phdQBcTqpl">三面镜围成三棱镜筒，多次对称成像。<br data-page-node-id="xzYC04k7lYYWJJzmj7k3Ke"><span class="note" data-page-node-id="uHbWF3jr37BicH2FWpEGBe">材料：纸筒、三面窄镜、彩色碎片</span></p></div>
+  <div class="task" data-page-node-id="Fm9T9gNgBeQ7jGTcJLmYWM"><h4 data-page-node-id="LWiN2Y9ZCMNuOUvDtY2x6p">④ 反射"隐身"演示器</h4>
+    <p style="margin:0" data-page-node-id="BFzHW8gY7PQb18kmDN9g3a">镜面遮挡物体一半，靠对称补全视觉。<br data-page-node-id="qQthT56AVpFgkPME5h0dxE"><span class="note" data-page-node-id="Wntoe8r6YhUO0GuPYuUifq">材料：纸板、一面小镜</span></p></div>
 </div>
 </section>
 
 <!-- ============ P21 约束卡 ============ -->
-<section class="slide" data-sec="p5" data-name="环节五 · 设计约束卡">
-<div class="wrap">
-  <h2>设计约束卡（各组填写，课后带走）</h2>
-  <div class="grid2">
-    <div><label>组号 / 作品名</label><input id="k1"></div>
-    <div><label>为谁设计</label><input id="k2"></div>
-    <div><label>在哪看（观察位置、高度）</label><input id="k3"></div>
-    <div><label>看到什么（像应出现在哪）</label><input id="k4"></div>
-    <div><label>材料清单</label><input id="k5"></div>
-    <div><label>成本上限</label><input id="k6"></div>
-    <div><label>制作周期</label><input id="k7"></div>
-    <div><label>验收标准（怎样算成功）</label><input id="k8"></div>
+<section class="slide on fwd" data-sec="p4" data-name="环节四 · 设计约束卡" data-page-node-id="dCzOxucCB0rvEaUWAsyuoz">
+<div class="wrap" data-page-node-id="JXYdSX3jdc7lw0bJQT3tjy">
+  <h2 data-page-node-id="AdDH5gXkQq27EvhO09O2TI" style="white-space: pre-wrap; font-size: 36px; text-align: center;">设计约束卡​</h2>
+  <div class="grid2" data-page-node-id="xXNFVfyl8WLHuj9kXDBpTa">
+    <div data-page-node-id="yyiiRqwyC7tdSZ2Aewc0B4"><label data-page-node-id="qLRABN79gEIScDE5WIbppJ">组号 / 作品名</label><input id="k1" data-page-node-id="Zbk3F0tIa4x4ONNTH3vIJS"></div>
+    <div data-page-node-id="NM7mry9pWUO0YiCiH2CsCG"><label data-page-node-id="AMLfI2F8SJHK3BKqBJtVXr">为谁设计</label><input id="k2" data-page-node-id="uWJqfWE1tp3TNbPDhsL31e"></div>
+    <div data-page-node-id="YZpY3jfofYgMCRAyyqaMmE"><label data-page-node-id="6N9mp5MtDFd6gVv0OEG1cz">在哪看（观察位置、高度）</label><input id="k3" data-page-node-id="5fvjdPYPLIrb1IFuqNGKrc"></div>
+    <div data-page-node-id="zaxixajoeEkxhgOpwmTYPS"><label data-page-node-id="cgMptKkpbiBUJCw1KdgJlh">看到什么（像应出现在哪）</label><input id="k4" data-page-node-id="4RNaMEFHdHDUeV2SANWUC1"></div>
+    <div data-page-node-id="sD6hWLnGtwmzaFqO3qmI15"><label data-page-node-id="bPxsbGGZCyxHQBTTIJULJ1">材料清单</label><input id="k5" data-page-node-id="Cd0mqYdGwlcnorkRyp0SYi"></div>
+    <div data-page-node-id="VEKgr7C855c51az65BTFlK"><label data-page-node-id="PwyCBNk9Xvycb1YzwTEPCL">成本上限</label><input id="k6" data-page-node-id="wVQSwERkDu3KkL77AlEyCo"></div>
+    <div data-page-node-id="olE5JLBl2BlTrErzwEe3lT"><label data-page-node-id="HPUhwZBfowYHHYm4xPlQGF">制作周期</label><input id="k7" data-page-node-id="KbeZrbSMDUgUk3HYFDDY4I"></div>
+    <div data-page-node-id="LwRPg3Ek1GXs1S9KzVCa5w"><label data-page-node-id="8jbXZzsBeHpJGqnY2f1cJ5">验收标准（怎样算成功）</label><input id="k8" data-page-node-id="FHUdo0nWpHL8FeUAYvZPUw"></div>
   </div>
-  <div style="margin-top:8px">
-    <label>★ 关键一问：你打算把镜子放在什么位置、什么角度？为什么？</label>
-    <textarea id="k9"></textarea>
+  <div style="margin-top:8px" data-page-node-id="E1l7iJ3E61dHTaF3SkfGfX">
+    <label data-page-node-id="bpIXWqJYtdZhM5tm0dbPSB">★ 关键一问：你打算把镜子放在什么位置、什么角度？为什么？</label>
+    <textarea id="k9" data-page-node-id="fRR6EbIhlUprXsxTXs6Tmn"></textarea>
   </div>
-  <div style="margin-top:8px">
-    <button class="act" id="saveCard">保存</button>
-    <button class="act ghost" id="printCard">打印本卡</button>
-    <button class="act ghost" id="loadCard">读取已保存</button>
+  <div style="margin-top:8px" data-page-node-id="yeCv754HEEvvWPGOF0YWdy">
+    <button class="act" id="saveCard" data-page-node-id="arktYOhwCZ07106QtlaCjo">保存</button>
+    <button class="act ghost" id="printCard" data-page-node-id="h7Qs55KfgWUL3aCDZglibm">打印本卡</button>
+    <button class="act ghost" id="loadCard" data-page-node-id="NBa3Q03q5jG7AHAi5w9RSJ">读取已保存</button>
   </div>
-  <div class="fb" id="fbCard"></div>
-  <div class="say" style="margin-top:12px">
-    最后留一句：<b>镜子不会骗人，它只是严格地执行对称。</b><br>
+  <div class="fb" id="fbCard" data-page-node-id="QgPIybepi553tUPcGKBQnB"></div>
+  <div class="say" style="margin-top:12px" data-page-node-id="tZyCDd9dl2WeBp0nYx0bfZ">
+    最后留一句：<b data-page-node-id="a9HsE0G3FGOpCBFajQquIq">镜子不会骗人，它只是严格地执行对称。</b><br data-page-node-id="ojWhYxz0kZEjdjxvTv88KD">
     骗过我们的，是我们对"看见"的想当然——而数学，就是用来拆穿想当然的。
   </div>
-  <div class="tch"><b>教师提示：</b>纸质版见《资源包/01_打印件合集.html》第 4 页。这一问直接训练难点"由目标可见位置反推镜面位置"，不能让学生跳过。评价量规见《资源包/07_附录_评价量规与逐条对照.md》。</div>
+  <div class="tch" data-page-node-id="Xx6JC7q2YKfPNxNTEA2cuH"><b data-page-node-id="YnCe7coo6497Kd758qn48b">教师提示：</b>纸质版见《资源包/01_打印件合集.html》第 4 页。这一问直接训练难点"由目标可见位置反推镜面位置"，不能让学生跳过。评价量规见《资源包/07_附录_评价量规与逐条对照.md》。</div>
 </div>
 </section>
 
 </div>
 
-<div id="foot">
-  <span class="secname" id="secName">首页 · 驱动性问题</span>
-  <div class="dotsbar" id="dotsBar"></div>
-  <span id="pageNo">1 / 1</span>
-  <button class="tbtn" id="pgPrev">上一页</button>
-  <button class="tbtn" id="pgNext">下一页</button>
+<div id="foot" data-page-node-id="VfCN6mCjFNzhAF3guUaEjw">
+  <span class="secname" id="secName" data-page-node-id="YicPBtGhKzdBLcuLAaydSB">环节四 · 设计约束卡</span>
+  <div class="dotsbar" id="dotsBar" data-page-node-id="QYrJfPsVpSjJAYpSJVxCgg"><button class="pdot done" data-p="0" title="首页 · 驱动性问题" data-page-node-id="sUE7uoTc8qVV1avCVZATcy"></button><button class="pdot done" data-p="1" title="首页 · 课堂路线图" data-page-node-id="gdmCOggmrNop6by5OxuU2n"></button><button class="pdot done" data-p="2" title="环节一 · 入项：魔盒挑战" data-page-node-id="rAbasbKFD9KDJdjSMTigFO"></button><button class="pdot done" data-p="3" title="环节一 · 写下你的猜想" data-page-node-id="Bo7OEQcRxi1njN3hEdjGG9"></button><button class="pdot done" data-p="4" title="环节二 · 三步实验" data-page-node-id="sMcuf05KbQo7rBByVxusaD"></button><button class="pdot done" data-p="5" title="环节二 · 记录测量结果" data-page-node-id="9G4rcbomrFeGD8QkxcIWSl"></button><button class="pdot done" data-p="6" title="环节二 · 三条规律" data-page-node-id="A4wJs72KkcWO8msQRUHFak"></button><button class="pdot done" data-p="7" title="环节三 · ① 点化" data-page-node-id="fjFU4ry4zFRDZxhEChsOhB"></button><button class="pdot done" data-p="8" title="环节三 · ② 建系" data-page-node-id="347tChUEnFWIF6bcpWGICw"></button><button class="pdot done" data-p="9" title="环节三 · ③ 归纳" data-page-node-id="hasfLuOwKjdS76B0QuLLVc"></button><button class="pdot done" data-p="10" title="环节三 · 轴对称建模" data-page-node-id="qihV6Wq0DnsIcsehjzVw63"></button><button class="pdot done" data-p="11" title="环节三 · ④ 斜镜与一般化" data-page-node-id="M4vdWFZxlp9VBGMCXuKcIt"></button><button class="pdot done" data-p="12" title="环节三 · 一般结论" data-page-node-id="qMgj0SXL76HIJO9yE4DwIj"></button><button class="pdot done" data-p="13" title="环节三 · ⑤ 拆穿魔盒" data-page-node-id="1EkjCcn1GSnOR2IcaI7icS"></button><button class="pdot done" data-p="14" title="环节四 · 任务发布" data-page-node-id="tDuDGEmyhZHS2UeB30wQFM"></button><button class="pdot on" data-p="15" title="环节四 · 设计约束卡" data-page-node-id="gRaqUtQHlvRwh7LJlq1dQX"></button></div>
+  <span id="pageNo" data-page-node-id="1CrzgU90eR1oX71EZcyXEm">16 / 16</span>
+  <button class="tbtn" id="pgPrev" data-page-node-id="YnL6bmDZ2XOnP740nvvUBx">上一页</button>
+  <button class="tbtn" id="pgNext" data-page-node-id="tfUH1ZS6YBgNI3FOZnaYHR">下一页</button>
 </div>
 
-<script>
+<script data-page-node-id="tJw55CVgG31ToG6LUAxNNy">
 /* ================= 工具 ================= */
 var $=function(s){return document.querySelector(s)};
 var $$=function(s){return Array.prototype.slice.call(document.querySelectorAll(s))};
@@ -715,9 +672,11 @@ function drawBg(){
 /* 顶栏开关：投屏觉得花，可一键关掉背景点 */
 function mountDotToggle(){
   var bar=document.querySelector('.tools'); if(!bar)return;
-  var b=document.createElement('button');
-  b.className='tbtn'; b.id='dotTgl'; b.title='背景动态点：开 / 关';
-  bar.insertBefore(b,bar.firstChild);
+  /* 去重：只保留第一个背景点开关，删除重复项；有则复用，无则新建 */
+  var exist=bar.querySelectorAll('#dotTgl');
+  for(var i=1;i<exist.length;i++)exist[i].remove();
+  var b=exist.length?exist[0]:document.createElement('button');
+  if(!exist.length){b.className='tbtn'; b.id='dotTgl'; b.title='背景动态点：开 / 关'; bar.insertBefore(b,bar.firstChild);}
   function paint(){b.textContent=dotOn?'· 点 开':'· 点 关'; b.style.opacity=dotOn?1:.55}
   paint();
   b.onclick=function(){dotOn=!dotOn; store.s('dots',dotOn); paint();};
@@ -892,7 +851,7 @@ $('#fsDn').onclick=function(){setFs(fs-2)};
 $('#theme').onclick=function(){
   document.documentElement.classList.toggle('light');
   this.textContent=document.documentElement.classList.contains('light')?'投屏深色':'投屏浅色';
-  initDots(); drawSim();
+  initDots(); drawSim(); bdDraw();
 };
 /* 教师提示 */
 $('#tchMode').onclick=function(){
@@ -910,13 +869,21 @@ $('#ckStart').onclick=function(){
 $('#ckReset').onclick=function(){left=45*60;paintClock();running=false;$('#ckStart').textContent='开始';clearInterval(tid)};
 paintClock();
 
-/* 视频占位 */
+/* 魔盒视频：入口按钮 + 模态层播放（支持全屏） */
 (function(){
-  var v=document.createElement('video');
-  v.src='assets/magic-box.mp4'; v.controls=true; v.className='maxw'; v.style.maxHeight='40vh';
-  v.onerror=function(){$('#videoSlot').innerHTML='<div class="note" style="color:inherit">（未检测到 assets/magic-box.mp4，当前显示占位）</div>'};
-  v.addEventListener('loadedmetadata',function(){var h=$('#vHint'); if(h)h.style.display='none';});
-  $('#videoSlot').appendChild(v);
+  var entry=$('#videoEntry'), modal=$('#videoModal'), v=$('#mbVideo'), fail=$('#vmFail');
+  if(!entry||!modal||!v)return;
+  entry.onclick=function(){modal.classList.add('open');try{v.play()}catch(e){}};
+  function close(){modal.classList.remove('open');try{v.pause()}catch(e){}}
+  $('#vmClose').onclick=close;
+  modal.addEventListener('click',function(e){if(e.target===modal)close()});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&modal.classList.contains('open'))close()});
+  $('#vmFull').onclick=function(){
+    if(v.requestFullscreen)v.requestFullscreen();
+    else if(v.webkitRequestFullscreen)v.webkitRequestFullscreen();
+  };
+  v.onerror=function(){fail.style.display='block';v.style.display='none'};
+  v.addEventListener('canplay',function(){fail.style.display='none';v.style.display='block'});
 })();
 
 /* 猜想贴 */
@@ -1005,61 +972,6 @@ new Player({
      render:function(st){st.innerHTML=expStep(1)}},
     {cap:'第三步：在纸上记下物点和像点，用刻度尺连线，量两者到玻璃板刻线的距离，并看这条连线是否与刻线垂直。这三条数据，是我们后面建模的全部原料。',
      render:function(st){st.innerHTML=expStep(2)}}
-  ]
-});
-
-/* ============ 环节二：虚像动画 ============ */
-var VIR={A:{x:250,y:150},EYE:{x:660,y:150},MIR:470};
-function virBase(extra){
-  var g='';
-  g+='<line x1="'+VIR.MIR+'" y1="40" x2="'+VIR.MIR+'" y2="215" stroke="#4ea1ff" stroke-width="5" opacity=".8"/>';
-  g+='<text x="'+(VIR.MIR+8)+'" y="52" font-size="14" fill="#4ea1ff">镜面</text>';
-  g+='<circle cx="'+VIR.A.x+'" cy="'+VIR.A.y+'" r="7" fill="#ffb84e"/>';
-  g+='<text x="'+(VIR.A.x-14)+'" y="'+(VIR.A.y+28)+'" font-size="15" fill="#ffb84e">物 A</text>';
-  g+=extra;
-  g+='<g><ellipse cx="'+VIR.EYE.x+'" cy="'+VIR.EYE.y+'" rx="18" ry="11" fill="none" stroke="#e8edf7" stroke-width="2"/><circle cx="'+VIR.EYE.x+'" cy="'+VIR.EYE.y+'" r="4" fill="#e8edf7"/></g>';
-  g+='<text x="'+(VIR.EYE.x-20)+'" y="'+(VIR.EYE.y+30)+'" font-size="14" fill="#e8edf7">眼睛</text>';
-  return svgWrap(g);
-}
-function virStep(k){
-  var g='',A=VIR.A,M={x:VIR.MIR,y:130},EYE=VIR.EYE,Ax=2*VIR.MIR-A.x;
-  if(k>=0){ g+='<line x1="'+A.x+'" y1="'+A.y+'" x2="'+M.x+'" y2="'+M.y+'" stroke="#ffb84e" stroke-width="2.5"/>';
-    g+='<circle id="ph1" cx="'+A.x+'" cy="'+A.y+'" r="5" fill="#fff"/>'; }
-  if(k>=1){ g+='<line x1="'+M.x+'" y1="'+M.y+'" x2="'+EYE.x+'" y2="'+EYE.y+'" stroke="#ffb84e" stroke-width="2.5"/>';
-    g+='<text x="505" y="106" font-size="14" fill="#ffb84e">反射光进入眼睛</text>'; }
-  if(k>=2){ g+='<line x1="'+M.x+'" y1="'+M.y+'" x2="'+Ax+'" y2="'+A.y+'" stroke="#b69cff" stroke-width="2" stroke-dasharray="6 5"/>';
-    g+='<text x="512" y="180" font-size="14" fill="#b69cff">反向延长线（虚线）</text>'; }
-  if(k>=3){ g+='<circle cx="'+Ax+'" cy="'+A.y+'" r="7" fill="none" stroke="#b69cff" stroke-width="3" stroke-dasharray="4 3"/>';
-    g+='<text x="'+(Ax-14)+'" y="'+(A.y+28)+'" font-size="15" fill="#b69cff">像 A′</text>';
-    g+='<line x1="'+A.x+'" y1="'+A.y+'" x2="'+Ax+'" y2="'+A.y+'" stroke="#7ee0c0" stroke-width="2" stroke-dasharray="7 5"/>';
-    g+='<text x="296" y="'+(A.y-16)+'" font-size="14" fill="#7ee0c0">连线被镜面垂直平分</text>'; }
-  if(k>=4){ g+='<rect x="'+(Ax-6)+'" y="'+(A.y-42)+'" width="12" height="84" fill="#8fa0bd" stroke="#333"/>';
-    g+='<text x="'+(Ax-30)+'" y="'+(A.y+64)+'" font-size="15" fill="#8fa0bd">光屏</text>';
-    g+='<text x="'+(Ax+16)+'" y="'+(A.y-48)+'" font-size="18" fill="#ff6b6b" font-weight="bold">屏上什么也没有</text>'; }
-  return virBase(g);
-}
-var phRaf=null;
-function startPhoton(st){
-  if(phRaf)cancelAnimationFrame(phRaf);
-  var t0=performance.now(),A=VIR.A,M={x:VIR.MIR,y:130},EYE=VIR.EYE;
-  function frame(now){
-    var t=((now-t0)/1400)%1,p1;
-    if(t<0.5){p1={x:A.x+(M.x-A.x)*(t*2),y:A.y+(M.y-A.y)*(t*2)}}
-    else{p1={x:M.x+(EYE.x-M.x)*((t-0.5)*2),y:M.y+(EYE.y-M.y)*((t-0.5)*2)}}
-    var c=st.querySelector('#ph1'); if(!c)return;
-    c.setAttribute('cx',p1.x); c.setAttribute('cy',p1.y);
-    phRaf=requestAnimationFrame(frame);
-  }
-  phRaf=requestAnimationFrame(frame);
-}
-new Player({
-  box:$('#virPlayer'),stage:$('#virStage'),cap:$('#virCap'),no:$('#virNo'),dots:$('#virDots'),gap:3000,
-  steps:[
-    {cap:'第 1 步：物点发出的光射到镜面上。',render:function(st){st.innerHTML=virStep(0);startPhoton(st)}},
-    {cap:'第 2 步：光被镜面反射，进入你的眼睛。你看见东西，是因为有光真的进入了眼睛。',render:function(st){st.innerHTML=virStep(1);startPhoton(st)}},
-    {cap:'第 3 步：关键在这里——大脑默认"光是沿直线来的"，于是它把进入眼睛的光线往回延长。',render:function(st){st.innerHTML=virStep(2);startPhoton(st)}},
-    {cap:'第 4 步：这些反向延长线交于镜后一点。你的眼睛"以为"光是从那儿发出来的——那就是像。',render:function(st){st.innerHTML=virStep(3);startPhoton(st)}},
-    {cap:'第 5 步：拿光屏去接，接不到。说明那里没有真实的光会聚——所以叫虚像。但它在几何上真实存在，位置可以被唯一确定。',render:function(st){st.innerHTML=virStep(4);startPhoton(st)}}
   ]
 });
 
@@ -1206,6 +1118,89 @@ $('#demoTbl').onclick=function(){
   for(var i=1;i<=3;i++){$('#ta'+i).value=d[i-1][0];$('#tb'+i).value=d[i-1][1]}
   $('#calcTbl').click();
 };
+
+/* ============ 环节三：建系交互演示（左展示区 + 右步骤，数据与下表同步） ============ */
+var BD_ST=0, BD_DEMO=[[3,4],[5,1],[6,3]];
+function bdHasData(){
+  for(var i=1;i<=3;i++){var a=parseFloat($('#ta'+i).value),b=parseFloat($('#tb'+i).value);if(!isNaN(a)&&!isNaN(b))return true}
+  return false;
+}
+function bdPts(){
+  var pts=[];
+  for(var i=1;i<=3;i++){
+    var a=parseFloat($('#ta'+i).value),b=parseFloat($('#tb'+i).value);
+    if(!isNaN(a)&&!isNaN(b))pts.push([a,b]);
+  }
+  return pts.length?pts:BD_DEMO;
+}
+function bdDraw(){
+  var st=$('#bdStage'); if(!st)return;
+  var lgt=document.documentElement.classList.contains('light');
+  var W=680,H=300,OX=340,OY=248,K=34;
+  function X(x){return OX+x*K} function Y(y){return OY-y*K}
+  var paper=lgt?'#ffffff':'#222c40', inkc=lgt?'#1a2233':'#e8edf7', grid=lgt?'#c9d3e4':'#2a3348';
+  var plate='#4ea1ff', cA='#ffb84e', cAp='#b69cff', seg='#7ee0c0';
+  var pts=bdPts(), f=pts[0], s='', gx, gy, t, u, i, a, b;
+  s+='<rect x="24" y="16" width="632" height="268" rx="10" fill="'+paper+'" stroke="'+grid+'" stroke-width="1.5"/>';
+  if(BD_ST>=1){
+    for(gx=-7;gx<=7;gx++){if(!gx)continue;s+='<line x1="'+X(gx)+'" y1="'+Y(0)+'" x2="'+X(gx)+'" y2="'+Y(6)+'" stroke="'+grid+'" stroke-width="1" opacity=".6"/>'}
+    for(gy=1;gy<=6;gy++){s+='<line x1="'+X(-7)+'" y1="'+Y(gy)+'" x2="'+X(7)+'" y2="'+Y(gy)+'" stroke="'+grid+'" stroke-width="1" opacity=".6"/>'}
+    s+='<line x1="'+X(0)+'" y1="'+Y(-0.5)+'" x2="'+X(0)+'" y2="'+Y(6.3)+'" stroke="'+plate+'" stroke-width="3.5"/>';
+    s+='<line x1="'+X(-7.3)+'" y1="'+Y(0)+'" x2="'+X(7.3)+'" y2="'+Y(0)+'" stroke="'+plate+'" stroke-width="3.5"/>';
+    for(t=-7;t<=7;t++){if(!t)continue;
+      s+='<line x1="'+X(t)+'" y1="'+(Y(0)-4)+'" x2="'+X(t)+'" y2="'+(Y(0)+4)+'" stroke="'+plate+'" stroke-width="1.5"/>';
+      s+='<text x="'+X(t)+'" y="'+(Y(0)+19)+'" font-size="12" fill="'+inkc+'" text-anchor="middle">'+t+'</text>';}
+    for(u=1;u<=6;u++){
+      s+='<line x1="'+(X(0)-4)+'" y1="'+Y(u)+'" x2="'+(X(0)+4)+'" y2="'+Y(u)+'" stroke="'+plate+'" stroke-width="1.5"/>';
+      s+='<text x="'+(X(0)-9)+'" y="'+(Y(u)+4)+'" font-size="12" fill="'+inkc+'" text-anchor="end">'+u+'</text>';}
+    s+='<text x="'+X(7.2)+'" y="'+(Y(0)+31)+'" font-size="14" fill="'+inkc+'" font-weight="bold">x</text>';
+    s+='<text x="'+(X(0)+10)+'" y="'+(Y(6.15))+'" font-size="14" fill="'+plate+'" font-weight="bold">y 轴（玻璃板刻线）</text>';
+    s+='<text x="'+(X(0)-9)+'" y="'+(Y(0)+19)+'" font-size="13" fill="'+inkc+'" text-anchor="end">O</text>';
+  }else{
+    s+='<line x1="'+X(0)+'" y1="'+Y(-0.5)+'" x2="'+X(0)+'" y2="'+Y(6.3)+'" stroke="'+plate+'" stroke-width="4" stroke-dasharray="10 6"/>';
+    s+='<text x="'+(X(0)+12)+'" y="'+(Y(5.9))+'" font-size="14" fill="'+plate+'">玻璃板（刻线）</text>';
+  }
+  if(BD_ST<2){
+    s+='<circle cx="'+X(f[0])+'" cy="'+Y(f[1])+'" r="7" fill="'+cA+'"/>';
+    s+='<text x="'+(X(f[0])-14)+'" y="'+(Y(f[1])+27)+'" font-size="15" fill="'+cA+'" font-weight="bold">物点 A</text>';
+  }
+  if(BD_ST>=2){
+    for(i=0;i<pts.length;i++){
+      a=pts[i][0]; b=pts[i][1];
+      s+='<line x1="'+X(a)+'" y1="'+Y(b)+'" x2="'+X(-a)+'" y2="'+Y(b)+'" stroke="'+seg+'" stroke-width="2" stroke-dasharray="7 5"/>';
+      s+='<circle cx="'+X(a)+'" cy="'+Y(b)+'" r="7" fill="'+cA+'"/>';
+      s+='<circle cx="'+X(-a)+'" cy="'+Y(b)+'" r="7" fill="none" stroke="'+cAp+'" stroke-width="3"/>';
+      s+='<text x="'+(X(a)+12)+'" y="'+(Y(b)-9)+'" font-size="14" fill="'+cA+'" font-weight="bold">A('+a+', '+b+')</text>';
+      s+='<text x="'+(X(-a)+12)+'" y="'+(Y(b)+23)+'" font-size="14" fill="'+cAp+'" font-weight="bold">A′('+(-a)+', '+b+')</text>';
+    }
+  }
+  st.innerHTML='<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:100%">'+s+'</svg>';
+  var cap=$('#bdCap');
+  if(cap)cap.textContent=[
+    '一张白纸，玻璃板刻线在中间（竖直虚线），物点 A 立在纸上。',
+    '以玻璃板刻线为 y 轴，过物点 A 作 x 轴，标上刻度——白纸变成坐标纸。',
+    '按下表数据描出 A(a, b) 与 A′(−a, b)：纵坐标相同，横坐标互为相反数。'+(bdHasData()?'':'（当前为演示数据，在下表填数后自动更新）')
+  ][BD_ST];
+}
+function bdPaint(){
+  for(var i=0;i<3;i++){var b=$('#bd'+i);if(!b)continue;b.className=(i===BD_ST)?'act':'act ghost'}
+}
+(function(){
+  var i, j;
+  for(i=0;i<3;i++){
+    (function(i){var b=$('#bd'+i);if(!b)return;b.onclick=function(){BD_ST=i;bdPaint();bdDraw()}})(i);
+  }
+  for(j=1;j<=3;j++){
+    (function(){
+      var ta=$('#ta'+j), tb=$('#tb'+j);
+      if(ta)ta.addEventListener('input',function(){if(BD_ST===2)bdDraw()});
+      if(tb)tb.addEventListener('input',function(){if(BD_ST===2)bdDraw()});
+    })();
+  }
+  var _oldCalc=$('#calcTbl').onclick;
+  $('#calcTbl').onclick=function(){_oldCalc.apply(this,arguments);if(BD_ST===2)bdDraw()};
+})();
+bdPaint(); bdDraw();
 $('#chkFill').onclick=function(){
   var f1=$('#f1').value.trim(),f2=$('#f2').value.trim(),f3=$('#f3').value.trim(),f4=$('#f4').value.trim();
   var ok=(f1&&f2&&f3&&f4.indexOf('虚')>=0);
@@ -1214,66 +1209,8 @@ $('#chkFill').onclick=function(){
     ? '模型句式成立：看到的那只"空"盒子，是盒内壁关于 45° 斜镜所在直线的像，位置由对称轴（垂直平分线）唯一确定，因而是<b>虚像</b>——硬币就在镜后，只是被镜子"藏"了起来。'
     : '还差一点：第四空应为<b>虚像</b>（光屏承接不到，是反射光线反向延长线相交而成）；其余三空要点：看到的是盒内壁的像、对称轴是斜镜所在直线、位置由对称轴唯一确定。';
 };
-function paintBack(){
-  var arr=store.g('guess',[]);
-  $('#guessBack').innerHTML=arr.length
-    ? arr.map(function(t){return '<span class="pill big">'+t.replace(/</g,'&lt;')+'</span>'}).join('')
-    : '<span class="note">（还没有录入猜想。可在环节一页面输入，或展示墙上的纸质猜想贴。）</span>';
-}
-paintBack();
-$('#guessAdd').addEventListener('click',paintBack);
 
 /* ================= 环节四 ================= */
-$('#chk3').onclick=function(){
-  var n=($('#ck1').checked?1:0)+($('#ck2').checked?1:0)+($('#ck3').checked?1:0);
-  $('#fb3').className='fb '+(n===3?'ok':'no');
-  $('#fb3').textContent=n===3?'三查全过：等距、垂直、双标注 —— 这张图可以直接进入下一关。'
-    :'还有 '+(3-n)+' 项未通过。请同桌把未通过的那一处具体说出来，并当场改。';
-};
-var errSel={};
-$$('.opt[data-o]').forEach(function(o){
-  o.onclick=function(){o.classList.toggle('sel');errSel[o.dataset.o]=!errSel[o.dataset.o]};
-});
-$('#chkErr').onclick=function(){
-  var s=Object.keys(errSel).filter(function(k){return errSel[k]}).sort();
-  var ok=s.length===2&&s[0]==='A'&&s[1]==='B';
-  $('#fbErr').className='fb '+(ok?'ok':'no');
-  $('#fbErr').innerHTML=ok
-    ? '完全正确。两处错其实是同一件事：它违反了<b>对称轴垂直平分对应点连线</b>——像贴镜子太近（不等距），连线是斜的（不垂直）。'
-    : (s.length?'再想想：判断一幅镜像图对不对，就查"等距"和"垂直"两条。镜面角度是对的（45°），像与物也是等大的。':'请先选择你认为错误的选项。');
-};
-$('#showFix').onclick=function(){var b=$('#fixBox');b.style.display=b.style.display==='none'?'block':'none'};
-var t30=null,tv=30;
-$('#t30').onclick=function(){
-  if(t30)return; tv=30;$('#timerBig').textContent=tv;
-  t30=setInterval(function(){
-    tv--;$('#timerBig').textContent=Math.max(0,tv);
-    $('#timerBig').style.color=tv<=5?'var(--bad)':'var(--acc)';
-    if(tv<=0){clearInterval(t30);t30=null}
-  },1000);
-};
-$('#t30r').onclick=function(){clearInterval(t30);t30=null;tv=30;$('#timerBig').textContent=30;$('#timerBig').style.color='var(--acc)'};
-$('#judge30').onclick=function(){
-  var v=$('#ans30').value.replace(/[（）()\s]/g,'');
-  var ok=(v==='-3,4'||v==='－3,4'||v==='-3，4');
-  var why=$('#why30').value.trim();
-  $('#fb30').className='fb '+(ok?'ok':'no');
-  $('#fb30').innerHTML=ok
-    ? '正确：A′(−3, 4)。'+(why?'你的依据：'+why.replace(/</g,'&lt;'):'依据应是"对称轴垂直平分 AA′，且纵坐标不变"。')
-    : '再想：镜面是 y 轴，物点 (3, 4) 关于 y 轴对称的点是 (−3, 4)。横坐标变号，纵坐标不变。';
-};
-function paintWall(){
-  var w=store.g('wall',[]);
-  $('#wall').innerHTML=w.map(function(r){return '<span class="dotp '+r+'"></span>'}).join('');
-  var n=w.length,r=w.filter(function(x){return x==='r'}).length,rate=n?Math.round(r/n*100):0;
-  $('#wallStat').textContent=n?('已汇总 '+n+' 人，正确率 '+rate+'%。'+(rate>=80?'全班已掌握，可直接进入结项发布。':rate>=50?'过半掌握：请让答对的同学说思路，再出一题逆向题。':'不足一半：回到"垂直平分"再讲一次，暂缓结项发布。')):'';
-}
-$('#addR').onclick=function(){var w=store.g('wall',[]);w.push('r');store.s('wall',w);paintWall()};
-$('#addW').onclick=function(){var w=store.g('wall',[]);w.push('w');store.s('wall',w);paintWall()};
-$('#clrWall').onclick=function(){store.s('wall',[]);paintWall()};
-paintWall();
-
-/* ================= 环节五 ================= */
 $('#saveCard').onclick=function(){
   var o={};for(var i=1;i<=9;i++)o['k'+i]=$('#k'+i).value;
   store.s('card',o);
@@ -1287,5 +1224,27 @@ $('#loadCard').onclick=function(){
 };
 $('#printCard').onclick=function(){window.print()};
 </script>
-</body>
-</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body></html>
